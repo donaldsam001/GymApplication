@@ -1,0 +1,72 @@
+.menu{
+    -fx-padding: 10 10 10 20;
+    -fx-spacing: 20;
+    -fx-background-color: transparent;
+
+}
+
+.menu Button {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #132A13;
+    -fx-font-size: 1.1em;
+    -fx-alignment: center-left;
+    -fx-effect: dropshadow(three-pass-box,#DDDDDD,5,0,0,6);
+}
+
+.menu Button:hover {
+    -fx-background-color: linear-gradient(to right,#0090ff, #0b00a6);
+}
+
+.topPane{
+    -fx-background-color: linear-gradient(to right,#0090ff, #0b00a6);
+}
+
+.topPane Button {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-width: 0;
+    -fx-padding: 10px 20px;
+    -fx-spacing: 20;
+}
+
+.topPane Button:hover {
+    -fx-background-color: white;
+    -fx-text-fill: #0b00a6;
+}
+
+.vbox{
+    -fx-effect: drop-shadow(three-pass-box, rgba(0,0,0,0.6), 10, 10, 10, 10);
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-width: 0;
+    -fx-padding: 5px 10px;
+    -fx-spacing: 10px;
+
+}
+
+.vbox Button {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #132A13;
+    -fx-pref-width: 200px;
+    -fx-alignment: center-left;
+    -fx-effect: dropshadow(three-pass-box,#4b4b4b,5,0,0,6);
+
+}
+
+.vbox Button:hover {
+    -fx-background-color: linear-gradient(to right,#0090ff, #0b00a6);
+    -fx-effect: dropshadow(three-pass-box,#000000,5,0,0,6);
+}
+
+.logo{
+    -fx-effect: dropshadow(three-pass-box,#DDDDDD,5,0,0,6);
+    -fx-background-color: transparent;
+}

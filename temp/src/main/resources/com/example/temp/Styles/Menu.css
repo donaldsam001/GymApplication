@@ -1,0 +1,27 @@
+.menu Button {
+    -fx-background-color: #0090ff;
+    -fx-effect: drop-shadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-padding: 10px 20px;
+}
+
+.menu Button:hover {
+    -fx-background-color: linear-gradient(to right,#253F25, #132A13);
+}
+
+.logoutButton {
+    -fx-background-color: #FF0000;
+    -fx-text-fill: white;
+}
+
+.logoutButton:hover {
+    -fx-background-color: #FF3333;
+}
+
+.topPane{
+    -fx-background-color: #FF3333;
+}

@@ -1,0 +1,15 @@
+.topPane{
+
+    -fx-background-color: linear-gradient(to right,#0090ff, #0b00a6);
+}
+
+.topPane Button{
+    -fx-background-color: linear-gradient(to right,#132A13, #253F25);
+    -fx-effect: drop-shadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-padding: 10px 20px;
+}

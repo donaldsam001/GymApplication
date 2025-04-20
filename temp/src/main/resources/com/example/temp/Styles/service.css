@@ -1,0 +1,46 @@
+.text-field {
+    -fx-pref-width: 400px;
+    -fx-padding: 10px 10px 10px 10px ;
+    -fx-background-radius: 8;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 8;
+}
+
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-padding: 8 16;
+    -fx-font-size: 14px;
+    -fx-background-radius: 10;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+.tab {
+    -fx-padding: 10;
+}
+
+.table-view {
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 10;
+}
+
+.anchor-pane {
+    -fx-background-color: #f9f9f9;
+}
+
+.text {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-min-width: 150px;
+}
+.hbox {
+    -fx-spacing: 20;
+}
+
+.text {
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}

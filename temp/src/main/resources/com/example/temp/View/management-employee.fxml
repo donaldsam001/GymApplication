@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="433.0" prefWidth="804.0" stylesheets="@../Styles/service.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.ManagementEmployeeController">
+    <children>
+        <ScrollPane layoutX="0.8" prefHeight="432.0" prefWidth="804.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+            <content>
+                <TabPane prefHeight="433.0" prefWidth="804.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab text="Thêm nhân viên">
+                            <content>
+                                <AnchorPane prefHeight="422.0" prefWidth="602.0">
+                                    <children>
+                                        <VBox prefHeight="298.0" prefWidth="804.0">
+                                            <children>
+                                                <HBox prefHeight="46.0" prefWidth="300.0" VBox.vgrow="NEVER">
+                                                    <children>
+                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mã nhân viên:">
+                                                            <HBox.margin>
+                                                                <Insets left="15.0" right="15.0" />
+                                                            </HBox.margin></Text>
+                                                        <TextField fx:id="inputCode" prefHeight="26.0" prefWidth="150.0">
+                                                            <HBox.margin>
+                                                                <Insets />
+                                                            </HBox.margin></TextField>
+                                                    </children>
+                                       <VBox.margin>
+                                          <Insets top="20.0" />
+                                       </VBox.margin>
+                                                </HBox>
+                                                <HBox prefHeight="66.0" prefWidth="852.0">
+                                                    <children>
+                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tên nhân viên:">
+                                             <HBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                             </HBox.margin></Text>
+                                                        <TextField fx:id="inputName" />
+                                                    </children>
+                                       <VBox.margin>
+                                          <Insets top="20.0" />
+                                       </VBox.margin>
+                                                </HBox>
+                                                <HBox prefHeight="54.0" prefWidth="600.0">
+                                                    <children>
+                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Số điện thoại:">
+                                             <HBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                             </HBox.margin></Text>
+                                                        <TextField fx:id="inputPhoneNumber" />
+                                                    </children>
+                                       <VBox.margin>
+                                          <Insets right="15.0" top="20.0" />
+                                       </VBox.margin>
+                                                </HBox>
+                                                <HBox prefHeight="72.0" prefWidth="852.0">
+                                                    <children>
+                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Chức vụ:">
+                                             <HBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                             </HBox.margin></Text>
+                                                        <TextField fx:id="inputRole" />
+                                                    </children>
+                                       <VBox.margin>
+                                          <Insets top="20.0" />
+                                       </VBox.margin>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                        <Button fx:id="handelCreate" layoutX="374.0" layoutY="321.0" mnemonicParsing="false" text="Thêm" />
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Cập nhật thông tin  viên">
+                            <content>
+                                <AnchorPane prefHeight="386.0" prefWidth="768.0">
+                                    <children>
+                                        <TextField fx:id="inputSearch" layoutX="378.0" layoutY="14.0" prefHeight="26.0" prefWidth="142.0" promptText="Tìm kiếm" />
+                                        <TableView layoutY="55.0" prefHeight="318.0" prefWidth="804.0">
+                                            <columns>
+                                                <TableColumn prefWidth="150.39998245239258" text="Mã nhân viên" />
+                                                <TableColumn minWidth="8.79998779296875" prefWidth="191.20004272460938" text="Tên nhân viên" />
+                                                <TableColumn prefWidth="229.60000610351562" text="Số điện thoại" />
+                                                <TableColumn minWidth="0.0" prefWidth="224.0" text="Chức vụ" />
+                                            </columns>
+                                        </TableView>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Xóa thông tin nhân viên">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0">
+                                    <children>
+                                        <TextField fx:id="inputSearchX" layoutX="439.0" layoutY="14.0" minWidth="80.0" prefHeight="26.0" prefWidth="108.0" promptText="Tìm kiếm" />
+                                        <TableView layoutY="53.0" prefHeight="320.0" prefWidth="804.0">
+                                            <columns>
+                                                <TableColumn prefWidth="141.59999465942383" text="Mã nhân viên" />
+                                                <TableColumn minWidth="8.79998779296875" prefWidth="148.00003051757812" text="Tên nhân viên" />
+                                                <TableColumn prefWidth="268.8000183105469" text="Số điện thoại" />
+                                                <TableColumn minWidth="0.0" prefWidth="71.199951171875" text="Chức vụ" />
+                                                <TableColumn prefWidth="166.39996337890625" text="Xóa" />
+                                            </columns>
+                                        </TableView>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Xem danh sách nhân viên">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <TableView layoutY="68.0" prefHeight="318.0" prefWidth="804.0">
+                                            <columns>
+                                                <TableColumn prefWidth="116.79998397827148" text="Mã nhân viên" />
+                                                <TableColumn minWidth="8.79998779296875" prefWidth="160.80004119873047" text="Tên nhân viên" />
+                                                <TableColumn prefWidth="224.00003051757812" text="Số điện thoại" />
+                                                <TableColumn minWidth="0.0" prefWidth="290.39996337890625" text="Chức vụ" />
+                                            </columns>
+                                        </TableView>
+                              <TextField fx:id="inputSearchX1" layoutX="377.0" layoutY="14.0" minWidth="30.0" prefHeight="40.0" prefWidth="165.0" promptText="Tìm kiếm" />
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </content>
+        </ScrollPane>
+    </children>
+
+
+</AnchorPane>

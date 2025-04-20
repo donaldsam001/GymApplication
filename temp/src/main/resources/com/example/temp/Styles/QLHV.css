@@ -1,0 +1,78 @@
+.white-bg{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 6px;
+}
+.shadow{
+    -fx-effect: dropshadow(three-pass-box,rgba(0,0,0,0.5),8,0,0,0);
+}
+
+.text-field {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 6px;
+    -fx-border-color: linear-gradient(to top right, #0090ff, #0b00a6);
+    -fx-border-radius: 4px;
+    -fx-border-width: 1px; /* Thêm dòng này để đảm bảo border hiện */
+    -fx-font-family: "Tahoma";
+    -fx-padding: 6 10;
+}
+
+
+
+.textfiled:hover{
+-fx-background-color: #fff;
+}
+
+.table-view {
+    -fx-background-color: #f0f8ff; /* Màu nền cho bảng */
+    -fx-border-color: linear-gradient(to top right, #0090ff, #0b00a6);
+    -fx-border-radius: 8px;
+    -fx-padding: 0px;
+}
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to top right, #0090ff, #0b00a6);  /* Màu nền gradient */
+    -fx-border-radius: 8px 8px 0px 0px; /* Làm tròn góc tiêu đề cột */
+}
+.table-view.column-header .label {
+     -fx-text-fill: #ffffff; /* Đổi màu chữ thành trắng */
+     -fx-font-size: 14px; /* Cỡ chữ */
+     -fx-font-weight: bold; /* In đậm chữ */
+ }
+.table-view .table-row-cell:odd {
+    -fx-background-color: #e9f6ff; /* Màu cho hàng lẻ */
+}
+
+.table-view .table-row-cell:even {
+    -fx-background-color: #ffffff; /* Màu cho hàng chẵn */
+}
+.table-view .table-row-cell:hover {
+    -fx-background-color: #d0eaff; /* Màu khi di chuột qua */
+}
+.table-view .table-cell {
+    -fx-border-color: #d1d1d1; /* Màu viền ô */
+    -fx-border-width: 0 0 1px 0; /* Chỉ thêm viền dưới */
+    -fx-padding: 5px; /* Tạo khoảng cách trong ô */
+}
+.table-view .my-column {
+    -fx-background-color: #ffcccb; /* Màu nền cột này */
+}
+.total-box {
+    -fx-border-color: #b0b0b0;        /* Màu viền xám nhẹ */
+    -fx-border-radius: 4px;           /* Bo tròn nhẹ */
+    -fx-background-color: white;      /* Màu nền */
+    -fx-padding: 5 10 5 10;           /* Canh lề trong */
+    -fx-pref-width: 150px;            /* Chiều rộng mong muốn */
+    -fx-alignment: CENTER_LEFT;       /* Căn trái */
+}
+.rounded-input {
+    -fx-background-color: white;
+    -fx-border-color: #c0c0c0;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 6 10 6 10;
+    -fx-font-size: 14px;
+}
+
+.rounded-input:focused {
+    -fx-border-color: #3f89f2;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0.3, 0, 2);
+}
