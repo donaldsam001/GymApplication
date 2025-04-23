@@ -55,12 +55,13 @@ public class DB {
                 // Equipment table
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS Equipment (
-                                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                name TEXT NOT NULL,
-                                description TEXT,
-                                repairDate TEXT,
-                                status TEXT NOT NULL
-                    );
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name TEXT NOT NULL,
+                        description TEXT,
+                        repairDate TEXT,
+                        repairNote TEXT, -- dòng mới
+                        status TEXT NOT NULL
+                    )
                 """);
 
                 // Membership card table

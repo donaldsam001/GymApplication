@@ -9,120 +9,143 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class EquipmentDAO {
+    private static final String DB_URL = "jdbc:sqlite:service_app.db";
+    private static final Logger logger = Logger.getLogger(EquipmentDAO.class.getName());
 
-    private Connection connection;
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    public EquipmentDAO() {
+        createTableIfNotExists();
+    }
 
-    public void getConnection() {
-        try {
-            if (connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection("jdbc:sqlite:service_app.db");
-                logger.info("Connected to database");
-                createTable();
-            }
+    private Connection connect() throws SQLException {
+        return DriverManager.getConnection(DB_URL);
+    }
+
+    private void createTableIfNotExists() {
+        String sql = """
+                CREATE TABLE IF NOT EXISTS Equipment (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    description TEXT,
+                    repairDate TEXT,
+                    repairNote TEXT,
+                    status TEXT NOT NULL
+                )
+                """;
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+            logger.info("Equipment table ensured.");
         } catch (SQLException e) {
-            logger.warning(e.toString());
+            logger.warning("Failed to create table: " + e.getMessage());
         }
     }
 
-    private void createTable() {
-        String query = "CREATE TABLE IF NOT EXISTS Equipment (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "name TEXT NOT NULL, " +
-                "description TEXT, " +
-                "repairDate TEXT, " +
-                "status TEXT NOT NULL)";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.executeUpdate();
-            logger.info("Equipment table created or already exists.");
-        } catch (SQLException e) {
-            logger.warning(e.toString());
-        }
-    }
+    public void insertEquipment(Equipment equipment) {
+        String sql = "INSERT INTO Equipment (name, description, repairDate, repairNote, status) VALUES (?, ?, ?, ?, ?)";
 
-    private void closeConnection() {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            logger.warning(e.toString());
-        }
-    }
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-    public  void insertEquipment(Equipment equipment) {
-        getConnection();
-        String sql = "INSERT INTO Equipment (name, description, repairDate, status) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, equipment.getName());
             stmt.setString(2, equipment.getDescription());
             stmt.setString(3, equipment.getRepairDate() != null ? equipment.getRepairDate().toString() : null);
-            stmt.setString(4, equipment.getStatus());
+            stmt.setString(4, equipment.getMaintenanceNote());
+            stmt.setString(5, equipment.getStatus());
+
             stmt.executeUpdate();
-            logger.info("Inserted Equipment successfully.");
+            logger.info("Equipment inserted successfully.");
         } catch (SQLException e) {
-            logger.warning(e.toString());
-        } finally {
-            closeConnection();
+            logger.warning("Insert failed: " + e.getMessage());
         }
     }
 
-    public  List<Equipment> getAllEquipment() {
-        getConnection();
+    public List<Equipment> getAllEquipment() {
         List<Equipment> list = new ArrayList<>();
         String sql = "SELECT * FROM Equipment";
-        try (PreparedStatement stmt = connection.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
 
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Equipment eq = new Equipment(
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("description"),
                         rs.getString("repairDate") != null ? LocalDate.parse(rs.getString("repairDate")) : null,
-                        rs.getString("status")
+                        rs.getString("status"),
+                        rs.getString("repairNote")
                 );
                 list.add(eq);
             }
-
         } catch (SQLException e) {
-            logger.warning(e.toString());
-        } finally {
-            closeConnection();
+            logger.warning("Get all equipment failed: " + e.getMessage());
         }
 
         return list;
     }
 
     public void updateEquipment(Equipment equipment) {
-        getConnection();
-        String sql = "UPDATE Equipment SET name = ?, description = ?, repairDate = ?, status = ? WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        String sql = "UPDATE Equipment SET name = ?, description = ?, repairDate = ?, repairNote = ?, status = ? WHERE id = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setString(1, equipment.getName());
             stmt.setString(2, equipment.getDescription());
             stmt.setString(3, equipment.getRepairDate() != null ? equipment.getRepairDate().toString() : null);
-            stmt.setString(4, equipment.getStatus());
-            stmt.setInt(5, equipment.getId());
+            stmt.setString(4, equipment.getMaintenanceNote());
+            stmt.setString(5, equipment.getStatus());
+            stmt.setInt(6, equipment.getId());
+
             stmt.executeUpdate();
-            logger.info("Updated Equipment successfully.");
+            logger.info("Equipment updated successfully.");
         } catch (SQLException e) {
-            logger.warning(e.toString());
-        } finally {
-            closeConnection();
+            logger.warning("Update failed: " + e.getMessage());
         }
     }
 
     public void deleteEquipment(int id) {
-        getConnection();
         String sql = "DELETE FROM Equipment WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setInt(1, id);
             stmt.executeUpdate();
-            logger.info("Deleted Equipment with id: " + id);
+            logger.info("Equipment with ID " + id + " deleted.");
         } catch (SQLException e) {
-            logger.warning(e.toString());
-        } finally {
-            closeConnection();
+            logger.warning("Delete failed: " + e.getMessage());
         }
     }
+
+    public void scheduleMaintenance(int id, LocalDate date, String note) {
+        String sql = "UPDATE Equipment SET repairDate = ?, repairNote = ? WHERE id = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, date.toString());
+            stmt.setString(2, note);
+            stmt.setInt(3, id);
+            stmt.executeUpdate();
+            logger.info("Maintenance scheduled for equipment ID: " + id);
+        } catch (SQLException e) {
+            logger.warning("Schedule maintenance failed: " + e.getMessage());
+        }
+    }
+
+    public void updateRepairDate(int id, LocalDate repairDate) {
+        String sql = "UPDATE equipment SET repairDate = ? WHERE id = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, repairDate != null ? repairDate.toString() : null);
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

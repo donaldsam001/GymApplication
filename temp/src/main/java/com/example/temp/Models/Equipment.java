@@ -8,15 +8,18 @@ public class Equipment {
     private String description;
     private LocalDate repairDate;
     private String status;
+    private String maintenanceNote;
+
 
     public Equipment() {}
 
-    public Equipment(int id, String name, String description, LocalDate repairDate, String status) {
+    public Equipment(int id, String name, String description, LocalDate repairDate, String status, String maintenanceNote) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.repairDate = repairDate;
         this.status = status;
+        this.maintenanceNote = maintenanceNote;
     }
 
     public int getId() {
@@ -59,8 +62,11 @@ public class Equipment {
         this.status = status;
     }
 
-    
+    public String getMaintenanceNote() {
+        return maintenanceNote;
+    }
 
-
-
+    public void setMaintenanceNote(String maintenanceNote) {
+        this.maintenanceNote = maintenanceNote;
+    }
 }
