@@ -1,186 +1,77 @@
 package com.example.temp.Controller;
 
+import com.example.temp.DAO.EquipmentDAO;
 import com.example.temp.DAO.MembershipPackageDAO;
+import com.example.temp.Models.Equipment;
 import com.example.temp.Models.MembershipPackage;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.FloatStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 
+import java.util.ArrayList;
 import java.util.List;
-
-
-
 
 public class ManageServiceController {
 
     @FXML
-    private Button btnDeleteAll;
+    private TableView<MembershipPackage> listPackage, listPackageChange, listPackageDel;
+    @FXML
+    private TableColumn<MembershipPackage, Integer> colId, colIdChange, colIdDel;
+    @FXML
+    private TableColumn<MembershipPackage, String> colName, colNameChange, colNameDel;
+    @FXML
+    private TableColumn<MembershipPackage, String> colDescription, colDescriptionChange, colDescriptionDel;
+    @FXML
+    private TableColumn<MembershipPackage, Integer> colExpDate, colExpDateChange, colExpDateDel;
+    @FXML
+    private TableColumn<MembershipPackage, Float> colPrice, colPriceChange, colPriceDel;
+    @FXML
+    private TableColumn<MembershipPackage, String> colStatus, colStatusChange, colStatusDel;
 
     @FXML
-    private TableColumn<MembershipPackage, String> colChange;
+    private TableColumn<MembershipPackage, Void> colDel,colChange;
 
     @FXML
-    private TableColumn<MembershipPackage, String> colDel;
-
-
-    @FXML
-    private TableColumn<MembershipPackage, String> colDescriptionChange;
+    private TextField inputCode, inputName, inputDescription, inputExpDate, inputPrice, inputSearch;
 
     @FXML
-    private TableColumn<MembershipPackage, String> colDescriptionDel;
-
-
+    private Button handelCreate, btnDeleteAll;
     @FXML
-    private TableColumn<MembershipPackage, String> colExpDateChange;
-
-    @FXML
-    private TableColumn<MembershipPackage, String> colExpDateDel;
-
-
-    @FXML
-    private TableColumn<MembershipPackage, String> colIdChange;
-
-    @FXML
-    private TableColumn<MembershipPackage, String> colIdDel;
-
-
-    @FXML
-    private TableColumn<MembershipPackage, String> colNameChange;
-
-    @FXML
-    private TableColumn<MembershipPackage, String> colNameDel;
-
-
-    @FXML
-    private TableColumn<MembershipPackage, String> colPriceChange;
-
-    @FXML
-    private TableColumn<MembershipPackage, String> colPriceDel;
-
-    @FXML
-    private TableColumn<MembershipPackage, String> colStatus;
-
-    @FXML
-    private TableColumn<MembershipPackage, String> colStatusChange;
-
-    @FXML
-    private TableColumn<MembershipPackage, String> colStatusDel;
-
-    @FXML
-    private TextField inputSearchDel;
-
-    @FXML
-    private TableView<MembershipPackage> listPackageChange;
-
-    @FXML
-    private TableView<MembershipPackage> listPackageDel;
-
-
-
-    @FXML
-    private Tab tabViewPackagesDel;
-
-    @FXML
-    private Tab tabViewPackagesChange;
-
-
-//    ---------------------------------
-
-    @FXML
-    private TableColumn<MembershipPackage, Integer> colId;
-
-    @FXML
-    private TableColumn<MembershipPackage, String> colName;
-
-    @FXML
-    private TableColumn<MembershipPackage, String> colDescription;
-
-    @FXML
-    private TableColumn<MembershipPackage, Integer> colExpDate;
-
-    @FXML
-    private TableColumn<MembershipPackage, Float> colPrice;
-
-
-    @FXML
-    private Button handelCreate;
-
-    @FXML
-    private TextField inputCode;
-
-    @FXML
-    private TextField inputDescription;
-
-    @FXML
-    private TextField inputExpDate;
-
-    @FXML
-    private TextField inputName;
-
-    @FXML
-    private TextField inputPrice;
-
-    @FXML
-    private TextField inputSearch;
-
-    @FXML
-    private TableView<MembershipPackage> listPackage;
-
-
+    private Tab tabViewPackages, tabViewPackagesDel, tabViewPackagesChange;
     @FXML
     private TabPane tabPane;
 
-    @FXML
-    private Tab tabViewPackages;
+    private ObservableList<MembershipPackage> packageList = FXCollections.observableArrayList();
+    private ObservableList<MembershipPackage> deleteList = FXCollections.observableArrayList();
+    private ObservableList<MembershipPackage> changeList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
-        // setup cell value factory
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colName.setCellValueFactory(new PropertyValueFactory< >("name"));
-        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colExpDate.setCellValueFactory(new PropertyValueFactory<> ("exp"));
-        colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-
-        colIdDel.setCellValueFactory(new PropertyValueFactory<MembershipPackage, String>("id"));
-        colNameDel.setCellValueFactory(new PropertyValueFactory< MembershipPackage, String >("name"));
-        colDescriptionDel.setCellValueFactory(new PropertyValueFactory<MembershipPackage, String>("description"));
-        colExpDateDel.setCellValueFactory(new PropertyValueFactory<MembershipPackage, String> ("exp"));
-        colPriceDel.setCellValueFactory(new PropertyValueFactory<>("price"));
-        colStatusDel.setCellValueFactory(new PropertyValueFactory<>("status"));
-
-        colIdChange.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colNameChange.setCellValueFactory(new PropertyValueFactory< >("name"));
-        colDescriptionChange.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colExpDateChange.setCellValueFactory(new PropertyValueFactory<> ("exp"));
-        colPriceChange.setCellValueFactory(new PropertyValueFactory<>("price"));
-        colStatusChange.setCellValueFactory(new PropertyValueFactory<>("status"));
-
-        // Load dữ liệu
-        loadDeleteAndChangeTables();
+        setupTableView();
+        setupDeleteTable();
+        setupChangeTable();
         loadMembershipPackages();
 
-        inputSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            searchPackages(); // Gọi mỗi khi người dùng nhập hoặc xoá ký tự
-        });
-
+        inputSearch.textProperty().addListener((obs, oldVal, newVal) -> searchPackages());
 
         handelCreate.setOnAction(e -> {
             createMembershipPackage();
-            loadMembershipPackages(); // reload lại sau khi thêm
+            loadMembershipPackages();
         });
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
-            if (newTab == tabViewPackages ||  newTab == tabViewPackagesDel) {
-                loadDeleteAndChangeTables();
+            if (newTab == tabViewPackages || newTab == tabViewPackagesDel || newTab == tabViewPackagesChange) {
                 loadMembershipPackages();
-
             }
         });
-
 
         listPackageChange.setOnMouseClicked(event -> {
             MembershipPackage selected = listPackageChange.getSelectionModel().getSelectedItem();
@@ -193,53 +84,151 @@ public class ManageServiceController {
             }
         });
 
-
-
-
     }
 
-    private void loadDeleteAndChangeTables() {
+    private void setupTableView() {
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colExpDate.setCellValueFactory(new PropertyValueFactory<>("exp"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        listPackage.setItems(packageList);
+    }
+
+    private void setupDeleteTable() {
+        colIdDel.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colNameDel.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colDescriptionDel.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colExpDateDel.setCellValueFactory(new PropertyValueFactory<>("exp"));
+        colPriceDel.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colStatusDel.setCellValueFactory(new PropertyValueFactory<>("status"));
+        colDel.setCellFactory(param -> new TableCell<>() {
+            private final Button deleteBtn = new Button("Xóa");
+            {
+                deleteBtn.setOnAction(event -> {
+                    MembershipPackage membershipPackage = getTableView().getItems().get(getIndex());
+                    MembershipPackageDAO membershipPackageDAO = new MembershipPackageDAO();
+                    membershipPackageDAO.deleteMembershipPackage(membershipPackage.getId());
+                    loadMembershipPackages();
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(deleteBtn);
+                }
+            }
+        });
+
+        listPackageDel.setItems(deleteList);
+    }
+
+    private void setupChangeTable() {
+        listPackageChange.setEditable(true);
+
+        colIdChange.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colNameChange.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colDescriptionChange.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colExpDateChange.setCellValueFactory(new PropertyValueFactory<>("exp"));
+        colPriceChange.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        colNameChange.setCellFactory(TextFieldTableCell.forTableColumn());
+        colDescriptionChange.setCellFactory(TextFieldTableCell.forTableColumn());
+        colExpDateChange.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        colPriceChange.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
+
+        colNameChange.setOnEditCommit(event -> {
+            MembershipPackage mp = event.getRowValue();
+            mp.setName(event.getNewValue());
+            updateMembershipPackage(mp);
+        });
+
+        colDescriptionChange.setOnEditCommit(event -> {
+            MembershipPackage mp = event.getRowValue();
+            mp.setDescription(event.getNewValue());
+            updateMembershipPackage(mp);
+        });
+
+        colExpDateChange.setOnEditCommit(event -> {
+            MembershipPackage mp = event.getRowValue();
+            mp.setExp(event.getNewValue());
+            updateMembershipPackage(mp);
+        });
+
+        colPriceChange.setOnEditCommit(event -> {
+            MembershipPackage mp = event.getRowValue();
+            mp.setPrice(event.getNewValue());
+            updateMembershipPackage(mp);
+        });
+
+        colStatusChange.setCellFactory(ComboBoxTableCell.forTableColumn("Đang hoạt động", "Không hoạt động"));
+        colStatusChange.setCellValueFactory(cellData -> {
+            boolean status = cellData.getValue().getStatus();
+            String label = status ? "Đang hoạt động" : "Không hoạt động";
+            return new ReadOnlyStringWrapper(label);
+        });
+        colStatusChange.setOnEditCommit(event -> {
+            MembershipPackage mp = event.getRowValue();
+            mp.setStatus("Đang hoạt động".equals(event.getNewValue()));
+            updateMembershipPackage(mp);
+        });
+
+        listPackageChange.setItems(changeList);
+    }
+
+
+    private void loadMembershipPackages() {
         MembershipPackageDAO dao = new MembershipPackageDAO();
         List<MembershipPackage> packages = dao.getData();
-        ObservableList<MembershipPackage> data = FXCollections.observableArrayList(packages);
 
-        listPackageDel.setItems(data);
-        listPackageChange.setItems(data);
+        packageList.setAll(packages);
+        deleteList.setAll(packages);
+        changeList.setAll(packages);
     }
 
-
-
-
-
     private void createMembershipPackage() {
-        String code = inputCode.getText();
-        String name = inputName.getText();
-        String description = inputDescription.getText();
-        String expDate = inputExpDate.getText();
-        String price = inputPrice.getText();
-
-        // Kiểm tra dữ liệu đầu vào
-        if (code.isEmpty() || name.isEmpty() || description.isEmpty() || expDate.isEmpty() || price.isEmpty()) {
-            showAlert("Lỗi", "Vui lòng điền đầy đủ thông tin.", Alert.AlertType.ERROR);
-            return;
-        }
-
         try {
-            int id = Integer.parseInt(code);
-            float priceValue = Float.parseFloat(price);
-            int exp = Integer.parseInt(expDate);
-            boolean status = true; // hoặc kiểm tra từ UI nếu có lựa chọn trạng thái
-            MembershipPackage membershipPackage = new MembershipPackage(id, name, priceValue, description, exp, status);
+            int id = Integer.parseInt(inputCode.getText());
+            String name = inputName.getText();
+            String description = inputDescription.getText();
+            int exp = Integer.parseInt(inputExpDate.getText());
+            float price = Float.parseFloat(inputPrice.getText());
+
+            if (name.isEmpty() || description.isEmpty()) {
+                showAlert("Lỗi", "Vui lòng điền đầy đủ thông tin.", Alert.AlertType.ERROR);
+                return;
+            }
+
+            MembershipPackage membershipPackage = new MembershipPackage(id, name, price, description, exp, true);
             MembershipPackageDAO dao = new MembershipPackageDAO();
             dao.insertMembershipPackage(membershipPackage);
 
-
-            System.out.println("Tạo gói hội viên: " + id + ", " + name + ", " + description + ", " + expDate + ", " + priceValue);
             showAlert("Thành công", "Đã tạo gói hội viên thành công!", Alert.AlertType.INFORMATION);
             clearInputs();
         } catch (NumberFormatException ex) {
-            showAlert("Lỗi", "Giá không hợp lệ.", Alert.AlertType.ERROR);
+            showAlert("Lỗi", "Định dạng số không hợp lệ.", Alert.AlertType.ERROR);
         }
+    }
+
+    private void updateMembershipPackage(MembershipPackage updated) {
+        MembershipPackageDAO dao = new MembershipPackageDAO();
+        dao.updateMembershipPackage(updated);
+        showAlert("Thành công", "Đã cập nhật gói hội viên!", Alert.AlertType.INFORMATION);
+        loadMembershipPackages();
+    }
+
+
+    private void searchPackages() {
+        String keyword = inputSearch.getText().trim();
+        MembershipPackageDAO dao = new MembershipPackageDAO();
+        List<MembershipPackage> result = dao.searchPackages(keyword);
+        packageList.setAll(result);
     }
 
     private void clearInputs() {
@@ -258,52 +247,19 @@ public class ManageServiceController {
         alert.showAndWait();
     }
 
-
-
-    private void loadMembershipPackages() {
-        MembershipPackageDAO dao = new MembershipPackageDAO();
-        System.out.println("Đang tải dữ liệu từ database...");
-        List<MembershipPackage> packages = dao.getData();
-
-        if (packages != null && !packages.isEmpty()) {
-            ObservableList<MembershipPackage> data = FXCollections.observableArrayList(packages);
-            listPackage.setItems(data);
-            System.out.println("Số lượng gói lấy được: " + packages.size());
-            for (MembershipPackage p : packages) {
-                System.out.println(p.getId() + " - " + p.getName());
-            }
-        } else {
-            System.out.println("Không có dữ liệu gói hội viên.");
-        }
-    }
-
-
-
+    @FXML
     public void DeleteAll() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Xác nhận xóa");
-        alert.setHeaderText(null);
         alert.setContentText("Bạn có chắc chắn muốn xóa tất cả gói hội viên?");
-
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 MembershipPackageDAO dao = new MembershipPackageDAO();
                 dao.deleteAllPackages();
                 showAlert("Thành công", "Đã xóa toàn bộ gói hội viên.", Alert.AlertType.INFORMATION);
                 loadMembershipPackages();
-                loadDeleteAndChangeTables(); // cập nhật lại các bảng
             }
         });
-    }
-
-    private void searchPackages() {
-        String keyword = inputSearch.getText().trim();
-
-        MembershipPackageDAO dao = new MembershipPackageDAO();
-        List<MembershipPackage> result = dao.searchPackages(keyword); // Gọi DAO để lấy danh sách phù hợp
-
-        ObservableList<MembershipPackage> data = FXCollections.observableArrayList(result);
-        listPackage.setItems(data); // Hiển thị kết quả tìm kiếm ở bảng chính
     }
 
 

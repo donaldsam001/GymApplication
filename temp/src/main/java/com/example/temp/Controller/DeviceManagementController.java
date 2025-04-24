@@ -179,7 +179,7 @@ public class DeviceManagementController {
         equipmentRepairList.setAll(equipmentDAO.getAllEquipment());
     }
 
-// THÊM THIEEST BỊ
+// THÊM THIẾT BỊ
     private Equipment selectedEquipment = null;
 
     private void handleAdd() {

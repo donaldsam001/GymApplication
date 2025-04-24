@@ -119,21 +119,6 @@ public class EquipmentDAO {
         }
     }
 
-    public void scheduleMaintenance(int id, LocalDate date, String note) {
-        String sql = "UPDATE Equipment SET repairDate = ?, repairNote = ? WHERE id = ?";
-
-        try (Connection conn = connect();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, date.toString());
-            stmt.setString(2, note);
-            stmt.setInt(3, id);
-            stmt.executeUpdate();
-            logger.info("Maintenance scheduled for equipment ID: " + id);
-        } catch (SQLException e) {
-            logger.warning("Schedule maintenance failed: " + e.getMessage());
-        }
-    }
 
     public void updateRepairDate(int id, LocalDate repairDate) {
         String sql = "UPDATE equipment SET repairDate = ? WHERE id = ?";

@@ -31,7 +31,9 @@ public class MembershipPackageDAO {
                 "price REAL NOT NULL, " +
                 "description TEXT, " +
                 "exp INTEGER NOT NULL, " +
-                "status INTEGER NOT NULL CHECK (status IN (0, 1))";
+                "status INTEGER NOT NULL CHECK (status IN (0, 1))" +
+                ")";
+
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.executeUpdate();
@@ -53,13 +55,14 @@ public class MembershipPackageDAO {
 
     public void insertMembershipPackage(MembershipPackage memPackage) {
         getConnection();
-        String sql = "INSERT INTO Membership_package (name, price, description, exp, status) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Membership_package (id, name, price, description, exp, status) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, memPackage.getName());
-            stmt.setFloat(2, memPackage.getPrice());
-            stmt.setString(3, memPackage.getDescription());
-            stmt.setInt(4, memPackage.getExp());
-            stmt.setBoolean(5, memPackage.getStatus());
+            stmt.setInt(1, memPackage.getId());
+            stmt.setString(2, memPackage.getName());
+            stmt.setFloat(3, memPackage.getPrice());
+            stmt.setString(4, memPackage.getDescription());
+            stmt.setInt(5, memPackage.getExp());
+            stmt.setBoolean(6, memPackage.getStatus());
             stmt.executeUpdate();
             logger.info("Inserted MembershipPackage successfully.");
         } catch (SQLException e) {

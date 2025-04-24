@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -13,78 +13,44 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" stylesheets="@../Styles/service.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.DeviceManagementController">
+<AnchorPane prefHeight="600.0" prefWidth="926.0" stylesheets="@../Styles/service.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.DeviceManagementController">
    <children>
       <Pane layoutX="-1.0" layoutY="-2.0" prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TabPane prefHeight="600.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane prefHeight="600.0" prefWidth="926.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                   <Tab text="Thêm thiết bị">
-                  <content>
-                      <AnchorPane>
-                          <children>
-                              <VBox prefHeight="412.0" prefWidth="900.0">
-                                  <children>
-                                      <HBox prefHeight="74.0" prefWidth="900.0" VBox.vgrow="NEVER">
-                                          <children>
-                                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mã thiết bị:">
-                                                  <HBox.margin>
-                                                      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                                  </HBox.margin>
-                                          </Text>
-                                              <TextField fx:id="inputCode" prefHeight="26.0" prefWidth="558.0" HBox.hgrow="ALWAYS">
-                                                  <HBox.margin>
-                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                                  </HBox.margin>
-                                          </TextField>
-                                          </children>
+                      <content>
+                          <AnchorPane>
+                              <children>
+                                  <VBox layoutX="37.0" layoutY="56.0" prefHeight="171.0" prefWidth="854.0" spacing="15" stylesheets="@../Styles/addUI.css">
+                                      <HBox styleClass="hbox">
+                                          <Label styleClass="form-label" text="Mã thiết bị:" />
+                                          <TextField fx:id="inputCode" styleClass="text-field" HBox.hgrow="ALWAYS" />
                                       </HBox>
-                                      <HBox prefHeight="82.0" prefWidth="900.0">
-                                          <children>
-                                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tên thiết bị:">
-                                             <HBox.margin>
-                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                             </HBox.margin>
-                                          </Text>
-                                              <TextField fx:id="inputName" HBox.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </HBox.margin>
-                                          </TextField>
-                                          </children>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
+
+                                      <HBox styleClass="hbox">
+                                          <Label styleClass="form-label" text="Tên thiết bị:" />
+                                          <TextField fx:id="inputName" styleClass="text-field" HBox.hgrow="ALWAYS" />
                                       </HBox>
-                                      <HBox prefHeight="270.0" prefWidth="900.0">
-                                          <children>
-                                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Chi tiết:">
-                                             <HBox.margin>
-                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                             </HBox.margin>
-                                          </Text>
-                                              <TextField fx:id="inputDescription" prefHeight="26.0" prefWidth="791.0" HBox.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </HBox.margin>
-                                          </TextField>
-                                          </children>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
+
+                                      <HBox styleClass="hbox">
+                                          <Label styleClass="form-label" text="Chi tiết:" />
+                                          <TextField fx:id="inputDescription" styleClass="text-field" HBox.hgrow="ALWAYS" />
                                       </HBox>
-                                  </children>
-                              </VBox>
-                              <Button fx:id="handelAdd" layoutX="404.0" layoutY="463.0" mnemonicParsing="false" text="Thêm thiết bị" />
-                          </children>
-                      </AnchorPane>
-                  </content>
+                                  </VBox>
+
+                                  <Button fx:id="handelAdd" layoutX="403.0" layoutY="442.0" text="Thêm thiết bị" />
+                              </children>
+                          </AnchorPane>
+                      </content>
                   </Tab>
-                <Tab text="Xóa thiết bị">
+
+                  <Tab text="Xóa thiết bị">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="552.0" prefWidth="1010.0">
                            <children>
-                               <TableView fx:id="deleteTable" layoutY="94.0" prefHeight="395.0" prefWidth="900.0">
+                               <TableView fx:id="deleteTable" layoutX="13.0" layoutY="96.0" prefHeight="395.0" prefWidth="900.0">
                                    <columns>
                                        <TableColumn fx:id="delColID" prefWidth="142.4" text="Mã thiết bị" />
                                        <TableColumn fx:id="delColName" prefWidth="228.8" text="Tên thiết bị" />
@@ -112,7 +78,7 @@
                                     <Text layoutX="7.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm:" />
                                  </children>
                               </Pane>
-                              <TableView fx:id="repairDateTable" layoutY="86.0" prefHeight="466.0" prefWidth="900.0">
+                              <TableView fx:id="repairDateTable" layoutX="13.0" layoutY="85.0" prefHeight="466.0" prefWidth="900.0">
                                  <columns>
                                     <TableColumn fx:id="colIDRepair" prefWidth="100.79998934268951" text="Mã thiết bị" />
                                     <TableColumn fx:id="colNameRepair" minWidth="8.79998779296875" prefWidth="183.99999237060547" text="Tên thiết bị" />
@@ -134,7 +100,7 @@
                                     <Text layoutX="14.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm:" />
                                  </children>
                               </Pane>
-                              <TableView fx:id="equipmentTable" layoutY="94.0" prefHeight="458.0" prefWidth="900.0">
+                              <TableView fx:id="equipmentTable" layoutX="13.0" layoutY="93.0" prefHeight="458.0" prefWidth="900.0">
                                  <columns>
                                     <TableColumn fx:id="colID" prefWidth="127.9999942779541" text="Mã thiết bị" />
                                     <TableColumn fx:id="colName" minWidth="8.79998779296875" prefWidth="225.5999755859375" text="Tên thiết bị" />
