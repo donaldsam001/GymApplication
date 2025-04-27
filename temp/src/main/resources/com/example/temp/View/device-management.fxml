@@ -11,13 +11,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="926.0" stylesheets="@../Styles/service.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.DeviceManagementController">
+<AnchorPane prefHeight="633.0" prefWidth="989.0" stylesheets="@../Styles/service.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.DeviceManagementController">
    <children>
       <Pane layoutX="-1.0" layoutY="-2.0" prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TabPane prefHeight="600.0" prefWidth="926.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="tabPane" prefHeight="633.0" prefWidth="989.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                   <Tab text="Thêm thiết bị">
                       <content>
@@ -40,75 +39,62 @@
                                       </HBox>
                                   </VBox>
 
-                                  <Button fx:id="handelAdd" layoutX="403.0" layoutY="442.0" text="Thêm thiết bị" />
+                                  <Button fx:id="btnAdd" layoutX="403.0" layoutY="442.0" text="Thêm thiết bị" />
                               </children>
                           </AnchorPane>
                       </content>
                   </Tab>
 
-                  <Tab text="Xóa thiết bị">
+                  <Tab fx:id="tabDel" text="Xóa thiết bị">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="552.0" prefWidth="1010.0">
                            <children>
-                               <TableView fx:id="deleteTable" layoutX="13.0" layoutY="96.0" prefHeight="395.0" prefWidth="900.0">
+                               <TableView fx:id="deleteTable" layoutX="45.0" layoutY="118.0" prefHeight="419.0" prefWidth="900.0">
                                    <columns>
-                                       <TableColumn fx:id="delColID" prefWidth="142.4" text="Mã thiết bị" />
-                                       <TableColumn fx:id="delColName" prefWidth="228.8" text="Tên thiết bị" />
-                                       <TableColumn fx:id="delColDescription" prefWidth="354.4" text="Chi tiết" />
-                                       <TableColumn fx:id="delColAction" prefWidth="173.6" text="Xóa thiết bị" />
+                                       <TableColumn fx:id="colIdDel" prefWidth="131.20000457763672" text="Mã thiết bị" />
+                                       <TableColumn fx:id="colNameDel" prefWidth="208.800048828125" text="Tên thiết bị" />
+                                       <TableColumn fx:id="colDescriptionDel" prefWidth="249.60006713867188" text="Chi tiết" />
+                                    <TableColumn fx:id="colStatusDel" prefWidth="159.99993896484375" text="Trạng thái" />
+                                       <TableColumn fx:id="colDel" prefWidth="140.0" text="Xóa thiết bị" />
                                    </columns>
                                </TableView>
-                               <Pane prefHeight="74.0" prefWidth="480.0">
-                                 <children>
-                                    <TextField fx:id="inputSearchDel" layoutX="80.0" layoutY="17.0" prefHeight="39.0" prefWidth="354.0" />
-                                    <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm:" />
-                                 </children>
-                              </Pane>
-                              <Button fx:id="btnDel" layoutX="394.0" layoutY="502.0" mnemonicParsing="false" onAction="#handleDel" text="Xóa toàn bộ" />
+                              <Button fx:id="btnDeleteAll" layoutX="832.0" layoutY="38.0" mnemonicParsing="false" text="Xóa toàn bộ" />
+                              <TextField fx:id="inputSearchDel" layoutX="45.0" layoutY="36.0" prefHeight="39.0" prefWidth="268.0" promptText="Tìm kiếm bằng mã thiết bị, tên thiết bị" />
                            </children></AnchorPane>
                   </content>
                 </Tab>
-                  <Tab text="Lên lịch bảo trì">
+                  <Tab fx:id="tabMaintaince" text="Lên lịch bảo trì">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Pane layoutX="14.0" prefHeight="74.0" prefWidth="473.0">
-                                 <children>
-                                    <TextField fx:id="inputSearchMaintance" layoutX="63.0" layoutY="21.0" prefHeight="39.0" prefWidth="268.0" />
-                                    <Text layoutX="7.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm:" />
-                                 </children>
-                              </Pane>
-                              <TableView fx:id="repairDateTable" layoutX="13.0" layoutY="85.0" prefHeight="466.0" prefWidth="900.0">
+                              <TableView fx:id="repairDateTable" layoutX="45.0" layoutY="91.0" prefHeight="466.0" prefWidth="900.0">
                                  <columns>
                                     <TableColumn fx:id="colIDRepair" prefWidth="100.79998934268951" text="Mã thiết bị" />
-                                    <TableColumn fx:id="colNameRepair" minWidth="8.79998779296875" prefWidth="183.99999237060547" text="Tên thiết bị" />
-                                    <TableColumn fx:id="colDescriptionRepair" prefWidth="213.5999755859375" text="Chi tiết" />
-                                    <TableColumn fx:id="colMaintenanceContent" minWidth="0.0" prefWidth="261.6000671386719" text="Nội dung bảo trì" />
-                                    <TableColumn fx:id="colRepairDate" prefWidth="128.7999267578125" text="Ngày bảo trì" />
+                                    <TableColumn fx:id="colNameRepair" minWidth="8.79998779296875" prefWidth="151.20001220703125" text="Tên thiết bị" />
+                                    <TableColumn fx:id="colDescriptionRepair" prefWidth="202.39996337890625" text="Chi tiết" />
+                                    <TableColumn fx:id="colMaintenanceContent" minWidth="0.0" prefWidth="180.0" text="Nội dung bảo trì" />
+                                    <TableColumn fx:id="colRepairDate" prefWidth="140.800048828125" text="Ngày bảo trì" />
+                                    <TableColumn fx:id="colStatusRepair" prefWidth="116.7999267578125" text="Trạng thái" />
                                  </columns>
                               </TableView>
+                              <TextField fx:id="inputSearchRepair" layoutX="45.0" layoutY="29.0" prefHeight="39.0" prefWidth="268.0" promptText="Tìm kiếm bằng mã thiết bị, tên thiết bị" />
                            </children></AnchorPane>
                     </content>
                   </Tab>
-                  <Tab text="Xem danh sách thiết bị">
+                  <Tab fx:id="tabList" text="Xem danh sách thiết bị">
                       <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="552.0" prefWidth="971.0">
                               <children>
-                              <Pane layoutX="-6.0" prefHeight="74.0" prefWidth="482.0">
-                                 <children>
-                                    <TextField fx:id="inputSearch" layoutX="78.0" layoutY="18.0" />
-                                    <Text layoutX="14.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm:" />
-                                 </children>
-                              </Pane>
-                              <TableView fx:id="equipmentTable" layoutX="13.0" layoutY="93.0" prefHeight="458.0" prefWidth="900.0">
+                              <TableView fx:id="equipmentTable" layoutX="45.0" layoutY="93.0" prefHeight="458.0" prefWidth="900.0">
                                  <columns>
-                                    <TableColumn fx:id="colID" prefWidth="127.9999942779541" text="Mã thiết bị" />
+                                    <TableColumn fx:id="colId" prefWidth="127.9999942779541" text="Mã thiết bị" />
                                     <TableColumn fx:id="colName" minWidth="8.79998779296875" prefWidth="225.5999755859375" text="Tên thiết bị" />
                                     <TableColumn fx:id="colDescription" prefWidth="280.8000793457031" text="Chi tiết" />
                                     <TableColumn fx:id="colRepairDateV" prefWidth="157.5999755859375" text="Lịch bảo trì" />
                                     <TableColumn fx:id="colStatus" prefWidth="99.199951171875" text="Trạng thái" />
                                  </columns>
                               </TableView>
+                              <TextField fx:id="inputSearch" layoutX="45.0" layoutY="30.0" prefHeight="39.0" prefWidth="268.0" promptText="Tìm kiếm bằng mã thiết bị, tên thiết bị" />
                               </children>
                           </AnchorPane>
                       </content>

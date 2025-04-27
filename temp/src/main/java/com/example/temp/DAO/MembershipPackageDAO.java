@@ -147,7 +147,7 @@ public class MembershipPackageDAO {
     public List<MembershipPackage> searchPackages(String keyword) {
         getConnection();
         List<MembershipPackage> list = new ArrayList<>();
-        String sql = "SELECT * FROM Membership_package WHERE name LIKE ? OR description LIKE ?";
+        String sql = "SELECT * FROM Membership_package WHERE name LIKE ? OR id LIKE ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             String pattern = "%" + keyword + "%";
             stmt.setString(1, pattern);

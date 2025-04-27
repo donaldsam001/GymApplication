@@ -1,312 +1,249 @@
 package com.example.temp.Controller;
 
-import java.time.format.DateTimeFormatter;
 import com.example.temp.DAO.EquipmentDAO;
 import com.example.temp.Models.Equipment;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.LocalDateStringConverter;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 public class DeviceManagementController {
 
-    @FXML
-    private Button btnDel;
+    @FXML private TableView<Equipment> equipmentTable, repairDateTable, deleteTable;
+    @FXML private TableColumn<Equipment, Integer> colId, colIDRepair, colIdDel;
+    @FXML private TableColumn<Equipment, String> colName, colNameRepair, colNameDel;
+    @FXML private TableColumn<Equipment, String> colDescription, colDescriptionRepair, colDescriptionDel;
+    @FXML private TableColumn<Equipment, String> colMaintenanceContent;
+    @FXML private TableColumn<Equipment, String> colRepairDateV;
+    @FXML private TableColumn<Equipment, String> colStatus, colStatusRepair, colStatusDel;
+    @FXML private TableColumn<Equipment, Void> colDel;
+    @FXML private TableColumn<Equipment, LocalDate> colRepairDate;
 
-    private LocalDate repairDate;
-    private String repairNote; // nếu cần
+    @FXML private TextField inputCode, inputName, inputDescription, inputSearch, inputSearchRepair, inputSearchDel;
+    @FXML private Button btnAdd, btnDeleteAll;
+    @FXML private Tab tabList, tabMaintaince, tabDel;
+    @FXML private TabPane tabPane;
 
-    @FXML
-    private TableView<Equipment> repairDateTable;
-
-    @FXML
-    private TableColumn<Equipment, String> colDescriptionRepair;
-
-
-    @FXML
-    private TableColumn<Equipment, String> colIDRepair;
-
-    @FXML
-    private TableColumn<Equipment, String> colMaintenanceContent;
-
-
-    @FXML
-    private TableColumn<Equipment, String> colNameRepair;
+    private final ObservableList<Equipment> equipmentList = FXCollections.observableArrayList();
+    private final ObservableList<Equipment> changeList = FXCollections.observableArrayList();
+    private final ObservableList<Equipment> deleteList = FXCollections.observableArrayList();
 
     @FXML
-    private TableColumn<Equipment, Void> colRepairDate;
-
-    private ObservableList<Equipment> equipmentRepairList = FXCollections.observableArrayList();
-
-
-//    -----------------------------------------
-
-
-
-    @FXML
-    private TableView<Equipment> deleteTable;
-
-    @FXML
-    private TableColumn<Equipment, Integer> delColID;
-
-    @FXML
-    private TableColumn<Equipment, String> delColName;
-
-    @FXML
-    private TableColumn<Equipment, String> delColDescription;
-
-    @FXML
-    private TableColumn<Equipment, Void> delColAction;
-
-    @FXML
-    private ObservableList<Equipment> deleteList = FXCollections.observableArrayList();
-
-
-    @FXML
-    private Button handelAdd;
-
-    @FXML
-    private TextField inputCode;
-
-    @FXML
-    private TextField inputDescription;
-
-    @FXML
-    private TextField inputName;
-
-    @FXML
-    private TableView<Equipment> equipmentTable;
-
-    @FXML
-    private TableColumn<Equipment, String> colID;
-
-    @FXML
-    private TableColumn<Equipment, String> colName;
-
-    @FXML
-    private TableColumn<Equipment, String> colDescription;
-
-    @FXML
-    private TableColumn<Equipment, LocalDate> colRepairDateV;
-
-    @FXML
-    private TableColumn<Equipment, String> colStatus;
-
-    private ObservableList<Equipment> equipmentList = FXCollections.observableArrayList();
-
-    @FXML
-    void initialize() {
-
-        handelAdd.setOnAction(event -> handleAdd());
+    public void initialize() {
         setupTableView();
-        loadEquipmentData();
+        setupChangeTable();
         setupDeleteTable();
-        loadDeleteTable();
-        setupRepairTable();      // << Thêm dòng này
-        loadRepairTable();
+        loadEquipment();
 
-        equipmentTable.setRowFactory(tv -> {
-            TableRow<Equipment> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (!row.isEmpty() && event.getClickCount() == 2) {
-                    selectedEquipment = row.getItem();
-                    inputCode.setText(String.valueOf(selectedEquipment.getId()));
-                    inputName.setText(selectedEquipment.getName());
-                    inputDescription.setText(selectedEquipment.getDescription());
-                    handelAdd.setText("Cập nhật thiết bị");
-                }
-            });
-            return row;
-        });
-    }
+        inputSearch.textProperty().addListener((obs, oldVal, newVal) -> searchEquipment());
+        inputSearchRepair.textProperty().addListener((obs, oldVal, newVal) -> searchEquipment());
+        inputSearchDel.textProperty().addListener((obs, oldVal, newVal) -> searchEquipment());
 
-//    LÊN LỊCH BẢO TRÌ
-    private void setupRepairTable() {
-        colIDRepair.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colNameRepair.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colDescriptionRepair.setCellValueFactory(new PropertyValueFactory<>("description"));
-//        colRepairDate.setCellValueFactory(new PropertyValueFactory<>("repairDate"));
-
-        colRepairDate.setCellFactory(param -> new TableCell<>() {
-            private final DatePicker datePicker = new DatePicker();
-
-            {
-                datePicker.setOnAction(event -> {
-                    Equipment equipment = getTableView().getItems().get(getIndex());
-                    LocalDate selectedDate = datePicker.getValue();
-
-                    if (equipment != null && selectedDate != null) {
-                        // Cập nhật ngày bảo trì trong model
-                        equipment.setRepairDate(selectedDate);
-
-                        // Cập nhật xuống DB
-                        EquipmentDAO equipmentDAO = new EquipmentDAO();
-                        equipmentDAO.updateRepairDate(equipment.getId(), selectedDate);
-
-                        // Refresh lại bảng
-                        loadRepairTable();
-                        loadEquipmentData(); // cập nhật luôn cả bảng chính
-                    }
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    Equipment equipment = getTableView().getItems().get(getIndex());
-                    datePicker.setValue(equipment.getRepairDate());
-                    setGraphic(datePicker);
-                }
+        tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
+            if (newTab == tabList || newTab == tabMaintaince || newTab == tabDel) {
+                loadEquipment();
             }
         });
 
+        btnAdd.setOnAction(e -> {
+            createEquipment();
+            loadEquipment();
+        });
 
-        colMaintenanceContent.setCellValueFactory(new PropertyValueFactory<>("repairNote"));
-
-        // Initialize the table with an empty list, populated later
-        repairDateTable.setItems(equipmentRepairList);
-    }
-
-    private void loadRepairTable() {
-        EquipmentDAO equipmentDAO = new EquipmentDAO();
-        equipmentRepairList.setAll(equipmentDAO.getAllEquipment());
-    }
-
-// THÊM THIẾT BỊ
-    private Equipment selectedEquipment = null;
-
-    private void handleAdd() {
-        String code = inputCode.getText();
-        String name = inputName.getText();
-        String description = inputDescription.getText();
-
-        if (code.isEmpty() || name.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", "Mã và tên thiết bị không được để trống.");
-            return;
-        }
-
-        try {
-            int id = Integer.parseInt(code);
-            Equipment equipment = new Equipment(id, name, description, null, "1", null);
-            if (selectedEquipment == null) {
-                EquipmentDAO equipmentDAO = new EquipmentDAO();
-                equipmentDAO.insertEquipment(equipment);
-
-                showAlert(Alert.AlertType.INFORMATION, "Thành công", "Thiết bị đã được thêm.");
-            } else {
-                equipment.setId(selectedEquipment.getId());
-                EquipmentDAO equipmentDAO = new EquipmentDAO();
-                equipmentDAO.insertEquipment(equipment);
-
-                showAlert(Alert.AlertType.INFORMATION, "Thành công", "Thiết bị đã được cập nhật.");
-                selectedEquipment = null;
-                handelAdd.setText("Thêm thiết bị");
+        repairDateTable.setOnMouseClicked(event -> {
+            Equipment selected = repairDateTable.getSelectionModel().getSelectedItem();
+            if (selected != null) {
+                inputCode.setText(String.valueOf(selected.getId()));
+                inputName.setText(selected.getName());
+                inputDescription.setText(selected.getDescription());
             }
-
-            clearFields();
-            loadEquipmentData();
-            loadDeleteTable();
-
-        } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", "Mã thiết bị phải là số.");
-        }
-    }
-
-
-    private void clearFields() {
-        inputCode.clear();
-        inputName.clear();
-        inputDescription.clear();
-    }
-
-    private void showAlert(Alert.AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        });
     }
 
     private void setupTableView() {
-        colID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-        colRepairDateV.setCellValueFactory(new PropertyValueFactory<>("repairDate"));
-
-        colRepairDateV.setCellFactory(column -> new TableCell<Equipment, LocalDate>() {
-            private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            @Override
-            protected void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText("");
-                } else {
-                    setText(item.format(formatter));
-                }
-            }
+        colStatus.setCellValueFactory(cellData -> {
+            boolean status = cellData.getValue().getStatus();
+            return new ReadOnlyStringWrapper(status ? "Đang hoạt động" : "Không hoạt động");
+        });
+        colRepairDateV.setCellValueFactory(cellData -> {
+            LocalDate date = cellData.getValue().getRepairDate();
+            return new ReadOnlyStringWrapper(date != null ? date.toString() : "");
         });
 
         equipmentTable.setItems(equipmentList);
     }
 
-    private void loadEquipmentData() {
-        EquipmentDAO equipmentDAO = new EquipmentDAO();
-        equipmentList.setAll(equipmentDAO.getAllEquipment());
-    }
-
-//    XÓA THIEEST BỊ
     private void setupDeleteTable() {
-        delColID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        delColName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        delColDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        delColAction.setCellFactory(param -> new TableCell<>() {
+        colIdDel.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colNameDel.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colDescriptionDel.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colStatusDel.setCellValueFactory(cellData -> {
+            boolean status = cellData.getValue().getStatus();
+            return new ReadOnlyStringWrapper(status ? "Đang hoạt động" : "Không hoạt động");
+        });
+
+        colDel.setCellFactory(param -> new TableCell<>() {
             private final Button deleteBtn = new Button("Xóa");
             {
-                deleteBtn.setOnAction(event -> {
-                    Equipment equipment = getTableView().getItems().get(getIndex());
-                    EquipmentDAO equipmentDAO = new EquipmentDAO();
-                    equipmentDAO.deleteEquipment(equipment.getId());
-                    loadDeleteTable();
-                    loadEquipmentData(); // update the view tab too
+                deleteBtn.setOnAction(e -> {
+                    Equipment eq = getTableView().getItems().get(getIndex());
+                    new EquipmentDAO().deleteEquipment(eq.getId());
+                    loadEquipment();
                 });
             }
-
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(deleteBtn);
-                }
+                setGraphic(empty ? null : deleteBtn);
             }
         });
 
         deleteTable.setItems(deleteList);
     }
 
-    private void loadDeleteTable() {
-        EquipmentDAO equipmentDAO = new EquipmentDAO();
-        deleteList.setAll(equipmentDAO.getAllEquipment());
+    private void setupChangeTable() {
+        repairDateTable.setEditable(true);
+        colRepairDate.setCellValueFactory(new PropertyValueFactory<>("repairDate"));
+        colIDRepair.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colNameRepair.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colDescriptionRepair.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colMaintenanceContent.setCellValueFactory(new PropertyValueFactory<>("maintenanceNote"));
+        colStatusRepair.setCellValueFactory(cellData -> {
+            boolean status = cellData.getValue().getStatus();
+            return new ReadOnlyStringWrapper(status ? "Đang hoạt động" : "Không hoạt động");
+        });
+
+        colNameRepair.setCellFactory(TextFieldTableCell.forTableColumn());
+        colDescriptionRepair.setCellFactory(TextFieldTableCell.forTableColumn());
+        colMaintenanceContent.setCellFactory(TextFieldTableCell.forTableColumn());
+        colStatusRepair.setCellFactory(ComboBoxTableCell.forTableColumn("Đang hoạt động", "Không hoạt động"));
+
+        colNameRepair.setOnEditCommit(event -> {
+            Equipment eq = event.getRowValue();
+            eq.setName(event.getNewValue());
+            updateEquipment(eq);
+        });
+
+        colDescriptionRepair.setOnEditCommit(event -> {
+            Equipment eq = event.getRowValue();
+            eq.setDescription(event.getNewValue());
+            updateEquipment(eq);
+        });
+
+        colMaintenanceContent.setOnEditCommit(event -> {
+            Equipment eq = event.getRowValue();
+            eq.setMaintenanceNote(event.getNewValue());
+            updateEquipment(eq);
+        });
+
+        colStatusRepair.setOnEditCommit(event -> {
+            Equipment eq = event.getRowValue();
+            eq.setStatus("Đang hoạt động".equals(event.getNewValue()));
+            updateEquipment(eq);
+        });
+        colRepairDate.setCellFactory(column -> new TableCell<Equipment, LocalDate>() {
+            private final DatePicker datePicker = new DatePicker();
+
+            {
+                datePicker.setOnAction(event -> {
+                    Equipment eq = getTableView().getItems().get(getIndex());
+                    eq.setRepairDate(datePicker.getValue());
+                    updateEquipment(eq);
+                });
+                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+            }
+
+            @Override
+            protected void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    datePicker.setValue(item);
+                    setGraphic(datePicker);
+                }
+            }
+        });
+
+
+        repairDateTable.setItems(changeList);
     }
 
-    @FXML
-    void handleDel(ActionEvent event) {
-        for (Equipment equipment : new ArrayList<>(deleteList)) {
-            EquipmentDAO equipmentDAO = new EquipmentDAO();
-            equipmentDAO.deleteEquipment(equipment.getId());
+    private void loadEquipment() {
+        EquipmentDAO dao = new EquipmentDAO();
+        List<Equipment> list = dao.getAllEquipment();
+        equipmentList.setAll(list);
+        changeList.setAll(list);
+        deleteList.setAll(list);
+    }
+
+    private void createEquipment() {
+        try {
+            int id = Integer.parseInt(inputCode.getText());
+            String name = inputName.getText();
+            String description = inputDescription.getText();
+
+            if (name.isEmpty() || description.isEmpty()) {
+                showAlert("Lỗi", "Vui lòng điền đầy đủ thông tin.", Alert.AlertType.ERROR);
+                return;
+            }
+
+            Equipment equipment = new Equipment(id, name, description, null, true, null);
+            new EquipmentDAO().insertEquipment(equipment);
+
+            showAlert("Thành công", "Thiết bị đã được thêm!", Alert.AlertType.INFORMATION);
+            clearInputs();
+        } catch (NumberFormatException ex) {
+            showAlert("Lỗi", "Định dạng mã thiết bị không hợp lệ.", Alert.AlertType.ERROR);
         }
-        loadDeleteTable();
-        loadEquipmentData();
-        showAlert(Alert.AlertType.INFORMATION, "Thành công", "Tất cả thiết bị đã được xóa.");
     }
 
+    private void updateEquipment(Equipment eq) {
+        new EquipmentDAO().updateEquipment(eq);
+        showAlert("Thành công", "Thiết bị đã được cập nhật!", Alert.AlertType.INFORMATION);
+        loadEquipment();
+    }
+
+    private void searchEquipment() {
+        EquipmentDAO dao = new EquipmentDAO();
+        Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
+        String keyword = "";
+
+        if (selectedTab == tabList) {
+            keyword = inputSearch.getText().trim();
+            equipmentList.setAll(dao.searchEquipment(keyword));
+        } else if (selectedTab == tabMaintaince) {
+            keyword = inputSearchRepair.getText().trim();
+            changeList.setAll(dao.searchEquipment(keyword));
+        } else if (selectedTab == tabDel) {
+            keyword = inputSearchDel.getText().trim();
+            deleteList.setAll(dao.searchEquipment(keyword));
+        }
+    }
+
+    private void clearInputs() {
+        inputCode.clear();
+        inputName.clear();
+        inputDescription.clear();
+    }
+
+    private void showAlert(String title, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
 }

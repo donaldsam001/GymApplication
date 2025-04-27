@@ -22,8 +22,10 @@ public class ManagementEmployeeController {
     @FXML private TableColumn<Employee, String> colRole, colRoleUp, colRoleDel;
     @FXML private TableColumn<Employee, Void> colDel;
 
-    @FXML private TextField inputCode, inputName, inputPhoneNumber, inputRole, inputSearch;
-    @FXML private Button handelCreate;
+    @FXML private TextField inputCode, inputName, inputPhoneNumber, inputRole, inputSearch, inputSearchUp, inputSearchDel;
+    @FXML private Button handelCreate, btnDel;
+    @FXML private Tab tabView, tabDel, tabUp;
+    @FXML private TabPane tabPane;
 
     private ObservableList<Employee> employeeList = FXCollections.observableArrayList();
     private ObservableList<Employee> deleteList = FXCollections.observableArrayList();
@@ -37,6 +39,10 @@ public class ManagementEmployeeController {
         loadEmployees();
 
         inputSearch.textProperty().addListener((obs, oldVal, newVal) -> searchEmployee());
+        inputSearchUp.textProperty().addListener((obs, oldVal, newVal) -> searchEmployee());
+        inputSearchDel.textProperty().addListener((obs, oldVal, newVal) -> searchEmployee());
+
+
 
         handelCreate.setOnAction(e -> {
             createEmployee();
@@ -154,11 +160,23 @@ public class ManagementEmployeeController {
     }
 
     private void searchEmployee() {
-        String keyword = inputSearch.getText().trim();
         EmployDAO dao = new EmployDAO();
-        List<Employee> result = dao.searchEmployee(keyword);
-        employeeList.setAll(result);
+
+        Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
+        String keyword;
+
+        if (selectedTab == tabView) {
+            keyword = inputSearch.getText().trim();
+            employeeList.setAll(dao.searchEmployee(keyword));
+        } else if (selectedTab == tabUp) {
+            keyword = inputSearchUp.getText().trim();
+            changeList.setAll(dao.searchEmployee(keyword));
+        } else if (selectedTab == tabDel) {
+            keyword = inputSearchDel.getText().trim();
+            deleteList.setAll(dao.searchEmployee(keyword));
+        }
     }
+
 
     private void clearInputs() {
         inputCode.clear();

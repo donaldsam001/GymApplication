@@ -40,7 +40,7 @@ public class ManageServiceController {
     private TableColumn<MembershipPackage, Void> colDel,colChange;
 
     @FXML
-    private TextField inputCode, inputName, inputDescription, inputExpDate, inputPrice, inputSearch;
+    private TextField inputCode, inputName, inputDescription, inputExpDate, inputPrice, inputSearch, inputSearchChange, inputSearchDel;
 
     @FXML
     private Button handelCreate, btnDeleteAll;
@@ -61,6 +61,9 @@ public class ManageServiceController {
         loadMembershipPackages();
 
         inputSearch.textProperty().addListener((obs, oldVal, newVal) -> searchPackages());
+        inputSearchChange.textProperty().addListener((obs, oldVal, newVal) -> searchPackages());
+        inputSearchDel.textProperty().addListener((obs, oldVal, newVal) -> searchPackages());
+
 
         handelCreate.setOnAction(e -> {
             createMembershipPackage();
@@ -225,11 +228,23 @@ public class ManageServiceController {
 
 
     private void searchPackages() {
-        String keyword = inputSearch.getText().trim();
         MembershipPackageDAO dao = new MembershipPackageDAO();
-        List<MembershipPackage> result = dao.searchPackages(keyword);
-        packageList.setAll(result);
+
+        Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
+        String keyword;
+
+        if (selectedTab == tabViewPackages) {
+            keyword = inputSearch.getText().trim();
+            packageList.setAll(dao.searchPackages(keyword));
+        } else if (selectedTab == tabViewPackagesChange) {
+            keyword = inputSearchChange.getText().trim();
+            changeList.setAll(dao.searchPackages(keyword));
+        } else if (selectedTab == tabViewPackagesDel) {
+            keyword = inputSearchDel.getText().trim();
+            deleteList.setAll(dao.searchPackages(keyword));
+        }
     }
+
 
     private void clearInputs() {
         inputCode.clear();

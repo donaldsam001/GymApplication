@@ -58,9 +58,9 @@ public class DB {
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         name TEXT NOT NULL,
                         description TEXT,
+                        repairNote TEXT, 
                         repairDate TEXT,
-                        repairNote TEXT, -- dòng mới
-                        status TEXT NOT NULL
+                        status INTEGER NOT NULL CHECK (status IN (0, 1))
                     )
                 """);
 

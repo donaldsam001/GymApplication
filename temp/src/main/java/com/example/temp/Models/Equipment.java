@@ -7,13 +7,13 @@ public class Equipment {
     private String name;
     private String description;
     private LocalDate repairDate;
-    private String status;
+    private boolean status;
     private String maintenanceNote;
 
 
     public Equipment() {}
 
-    public Equipment(int id, String name, String description, LocalDate repairDate, String status, String maintenanceNote) {
+    public Equipment(int id, String name, String description, LocalDate repairDate, boolean status, String maintenanceNote) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -54,11 +54,11 @@ public class Equipment {
         this.repairDate = repairDate;
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

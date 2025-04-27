@@ -121,7 +121,7 @@ public class EmployDAO {
 
     public List<Employee> searchEmployee(String keyword) {
         List<Employee> result = new ArrayList<>();
-        String sql = "SELECT * FROM Employee WHERE name LIKE ? OR phone LIKE ? OR role LIKE ?";
+        String sql = "SELECT * FROM Employee WHERE name LIKE ? OR phone LIKE ? OR id LIKE ?";
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:service_app.db");
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             String pattern = "%" + keyword + "%";
