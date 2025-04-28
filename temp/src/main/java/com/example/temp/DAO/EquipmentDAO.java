@@ -158,4 +158,21 @@ public class EquipmentDAO {
         }
         return list;
     }
+
+    public boolean isEquipmentIdExists(int id) {
+        getConnection();
+        String sql = "SELECT COUNT(*) FROM Equipment WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            logger.warning(e.toString());
+        } finally {
+            closeConnection();
+        }
+        return false;
+    }
 }

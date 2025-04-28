@@ -144,16 +144,21 @@ public class EmployDAO {
         return result;
     }
 
-    public void deleteAllEmployees() {
+    public boolean isEmployeeIdExists(int id) {
         getConnection();
-        String sql = "DELETE FROM Employee";
+        String sql = "SELECT COUNT(*) FROM Employee WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.executeUpdate();
-            logger.info("Deleted all employees.");
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
         } catch (SQLException e) {
             logger.warning(e.toString());
         } finally {
             closeConnection();
         }
+        return false;
     }
+
 }

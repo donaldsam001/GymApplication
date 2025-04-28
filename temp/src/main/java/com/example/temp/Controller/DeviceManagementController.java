@@ -200,8 +200,14 @@ public class DeviceManagementController {
                 return;
             }
 
+            EquipmentDAO dao = new EquipmentDAO() ;
+            if (dao.isEquipmentIdExists(id)) {
+                showAlert("Lỗi", "Mã thiết bị đã tồn tại. Vui lòng nhập mã khác.", Alert.AlertType.ERROR);
+                return;
+            }
+
             Equipment equipment = new Equipment(id, name, description, null, true, null);
-            new EquipmentDAO().insertEquipment(equipment);
+            dao.insertEquipment(equipment);
 
             showAlert("Thành công", "Thiết bị đã được thêm!", Alert.AlertType.INFORMATION);
             clearInputs();

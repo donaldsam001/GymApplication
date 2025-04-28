@@ -164,14 +164,29 @@ public class MembershipPackageDAO {
 
                 list.add(new MembershipPackage(id, name, price, description, exp, status));
             }
-
         } catch (SQLException e) {
             logger.warning(e.toString());
         } finally {
             closeConnection();
         }
-
         return list;
+    }
+
+    public boolean isPackageExists(int id) {
+        getConnection();
+        String sql = "SELECT COUNT(*) FROM Membership_package WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            logger.warning(e.toString());
+        } finally {
+            closeConnection();
+        }
+        return false;
     }
 
 

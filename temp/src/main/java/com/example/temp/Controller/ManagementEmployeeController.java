@@ -136,22 +136,38 @@ public class ManagementEmployeeController {
             String name = inputName.getText();
             String phone = inputPhoneNumber.getText();
             String role = inputRole.getText();
-            String password = "123"; // hoặc để người dùng nhập nếu cần
+            String password = "123"; // default password
 
             if (name.isEmpty() || phone.isEmpty() || role.isEmpty()) {
                 showAlert("Lỗi", "Vui lòng điền đầy đủ thông tin.", Alert.AlertType.ERROR);
                 return;
             }
 
+            if (id <= 0) {
+                showAlert("Lỗi", "Mã nhân viên phải lớn hơn 0.", Alert.AlertType.ERROR);
+                return;
+            }
+
+            if (!phone.matches("\\d{10}")) {
+                showAlert("Lỗi", "Số điện thoại phải gồm đúng 10 chữ số.", Alert.AlertType.ERROR);
+                return;
+            }
+
+            EmployDAO dao = new EmployDAO();
+            if (dao.isEmployeeIdExists(id)) {
+                showAlert("Lỗi", "Mã nhân viên đã tồn tại. Vui lòng nhập mã khác.", Alert.AlertType.ERROR);
+                return;
+            }
+
             Employee e = new Employee(id, name, password, phone, role);
-            new EmployDAO().insertEmployee(e);
+            dao.insertEmployee(e);
             showAlert("Thành công", "Thêm nhân viên thành công!", Alert.AlertType.INFORMATION);
             clearInputs();
-
         } catch (NumberFormatException e) {
             showAlert("Lỗi", "Mã nhân viên phải là số.", Alert.AlertType.ERROR);
         }
     }
+
 
     private void updateEmployee(Employee e) {
         new EmployDAO().updateEmployee(e);

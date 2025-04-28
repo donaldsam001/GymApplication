@@ -1,5 +1,6 @@
 package com.example.temp.Controller;
 
+import com.example.temp.DAO.EmployDAO;
 import com.example.temp.DAO.EquipmentDAO;
 import com.example.temp.DAO.MembershipPackageDAO;
 import com.example.temp.Models.Equipment;
@@ -208,8 +209,22 @@ public class ManageServiceController {
                 return;
             }
 
-            MembershipPackage membershipPackage = new MembershipPackage(id, name, price, description, exp, true);
+            if (id <= 0) {
+                showAlert("Lỗi", "Mã gói hội viên phải lớn hơn 0.", Alert.AlertType.ERROR);
+                return;
+            }
+
+            if (exp <= 0) {
+                showAlert("Lỗi", "Thời hạn từ 1 tháng trở lên.", Alert.AlertType.ERROR);
+                return;
+            }
+
             MembershipPackageDAO dao = new MembershipPackageDAO();
+            if (dao.isPackageExists(id)) {
+                showAlert("Lỗi", "Mã gói hội viên đã tồn tại. Vui lòng nhập mã khác.", Alert.AlertType.ERROR);
+                return;
+            }
+            MembershipPackage membershipPackage = new MembershipPackage(id, name, price, description, exp, true);
             dao.insertMembershipPackage(membershipPackage);
 
             showAlert("Thành công", "Đã tạo gói hội viên thành công!", Alert.AlertType.INFORMATION);
