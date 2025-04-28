@@ -209,8 +209,8 @@ public class ManageServiceController {
                 return;
             }
 
-            if (id <= 0) {
-                showAlert("Lỗi", "Mã gói hội viên phải lớn hơn 0.", Alert.AlertType.ERROR);
+            if (id < 100000 || id > 999999) {
+                showAlert("Lỗi", "Mã gói hội viên không hợp lệ.", Alert.AlertType.ERROR);
                 return;
             }
 

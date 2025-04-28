@@ -22,6 +22,7 @@ public class HomeController {
     @FXML
     private Button logout;
 
+
     @FXML
     private Button managementMembership;
 
@@ -33,6 +34,12 @@ public class HomeController {
 
     @FXML
     private Pane topPane;
+
+    @FXML
+    private void openMem(ActionEvent event) {
+        // code mở quản lý hội viên
+    }
+
 
     @FXML
     private void openLogout(ActionEvent event) {
@@ -88,22 +95,6 @@ public class HomeController {
         }
     }
 
-    @FXML
-    private void openMem(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/manage-mem-view.fxml"));
-            Pane root = loader.load();
-
-            Stage newStage = new Stage();
-            newStage.setTitle("Quản lý nhân viên"); // tiêu đề cửa sổ
-            newStage.setScene(new Scene(root));
-            newStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Error", "Không thể mở cửa sổ Quản lý nhân viên.");
-        }
-    }
-
 
     @FXML
     private void openDeviceManagement(ActionEvent event) {
@@ -128,7 +119,7 @@ public class HomeController {
             Pane root = loader.load();
 
             Stage newStage = new Stage();
-            newStage.setTitle("Quản lý thiết bị"); // tiêu đề cửa sổ
+            newStage.setTitle("Quản lý gói hội viên"); // tiêu đề cửa sổ
             newStage.setScene(new Scene(root));
             newStage.show();
         } catch (IOException e) {

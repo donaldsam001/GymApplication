@@ -19,10 +19,9 @@ public class ManagementEmployeeController {
     @FXML private TableColumn<Employee, Integer> colID, colIDUp, colIDDel;
     @FXML private TableColumn<Employee, String> colName, colNameUp, colNameDel;
     @FXML private TableColumn<Employee, String> colPhone, colPhoneUp, colPhoneDel;
-    @FXML private TableColumn<Employee, String> colRole, colRoleUp, colRoleDel;
     @FXML private TableColumn<Employee, Void> colDel;
 
-    @FXML private TextField inputCode, inputName, inputPhoneNumber, inputRole, inputSearch, inputSearchUp, inputSearchDel;
+    @FXML private TextField inputCode, inputName, inputPhoneNumber, inputSearch, inputSearchUp, inputSearchDel;
     @FXML private Button handelCreate, btnDel;
     @FXML private Tab tabView, tabDel, tabUp;
     @FXML private TabPane tabPane;
@@ -54,8 +53,6 @@ public class ManagementEmployeeController {
         colID.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        colRole.setCellValueFactory(new PropertyValueFactory<>("role"));
-
         tableView.setItems(employeeList);
     }
 
@@ -64,7 +61,6 @@ public class ManagementEmployeeController {
         colIDDel.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNameDel.setCellValueFactory(new PropertyValueFactory<>("name"));
         colPhoneDel.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        colRoleDel.setCellValueFactory(new PropertyValueFactory<>("role"));
 
         colDel.setCellFactory(param -> new TableCell<>() {
             private final Button deleteBtn = new Button("Xóa");
@@ -94,11 +90,9 @@ public class ManagementEmployeeController {
         colIDUp.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNameUp.setCellValueFactory(new PropertyValueFactory<>("name"));
         colPhoneUp.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        colRoleUp.setCellValueFactory(new PropertyValueFactory<>("role"));
 
         colNameUp.setCellFactory(TextFieldTableCell.forTableColumn());
         colPhoneUp.setCellFactory(TextFieldTableCell.forTableColumn());
-        colRoleUp.setCellFactory(TextFieldTableCell.forTableColumn());
 
         colNameUp.setOnEditCommit(event -> {
             Employee e = event.getRowValue();
@@ -109,12 +103,6 @@ public class ManagementEmployeeController {
         colPhoneUp.setOnEditCommit(event -> {
             Employee e = event.getRowValue();
             e.setPhone(event.getNewValue());
-            updateEmployee(e);
-        });
-
-        colRoleUp.setOnEditCommit(event -> {
-            Employee e = event.getRowValue();
-            e.setRole(event.getNewValue());
             updateEmployee(e);
         });
 
@@ -135,18 +123,18 @@ public class ManagementEmployeeController {
             int id = Integer.parseInt(inputCode.getText());
             String name = inputName.getText();
             String phone = inputPhoneNumber.getText();
-            String role = inputRole.getText();
-            String password = "123"; // default password
+            String password = generateRandomPassword(8); // hoặc 10, 12 ký tự tùy bạn
 
-            if (name.isEmpty() || phone.isEmpty() || role.isEmpty()) {
+            if (name.isEmpty() || phone.isEmpty() ) {
                 showAlert("Lỗi", "Vui lòng điền đầy đủ thông tin.", Alert.AlertType.ERROR);
                 return;
             }
 
-            if (id <= 0) {
-                showAlert("Lỗi", "Mã nhân viên phải lớn hơn 0.", Alert.AlertType.ERROR);
+            if (id < 100000 || id > 999999) {
+                showAlert("Lỗi", "Mã nhân viên không hợp lệ.", Alert.AlertType.ERROR);
                 return;
             }
+
 
             if (!phone.matches("\\d{10}")) {
                 showAlert("Lỗi", "Số điện thoại phải gồm đúng 10 chữ số.", Alert.AlertType.ERROR);
@@ -159,7 +147,7 @@ public class ManagementEmployeeController {
                 return;
             }
 
-            Employee e = new Employee(id, name, password, phone, role);
+            Employee e = new Employee(id, name, password, phone);
             dao.insertEmployee(e);
             showAlert("Thành công", "Thêm nhân viên thành công!", Alert.AlertType.INFORMATION);
             clearInputs();
@@ -198,7 +186,6 @@ public class ManagementEmployeeController {
         inputCode.clear();
         inputName.clear();
         inputPhoneNumber.clear();
-        inputRole.clear();
     }
 
     private void showAlert(String title, String msg, Alert.AlertType type) {
@@ -208,4 +195,15 @@ public class ManagementEmployeeController {
         alert.setContentText(msg);
         alert.showAndWait();
     }
+
+    private String generateRandomPassword(int length) {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";
+        StringBuilder password = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            int randomIndex = (int) (Math.random() * chars.length());
+            password.append(chars.charAt(randomIndex));
+        }
+        return password.toString();
+    }
+
 }

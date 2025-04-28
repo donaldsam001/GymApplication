@@ -34,7 +34,7 @@ public class Admin {
         return password;
     }
     public void setPassword(String password) {
-        this.name = password;
+        this.password = password;
     }
 
     public String getEmail() {

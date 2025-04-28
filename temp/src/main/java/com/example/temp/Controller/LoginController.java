@@ -1,5 +1,10 @@
 package com.example.temp.Controller;
 
+import com.example.temp.DAO.AdminDAO;
+import com.example.temp.DAO.EmployDAO;
+import com.example.temp.Models.Admin;
+import com.example.temp.Models.Employee;
+import com.example.temp.Models.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,25 +35,52 @@ public class LoginController {
 
     @FXML
     void handleLogin(ActionEvent event) {
-        String user = username.getText();
-        String pass = password.getText();
+        try {
+            int id = Integer.parseInt(username.getText().trim()); // dùng id
+            String pass = password.getText().trim();
 
-        if (user.equals("admin") && pass.equals("123456")) {
-            try {
-                // Chuyển sang màn hình chính
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/demopro1/View/home-view.fxml"));
-                Scene scene = new Scene(fxmlLoader.load());
+            // Check Admin trước
+            AdminDAO adminDAO = new AdminDAO();
+            Admin admin = adminDAO.getAdminById(id);
 
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.setTitle("Main");
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                showAlert("Error", "Cannot load the main view.");
+            if (admin != null && admin.getPassword().equals(pass)) {
+                Session.isAdmin = true;
+                Session.userId = admin.getId();
+                Session.userName = admin.getName();
+                loadHome(event);
+                return;
             }
-        } else {
-            showAlert("Login Failed", "Invalid username or password.");
+
+            // Nếu không phải admin thì check Employee
+            EmployDAO employDAO = new EmployDAO();
+            Employee emp = employDAO.getEmployeeById(id);
+
+            if (emp != null && emp.getPassword().equals(pass)) {
+                Session.isAdmin = false;
+                Session.userId = emp.getId();
+                Session.userName = emp.getName();
+                loadHome(event);
+                return;
+            }
+            showAlert("Đăng nhập thất bại", "ID hoặc mật khẩu không đúng.");
+        } catch (NumberFormatException e) {
+            showAlert("Lỗi", "ID phải là số nguyên.");
+        }
+    }
+
+
+    private void loadHome(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/temp/View/home-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Main");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Lỗi", "Không thể tải giao diện chính.");
         }
     }
 

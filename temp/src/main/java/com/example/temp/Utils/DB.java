@@ -21,8 +21,7 @@ public class DB {
                         id TEXT PRIMARY KEY,
                         name TEXT NOT NULL,
                         password TEXT NOT NULL,
-                        phone TEXT NOT NULL,
-                        role TEXT NOT NULL
+                        phone TEXT NOT NULL
                     );
                 """);
 

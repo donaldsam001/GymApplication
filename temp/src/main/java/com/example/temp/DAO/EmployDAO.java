@@ -29,8 +29,7 @@ public class EmployDAO {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT NOT NULL, " +
                 "password TEXT NOT NULL, " +
-                "phone TEXT NOT NULL, " +
-                "role TEXT NOT NULL)";
+                "phone TEXT NOT NULL, ";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.executeUpdate();
             logger.info("Table created or already exists.");
@@ -51,13 +50,12 @@ public class EmployDAO {
 
     public void insertEmployee(Employee employee) {
         getConnection();
-        String sql = "INSERT INTO Employee (id, name, password, phone, role) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Employee (id, name, password, phone) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, employee.getId());
             stmt.setString(2, employee.getName());
             stmt.setString(3, employee.getPassword());
             stmt.setString(4, employee.getPhone());
-            stmt.setString(5, employee.getRole());
             stmt.executeUpdate();
             logger.info("Inserted Employee successfully.");
         } catch (SQLException e) {
@@ -79,8 +77,7 @@ public class EmployDAO {
                 String name = rs.getString("name");
                 String password = rs.getString("password");
                 String phone = rs.getString("phone");
-                String role = rs.getString("role");
-                employees.add(new Employee(id, name, password, phone, role));
+                employees.add(new Employee(id, name, password, phone));
             }
         } catch (SQLException e) {
             logger.warning(e.toString());
@@ -94,7 +91,7 @@ public class EmployDAO {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, employee.getName());
             stmt.setString(2, employee.getPhone());
-            stmt.setString(3, employee.getRole());
+
             stmt.setInt(4, employee.getId());
             stmt.executeUpdate();
             logger.info("Updated Employee successfully.");
@@ -134,8 +131,7 @@ public class EmployDAO {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("password"),
-                        rs.getString("phone"),
-                        rs.getString("role")
+                        rs.getString("phone")
                 ));
             }
         } catch (SQLException e) {
@@ -159,6 +155,27 @@ public class EmployDAO {
             closeConnection();
         }
         return false;
+    }
+
+    public Employee getEmployeeById(int id) {
+        getConnection();
+        String sql = "SELECT * FROM employees WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql))
+        {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Employee(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("phone")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

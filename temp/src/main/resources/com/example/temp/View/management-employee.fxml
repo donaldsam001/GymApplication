@@ -22,7 +22,7 @@
                             <content>
                                 <AnchorPane prefHeight="386.0" prefWidth="900.0">
                                     <children>
-                                        <VBox layoutX="64.0" layoutY="51.0" prefHeight="206.0" prefWidth="760.0" spacing="15" stylesheets="@../Styles/addUI.css">
+                                        <VBox layoutX="84.0" layoutY="95.0" prefHeight="206.0" prefWidth="760.0" spacing="15" stylesheets="@../Styles/addUI.css">
                                             <HBox styleClass="hbox">
                                                 <Label styleClass="form-label" text="Mã nhân viên:" />
                                                 <TextField fx:id="inputCode" styleClass="text-field" HBox.hgrow="ALWAYS" />
@@ -37,11 +37,6 @@
                                                 <Label styleClass="form-label" text="Số điện thoại:" />
                                                 <TextField fx:id="inputPhoneNumber" styleClass="text-field" HBox.hgrow="ALWAYS" />
                                             </HBox>
-
-                                            <HBox styleClass="hbox">
-                                                <Label styleClass="form-label" text="Chức vụ:" />
-                                                <TextField fx:id="inputRole" styleClass="text-field" HBox.hgrow="ALWAYS" />
-                                            </HBox>
                                         </VBox>
 
                                         <Button fx:id="handelCreate" layoutX="464.0" layoutY="380.0" text="Thêm" />
@@ -55,10 +50,9 @@
                                     <children>
                                         <TableView fx:id="tableView" layoutX="26.0" layoutY="106.0" prefHeight="424.0" prefWidth="946.0">
                                             <columns>
-                                                <TableColumn fx:id="colID" prefWidth="131.9999656677246" text="Mã nhân viên" />
-                                                <TableColumn fx:id="colName" minWidth="8.79998779296875" prefWidth="349.59999084472656" text="Tên nhân viên" />
-                                                <TableColumn fx:id="colPhone" prefWidth="261.5999755859375" text="Số điện thoại" />
-                                                <TableColumn fx:id="colRole" minWidth="0.0" prefWidth="196.800048828125" text="Chức vụ" />
+                                                <TableColumn fx:id="colID" prefWidth="183.20000839233398" text="Mã nhân viên" />
+                                                <TableColumn fx:id="colName" minWidth="8.79998779296875" prefWidth="436.8000030517578" text="Tên nhân viên" />
+                                                <TableColumn fx:id="colPhone" prefWidth="316.79998779296875" text="Số điện thoại" />
                                             </columns>
                                         </TableView>
                               <TextField fx:id="inputSearch" layoutX="26.0" layoutY="33.0" minWidth="30.0" prefHeight="40.0" prefWidth="165.0" promptText="Tìm kiếm" />
@@ -74,10 +68,9 @@
                                         <TextField fx:id="inputSearchUp" layoutX="36.0" layoutY="36.0" prefHeight="26.0" prefWidth="142.0" promptText="Tìm kiếm" />
                                         <TableView fx:id="tableUp" layoutX="36.0" layoutY="106.0" prefHeight="418.0" prefWidth="926.0">
                                             <columns>
-                                                <TableColumn fx:id="colIDUp" prefWidth="150.39998245239258" text="Mã nhân viên" />
-                                                <TableColumn fx:id="colNameUp" minWidth="8.79998779296875" prefWidth="315.1999969482422" text="Tên nhân viên" />
-                                                <TableColumn fx:id="colPhoneUp" prefWidth="296.800048828125" text="Số điện thoại" />
-                                                <TableColumn fx:id="colRoleUp" minWidth="0.0" prefWidth="154.39996337890625" text="Chức vụ" />
+                                                <TableColumn fx:id="colIDUp" prefWidth="166.3999900817871" text="Mã nhân viên" />
+                                                <TableColumn fx:id="colNameUp" minWidth="8.79998779296875" prefWidth="451.99998474121094" text="Tên nhân viên" />
+                                                <TableColumn fx:id="colPhoneUp" prefWidth="297.60003662109375" text="Số điện thoại" />
                                             </columns>
                                         </TableView>
                                     </children>
@@ -92,13 +85,11 @@
                                         <TableView fx:id="tableDel" layoutX="36.0" layoutY="121.0" prefHeight="417.0" prefWidth="926.0">
                                             <columns>
                                                 <TableColumn fx:id="colIDDel" prefWidth="141.59999465942383" text="Mã nhân viên" />
-                                                <TableColumn fx:id="colNameDel" minWidth="8.79998779296875" prefWidth="148.00003051757812" text="Tên nhân viên" />
-                                                <TableColumn fx:id="colPhoneDel" prefWidth="268.8000183105469" text="Số điện thoại" />
-                                                <TableColumn fx:id="colRoleDel" minWidth="0.0" prefWidth="239.20001220703125" text="Chức vụ" />
-                                                <TableColumn fx:id="colDel" prefWidth="116.79998779296875" text="Xóa" />
+                                                <TableColumn fx:id="colNameDel" minWidth="8.79998779296875" prefWidth="361.59999084472656" text="Tên nhân viên" />
+                                                <TableColumn fx:id="colPhoneDel" prefWidth="288.800048828125" text="Số điện thoại" />
+                                                <TableColumn fx:id="colDel" prefWidth="124.00006103515625" text="Xóa" />
                                             </columns>
                                         </TableView>
-                              <Button fx:id="btnDel" layoutX="849.0" layoutY="43.0" mnemonicParsing="false" text="Xóa toàn bộ" />
                                     </children>
                                 </AnchorPane>
                             </content>

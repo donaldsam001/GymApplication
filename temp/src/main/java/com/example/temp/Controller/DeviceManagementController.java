@@ -200,6 +200,11 @@ public class DeviceManagementController {
                 return;
             }
 
+            if (id < 100000 || id > 999999) {
+                showAlert("Lỗi", "Mã thiết bị không hợp lệ.", Alert.AlertType.ERROR);
+                return;
+            }
+
             EquipmentDAO dao = new EquipmentDAO() ;
             if (dao.isEquipmentIdExists(id)) {
                 showAlert("Lỗi", "Mã thiết bị đã tồn tại. Vui lòng nhập mã khác.", Alert.AlertType.ERROR);
