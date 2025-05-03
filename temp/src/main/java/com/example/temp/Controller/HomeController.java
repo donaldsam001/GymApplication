@@ -22,15 +22,11 @@ public class HomeController {
     @FXML
     private Button logout;
 
+    @FXML
+    private Button btnStatistics;
 
     @FXML
     private Button managementMembership;
-
-    @FXML
-    private Button notification;
-
-    @FXML
-    private Button setting;
 
     @FXML
     private Pane topPane;
@@ -62,12 +58,6 @@ public class HomeController {
     @FXML
     private Pane mainContent; // Khu vực hiển thị nội dung
 
-
-
-//    @FXML
-//    public void initialize() {
-//        setting.setOnAction(event -> openSetting(ActionEvent event));
-//    }
     @FXML
     private void openSetting(ActionEvent event) {
         try {
@@ -84,14 +74,10 @@ public class HomeController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/management-employee.fxml"));
             Pane root = loader.load();
-
-            Stage newStage = new Stage();
-            newStage.setTitle("Quản lý nhân viên"); // tiêu đề cửa sổ
-            newStage.setScene(new Scene(root));
-            newStage.show();
+            mainContent.getChildren().setAll(root);
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "Không thể mở cửa sổ Quản lý nhân viên.");
+            showAlert("Error", "Không thể mở trang.");
         }
     }
 
@@ -99,17 +85,13 @@ public class HomeController {
     @FXML
     private void openDeviceManagement(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/device-management.fxml"));
-            Pane root = loader.load();
-
-            Stage newStage = new Stage();
-            newStage.setTitle("Quản lý thiết bị"); // tiêu đề cửa sổ
-            newStage.setScene(new Scene(root));
-            newStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Error", "Không thể mở cửa sổ Quản lý thiết bị.");
-        }
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/device-management.fxml"));
+        Pane root = loader.load();
+        mainContent.getChildren().setAll(root);
+    } catch (IOException e) {
+        e.printStackTrace();
+        showAlert("Error", "Không thể mở trang.");
+    }
     }
 
     @FXML
@@ -117,29 +99,24 @@ public class HomeController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/manage-service.fxml"));
             Pane root = loader.load();
-
-            Stage newStage = new Stage();
-            newStage.setTitle("Quản lý gói hội viên"); // tiêu đề cửa sổ
-            newStage.setScene(new Scene(root));
-            newStage.show();
+            mainContent.getChildren().setAll(root);
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "Không thể mở cửa sổ Quản lý gói hội viên.");
+            showAlert("Error", "Không thể mở trang.");
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    @FXML
+    private void openStatisticsTable(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/statistics-view.fxml"));
+            Pane statistics = loader.load();
+            mainContent.getChildren().setAll(statistics);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Không thể mở trang.");
+        }
+    }
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
