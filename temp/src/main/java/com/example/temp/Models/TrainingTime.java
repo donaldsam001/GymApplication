@@ -1,29 +1,30 @@
 package com.example.temp.Models;
 
-
 public class TrainingTime {
-    private String customerID;
+    private int id;
     private String name;
     private String phone;
-    private String startDay;
-    private String endDay;
-    private String status;
+    private String checkInTime;
+    private String checkOutTime;
+    private String note;  // Thêm trường note
 
-    public TrainingTime(String customerID, String name, String phone, String startDay, String endDay, String status) {
-        this.customerID = customerID;
+    // Constructor
+    public TrainingTime(int id, String name, String phone, String checkInTime, String checkOutTime, String note) {
+        this.id = id;
         this.name = name;
         this.phone = phone;
-        this.startDay = startDay;
-        this.endDay = endDay;
-        this.status = status;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
+        this.note = note;
     }
 
-    public String getCustomerID() {
-        return customerID;
+    // Getters và Setters
+    public int getId() {
+        return id;
     }
 
-    public void setCustomerID(String customerID) {
-        this.customerID = customerID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -42,27 +43,28 @@ public class TrainingTime {
         this.phone = phone;
     }
 
-    public String getStartDay() {
-        return startDay;
+    public String getCheckInTime() {
+        return checkInTime;
     }
 
-    public void setStartDay(String startDay) {
-        this.startDay = startDay;
+    public void setCheckInTime(String checkInTime) {
+        this.checkInTime = checkInTime;
     }
 
-    public String getEndDay() {
-        return endDay;
+    public String getCheckOutTime() {
+        return checkOutTime;
     }
 
-    public void setEndDay(String endDay) {
-        this.endDay = endDay;
+    public void setCheckOutTime(String checkOutTime) {
+        this.checkOutTime = checkOutTime;
     }
 
-    public String getStatus() {
-        return status;
+    public String getNote() {  // Phương thức getter cho note
+        return note;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setNote(String note) {
+        this.note = note;
     }
 }
+

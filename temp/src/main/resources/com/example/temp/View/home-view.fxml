@@ -31,7 +31,7 @@
                         </ImageView>
                      </children>
                   </Pane>
-                  <Button fx:id="logout" layoutX="963.0" layoutY="22.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openLogout" styleClass="logoutButton" text="Đăng xuất "  />
+                  <Button fx:id="logout" layoutX="963.0" layoutY="22.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openLogout" styleClass="logoutButton" text="Đăng xuất " />
                </children>
             </Pane>
          </top>
@@ -45,7 +45,17 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Button fx:id="managementMembership1" mnemonicParsing="false" onAction="#openMem" prefHeight="30.0" prefWidth="200.0" styleClass="accounts_view_container" text="Quản lý hội viên">
+                        <Button fx:id="managementMembership1" mnemonicParsing="false" onAction="#openQLHoiVienPage" prefHeight="30.0" prefWidth="200.0" styleClass="accounts_view_container" text="Quản lý hội viên">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="managementMembership11" layoutX="20.0" layoutY="53.0" mnemonicParsing="false" onAction="#openTrainingTime" prefHeight="30.0" prefWidth="200.0" styleClass="accounts_view_container" text="Quản lý thời gian tập">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="managementMembership111" layoutX="20.0" layoutY="93.0" mnemonicParsing="false" onAction="#openThe" prefHeight="30.0" prefWidth="200.0" styleClass="accounts_view_container" text="Quản lý thẻ hội viên">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -85,7 +95,7 @@
             </Pane>
          </left>
          <center>
-            <Pane fx:id="mainContent" prefHeight="710.0" prefWidth="854.0" BorderPane.alignment="CENTER" />
+            <Pane fx:id="mainContent" prefHeight="700.0" prefWidth="1000.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>

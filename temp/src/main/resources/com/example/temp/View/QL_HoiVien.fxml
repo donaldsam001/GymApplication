@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane stylesheets="/com/example/temp/Styles/QLHoiVien.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.temp.Controller.QLHV_Controller">
+    <top>
+        <Label styleClass="header-label" text="Quản lý Hội Viên" />
+    </top>
+
+    <center>
+        <VBox spacing="10" styleClass="main-container">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+
+            <GridPane hgap="10" styleClass="form-grid" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="20" />
+                    <ColumnConstraints percentWidth="30" />
+                    <ColumnConstraints percentWidth="20" />
+                    <ColumnConstraints percentWidth="30" />
+                </columnConstraints>
+
+                <Label text="Mã HV:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="tfCustomerID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                <Label text="Họ tên:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                <TextField fx:id="tfName" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+
+                <Label text="SĐT:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="tfPhone" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <Label text="Giới tính:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <ComboBox fx:id="cbGender" prefHeight="25.0" prefWidth="185.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+
+                <Label text="Lịch tập:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <ComboBox fx:id="cbSchedule" prefHeight="25.0" prefWidth="189.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                <Label text="Tuổi:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <TextField fx:id="tfAge" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+
+                <Label text="Ngày bắt đầu:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <DatePicker fx:id="dpStartDate" prefHeight="25.0" prefWidth="185.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                <Label text="Ngày kết thúc:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                <DatePicker fx:id="dpEndDate" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+            </GridPane>
+
+            <HBox spacing="10" styleClass="button-group">
+                <Button onAction="#handleAdd" styleClass="btn-add" stylesheets="@../Styles/QLHoiVien.css" text="➕ Thêm" />
+                <Button onAction="#handleUpdate" styleClass="btn-update" stylesheets="@../Styles/QLHoiVien.css" text="✏ Cập nhật" />
+                <Button onAction="#handleDelete" styleClass="btn-delete" stylesheets="@../Styles/QLHoiVien.css" text="🗑 Xóa" />
+                <Button onAction="#handleExportList" styleClass="btn-export" stylesheets="@../Styles/QLHoiVien.css" text="📋 Xem danh sách và Xuất file" />
+            </HBox>
+
+            <TableView fx:id="tableView" prefHeight="300.0" stylesheets="@../Styles/QLHoiVien.css">
+                <columns>
+                    <TableColumn fx:id="colCustomerID" text="Mã HV" />
+                    <TableColumn fx:id="colName" text="Họ tên" />
+                    <TableColumn fx:id="colPhone" text="SĐT" />
+                    <TableColumn fx:id="colGender" text="Giới tính" />
+                    <TableColumn fx:id="colSchedule" text="Lịch tập" />
+                    <TableColumn fx:id="colStartDate" text="Ngày bắt đầu" />
+                    <TableColumn fx:id="colEndDate" text="Ngày kết thúc" />
+                    <TableColumn fx:id="colAge" text="Tuổi" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

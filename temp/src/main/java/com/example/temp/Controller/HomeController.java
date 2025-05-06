@@ -1,5 +1,6 @@
 package com.example.temp.Controller;
 
+import com.example.temp.Models.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,19 +24,21 @@ public class HomeController {
     private Button logout;
 
     @FXML
-    private Button btnStatistics;
+    private Button managementMembership;
 
     @FXML
-    private Button managementMembership;
+    private Button btnStatistics;
 
     @FXML
     private Pane topPane;
 
     @FXML
-    private void openMem(ActionEvent event) {
-        // code mở quản lý hội viên
+    public void initialize() {
+        if (!Session.isAdmin) {
+            empManagement.setVisible(false);
+            btnStatistics.setVisible(false);
+        }
     }
-
 
     @FXML
     private void openLogout(ActionEvent event) {
@@ -54,20 +57,48 @@ public class HomeController {
         }
     }
 
-
     @FXML
     private Pane mainContent; // Khu vực hiển thị nội dung
 
-    @FXML
-    private void openSetting(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/setting-view.fxml"));
-            Pane settingPane = loader.load();
-            mainContent.getChildren().setAll(settingPane);
-        } catch (IOException e) {
 
+    @FXML
+    private void openQLHoiVienPage(ActionEvent event){
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/QL_HoiVien.fxml"));            Pane root = loader.load();
+            mainContent.getChildren().setAll(root);        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Không thể mở cửa sổ Quản lý hội viên");
         }
     }
+
+
+
+    @FXML
+    private void openTrainingTime(ActionEvent event){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/Time.fxml"));
+            Pane root = loader.load();
+            mainContent.getChildren().setAll(root);
+        } catch (IOException e) {
+            e.printStackTrace();  // In ra chi tiết lỗi để giúp phát hiện nguyên nhân
+            showAlert("Error", "Không thể mở cửa sổ Quản lý thời gian tập.\n" + e.getMessage());
+        }
+    }
+
+
+    @FXML
+    private void openThe(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/the.fxml"));
+            Pane root = loader.load();
+            mainContent.getChildren().setAll(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Không thể mở cửa sổ Quản lý thẻ.");
+        }
+    }
+
 
     @FXML
     private void openEmpManagement(ActionEvent event) {

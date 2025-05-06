@@ -159,7 +159,7 @@ public class EmployDAO {
 
     public Employee getEmployeeById(int id) {
         getConnection();
-        String sql = "SELECT * FROM employees WHERE id = ?";
+        String sql = "SELECT * FROM Employee WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql))
         {
             stmt.setInt(1, id);

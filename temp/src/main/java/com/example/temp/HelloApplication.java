@@ -14,7 +14,6 @@ public class HelloApplication extends Application {
 //    @Override
 //    public void start(Stage primaryStage) {
 //        db.createDatabase();
-
 //    }
 
     @Override
