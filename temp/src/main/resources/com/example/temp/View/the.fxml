@@ -50,9 +50,6 @@
 
                 <Label text="Kết thúc" GridPane.columnIndex="0" GridPane.rowIndex="2" />
                 <DatePicker fx:id="endDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                <Label text="Giá" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                <TextField fx:id="priceField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <rowConstraints>
                <RowConstraints />
                <RowConstraints />
@@ -70,11 +67,10 @@
 
         <TableView fx:id="cardTableView" prefHeight="300" stylesheets="@../Styles/QLHoiVien.css">
             <columns>
-                <TableColumn fx:id="colCustomerID" text="Mã KH" />
-                <TableColumn fx:id="colStartDate" prefWidth="139.20000457763672" text="Bắt đầu" />
-                <TableColumn fx:id="colEndDate" prefWidth="140.79998779296875" text="Kết thúc" />
-                <TableColumn fx:id="colGoi" prefWidth="102.4000244140625" text="Gói" />
-                <TableColumn fx:id="colPrice" prefWidth="153.59994506835938" text="Giá" />
+                <TableColumn fx:id="colCustomerID" prefWidth="123.20000648498535" text="Mã KH" />
+                <TableColumn fx:id="colStartDate" prefWidth="164.0" text="Bắt đầu" />
+                <TableColumn fx:id="colEndDate" prefWidth="156.79998779296875" text="Kết thúc" />
+                <TableColumn fx:id="colGoi" prefWidth="172.80001831054688" text="Gói" />
             </columns>
         </TableView>
 

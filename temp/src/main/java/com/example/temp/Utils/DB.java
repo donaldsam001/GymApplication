@@ -67,7 +67,6 @@ public class DB {
                                 startDate TEXT,
                                 endDate TEXT,
                                 goi TEXT,
-                                price TEXT,
                                 FOREIGN KEY (packageID) REFERENCES MembershipPackage(packageID)
                     );
                 """);

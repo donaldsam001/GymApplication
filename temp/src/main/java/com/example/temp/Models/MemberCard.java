@@ -9,17 +9,15 @@ public class MemberCard {
     private final SimpleStringProperty startDate;
     private final SimpleStringProperty endDate;
     private final SimpleStringProperty goi;
-    private final SimpleStringProperty price;
 
     public MemberCard(int customerID, int packageID,
-                      String startDate, String endDate, String goi, String price) {
+                      String startDate, String endDate, String goi) {
         this.customerID = new SimpleIntegerProperty(customerID);
         this.packageID = new SimpleIntegerProperty(packageID);
 
         this.startDate = new SimpleStringProperty(startDate);
         this.endDate = new SimpleStringProperty(endDate);
         this.goi = new SimpleStringProperty(goi);
-        this.price = new SimpleStringProperty(price);
     }
 
     public int getCustomerID() {
@@ -62,14 +60,6 @@ public class MemberCard {
         this.goi.set(goi);
     }
 
-    public String getPrice() {
-        return price.get();
-    }
-
-    public void setPrice(String price) {
-        this.price.set(price);
-    }
-
     public SimpleIntegerProperty customerIDProperty() {
         return customerID;
     }
@@ -88,9 +78,5 @@ public class MemberCard {
 
     public SimpleStringProperty goiProperty() {
         return goi;
-    }
-
-    public SimpleStringProperty priceProperty() {
-        return price;
     }
 }

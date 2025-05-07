@@ -1,5 +1,6 @@
 package com.example.temp.Controller;
 
+import com.example.temp.DAO.MemberDAO;
 import com.example.temp.Models.MemberCard;
 import com.example.temp.DAO.MemberCardDAO;
 import javafx.collections.FXCollections;
@@ -20,13 +21,9 @@ public class theController {
 
     @FXML private TableView<MemberCard> cardTableView;
     @FXML private TableColumn<MemberCard, Integer> colCustomerID;
-    @FXML private TableColumn<MemberCard, String> colName;
-    @FXML private TableColumn<MemberCard, String> colPhone;
-    @FXML private TableColumn<MemberCard, String> colGender;
     @FXML private TableColumn<MemberCard, String> colStartDate;
     @FXML private TableColumn<MemberCard, String> colEndDate;
     @FXML private TableColumn<MemberCard, String> colGoi;
-    @FXML private TableColumn<MemberCard, String> colPrice;
 
     private ObservableList<MemberCard> cardList;
 
@@ -36,7 +33,6 @@ public class theController {
         colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         colGoi.setCellValueFactory(new PropertyValueFactory<>("goi"));
-        colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         goiComboBox.setItems(FXCollections.observableArrayList("1 tháng", "4 tháng", "6 tháng", "12 tháng"));
 
@@ -78,15 +74,19 @@ public class theController {
     private void handlePayment() {
         int id = Integer.parseInt(customerIDField.getText());
         String goi = goiComboBox.getValue();
-        String price = priceField.getText();
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
 
-        if (id < 100000 || id > 999999  || goi == null || price.isEmpty() || startDate == null || endDate == null) {
+        if (id < 100000 || id > 999999  || goi == null  || startDate == null || endDate == null) {
             showAlert("Lỗi", "Vui lòng nhập đầy đủ thông tin.");
             return;
         }
 
+        // Kiểm tra mã hội viên đã tồn tại trong cơ sở dữ liệu
+        if (!MemberDAO.isCustomerIDExists(id)) {
+            showAlert("Lỗi", "Mã hội viên không hợp lệ.");
+            return;
+        }
 
         // Check if customerID already exists
         if (MemberCardDAO.isCustomerIDExists(String.valueOf(id))) {
@@ -94,19 +94,21 @@ public class theController {
             return;
         }
 
-        MemberCard card = new MemberCard(id,123456 , startDate.toString(), endDate.toString(), goi, price);
+        // Kiểm tra mã hội viên đã tồn tại trong cơ sở dữ liệu
+        if (MemberDAO.isCustomerIDExists(id)) {
+            MemberCard card = new MemberCard(id,123456 , startDate.toString(), endDate.toString(), goi);
 
-        if (MemberCardDAO.insertMemberCard(card)) {
-            cardList.add(card);
-            showAlert("Thành công", "Đăng ký thẻ thành công.");
-            // Clear the form after successful registration
-            customerIDField.clear();
-            goiComboBox.setValue(null);
-            startDatePicker.setValue(LocalDate.now());
-            endDatePicker.setValue(null);
-            priceField.clear();
-        } else {
-            showAlert("Lỗi", "Không thể đăng ký thẻ. Kiểm tra lỗi: " + MemberCardDAO.getLastError());
+            if (MemberCardDAO.insertMemberCard(card)) {
+                cardList.add(card);
+                showAlert("Thành công", "Đăng ký thẻ thành công.");
+                // Clear the form after successful registration
+                customerIDField.clear();
+                goiComboBox.setValue(null);
+                startDatePicker.setValue(LocalDate.now());
+                endDatePicker.setValue(null);
+            } else {
+                showAlert("Lỗi", "Không thể đăng ký thẻ. Kiểm tra lỗi: " + MemberCardDAO.getLastError());
+            }
         }
     }
 

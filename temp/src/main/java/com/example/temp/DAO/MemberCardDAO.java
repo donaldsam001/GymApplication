@@ -11,7 +11,7 @@ public class MemberCardDAO {
     private static String lastError = ""; // Store the last error message
 
     public static boolean insertMemberCard(MemberCard card) {
-        String sql = "INSERT INTO MemberCard (customerID, packageID, startDate, endDate, goi, price) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO MemberCard (customerID, packageID, startDate, endDate, goi) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, card.getCustomerID());
@@ -19,7 +19,6 @@ public class MemberCardDAO {
             pstmt.setString(3, card.getStartDate());
             pstmt.setString(4, card.getEndDate());
             pstmt.setString(5, card.getGoi());
-            pstmt.setString(6, card.getPrice());
             pstmt.executeUpdate();
             lastError = "";
             return true;
@@ -60,8 +59,7 @@ public class MemberCardDAO {
                         rs.getInt("packageID"),
                         rs.getString("startDate"),
                         rs.getString("endDate"),
-                        rs.getString("goi"),
-                        rs.getString("price")
+                        rs.getString("goi")
                 ));
             }
         } catch (SQLException e) {

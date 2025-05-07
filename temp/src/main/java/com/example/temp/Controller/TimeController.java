@@ -2,116 +2,135 @@ package com.example.temp.Controller;
 
 import com.example.temp.Models.TrainingTime;
 import com.example.temp.DAO.TrainingTimeDAO;
+import com.example.temp.DAO.MemberDAO;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.util.List;
 
 public class TimeController {
 
-    @FXML private TableView<TrainingTime> timeTableView;
-    @FXML private TableColumn<TrainingTime, String> colMemberId;
-    @FXML private TableColumn<TrainingTime, String> colStartDay, colEndDay, colNote;
-
-    @FXML private TextField fieldMemberId, fieldNote;
-    @FXML private Label labelTotal;
+    @FXML private TextField fieldID; // Trường nhập mã hội viên
+    @FXML private TextField fieldNote; // Trường ghi chú khi check-out
+    @FXML private TableView<TrainingTime> timeTableView; // Bảng hiển thị các bản ghi thời gian
+    @FXML private TableColumn<TrainingTime, Integer> colCustomerID; // Cột CustomerID
+    @FXML private TableColumn<TrainingTime, String> colStartDay, colEndDay, colNote; // Các cột thời gian và ghi chú
+    @FXML private Label labelTotal; // Label hiển thị tổng số bản ghi
 
     @FXML
     public void initialize() {
-        colMemberId.setCellValueFactory(new PropertyValueFactory<>("memberId"));
+        // Khởi tạo các cột trong bảng
+        colCustomerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         colStartDay.setCellValueFactory(new PropertyValueFactory<>("checkInTime"));
         colEndDay.setCellValueFactory(new PropertyValueFactory<>("checkOutTime"));
         colNote.setCellValueFactory(new PropertyValueFactory<>("note"));
 
-        loadTrainingTimes();
+        loadTrainingTimes(); // Tải dữ liệu bảng khi khởi tạo
     }
 
+    // Phương thức để tải tất cả bản ghi từ TrainingTime
     private void loadTrainingTimes() {
-        List<TrainingTime> allTrainingTimes = TrainingTimeDAO.getAllTrainingTimes();
-        ObservableList<TrainingTime> updatedList = FXCollections.observableArrayList(allTrainingTimes);
-        timeTableView.setItems(updatedList);
-        labelTotal.setText("Tổng: " + updatedList.size());
+        ObservableList<TrainingTime> updatedList = FXCollections.observableArrayList(TrainingTimeDAO.getAllTrainingTimes());
+        timeTableView.getItems().setAll(updatedList); // Cập nhật lại bảng
+        timeTableView.refresh();
+        labelTotal.setText("Tổng: " + updatedList.size()); // Cập nhật tổng số bản ghi
     }
 
+    // Phương thức xử lý check-in
     @FXML
     private void handleCheckIn() {
-//        String memberId = fieldMemberId.getText().trim();
-//        String note = fieldNote.getText().trim();
-//
-//        if (memberId.isEmpty()) {
-//            showInfo("Vui lòng nhập mã hội viên.");
-//            return;
-//        }
-//
-//        if (TrainingTimeDAO.hasUnfinishedCheckIn(memberId)) {
-//            showInfo("Hội viên này chưa check-out.");
-//            return;
-//        }
-//
-//        String now = getCurrentTime();
-//        String finalNote = note.isEmpty() ? "Check-in lúc " + now : note;
-//
-//        TrainingTime trainingTime = new TrainingTime(memberId, now, null, finalNote);
-//
-//        if (TrainingTimeDAO.insertCheckIn(trainingTime)) {
-//            showInfo("✅ Check-in thành công.");
-//            clearForm();
-//            loadTrainingTimes();
-//            timeTableView.scrollTo(0);
-//        } else {
-//            showInfo("❌ Check-in thất bại.");
-//        }
+        String customerID = fieldID.getText().trim();
+        String note = fieldNote.getText().trim();
+
+        if (customerID.isEmpty()) {
+            showInfo("⚠ Vui lòng nhập mã hội viên.");
+            return;
+        }
+
+        // Kiểm tra mã hội viên có tồn tại trong bảng QLHV
+        if (!isCustomerIDExistsInQLHV(customerID)) {
+            showInfo("⚠ Mã hội viên không tồn tại.");
+            return;
+        }
+
+        // Kiểm tra xem hội viên có đã check-in chưa
+        if (TrainingTimeDAO.hasUnfinishedCheckIn(Integer.parseInt(customerID))) {
+            showInfo("Hội viên này chưa check-out.");
+            return;
+        }
+
+        String checkInTime = getNow();
+        String finalNote = note.isEmpty() ? "Check-in lúc " + checkInTime : note;
+
+        // Tạo đối tượng TrainingTime và lưu vào cơ sở dữ liệu
+        TrainingTime trainingTime = new TrainingTime(Integer.parseInt(customerID), checkInTime, null, finalNote);
+        if (TrainingTimeDAO.insertCheckIn(trainingTime)) {
+            showInfo("✅ Check-in thành công.");
+            clearForm();
+            loadTrainingTimes();
+        } else {
+            showInfo("❌ Check-in thất bại.");
+        }
     }
 
+    // Phương thức xử lý check-out
     @FXML
     private void handleCheckOut() {
-//        String memberId = fieldMemberId.getText().trim();
-//
-//        if (memberId.isEmpty()) {
-//            showInfo("Vui lòng nhập mã hội viên.");
-//            return;
-//        }
-//
-//        String now = getCurrentTime();
-//        String note = "Check-out lúc " + now;
-//
-//        boolean updated = TrainingTimeDAO.insertCheckOut(memberId, now);
-//        boolean noteUpdated = TrainingTimeDAO.updateNoteByMemberId(memberId, note);
-//
-//        if (!updated) {
-//            showInfo("❌ Không tìm thấy bản ghi cần check-out (có thể đã check-out).");
-//            return;
-//        }
-//
-//        if (!noteUpdated) {
-//            showInfo("❌ Không cập nhật được ghi chú.");
-//            return;
-//        }
-//
-//        showInfo("✅ Check-out thành công.\n" + note);
-//        clearForm();
-//        loadTrainingTimes();
-//        timeTableView.scrollTo(0);
+        String customerID = fieldID.getText().trim();
+
+        if (customerID.isEmpty()) {
+            showInfo("⚠ Vui lòng nhập mã hội viên.");
+            return;
+        }
+
+        // Kiểm tra mã hội viên có tồn tại trong bảng QLHV
+        if (!isCustomerIDExistsInQLHV(customerID)) {
+            showInfo("⚠ Mã hội viên không tồn tại.");
+            return;
+        }
+
+        String checkOutTime = getNow();
+        String note = "Check-out lúc " + checkOutTime;
+
+        // Cập nhật thời gian check-out
+        if (TrainingTimeDAO.insertCheckOut(Integer.parseInt(customerID), checkOutTime)) {
+            showInfo("✅ Check-out thành công.\n" + note);
+            clearForm();
+            loadTrainingTimes();
+        } else {
+            showInfo("❌ Không tìm thấy bản ghi để check-out.");
+        }
     }
 
-    private void clearForm() {
-        fieldMemberId.clear();
-        fieldNote.clear();
+    // Kiểm tra mã hội viên trong bảng QLHV
+    private boolean isCustomerIDExistsInQLHV(String customerID) {
+        return MemberDAO.getAllMembers().stream()
+                .anyMatch(member -> member.getCustomerID() == Integer.parseInt(customerID)); // Kiểm tra sự tồn tại của customerID
     }
 
-    private String getCurrentTime() {
+    // Lấy thời gian hiện tại
+    private String getNow() {
         return java.time.LocalDateTime.now()
                 .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
-    private void showInfo(String message) {
+    // Phương thức để hiển thị thông báo cho người dùng
+    private void showInfo(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Thông báo");
         alert.setHeaderText(null);
-        alert.setContentText(message);
+        alert.setContentText(msg);
         alert.showAndWait();
+    }
+
+    // Làm sạch các trường nhập liệu sau khi check-in/check-out
+    private void clearForm() {
+        fieldID.clear();
+        fieldNote.clear();
     }
 }

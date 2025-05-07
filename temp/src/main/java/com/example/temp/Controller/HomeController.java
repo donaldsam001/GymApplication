@@ -32,8 +32,10 @@ public class HomeController {
     @FXML
     public void initialize() {
         if (!Session.isAdmin) {
+            vbox1.setVisible(false);
             empManagement.setVisible(false);
             btnStatistics.setVisible(false);
+
         }
     }
 

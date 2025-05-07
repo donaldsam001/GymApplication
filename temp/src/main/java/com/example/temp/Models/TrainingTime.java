@@ -1,26 +1,26 @@
 package com.example.temp.Models;
 
 public class TrainingTime {
-    private int id;
-    private String checkInTime;
-    private String checkOutTime;
-    private String note;  // Thêm trường note
+    private int customerID; // Mã hội viên
+    private String checkInTime; // Thời gian check-in
+    private String checkOutTime; // Thời gian check-out
+    private String note; // Ghi chú
 
     // Constructor
-    public TrainingTime(int id, String checkInTime, String checkOutTime, String note) {
-        this.id = id;
+    public TrainingTime(int customerID, String checkInTime, String checkOutTime, String note) {
+        this.customerID = customerID;
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
         this.note = note;
     }
 
-    // Getters và Setters
-    public int getId() {
-        return id;
+    // Getter and Setter methods
+    public int getCustomerID() {
+        return customerID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
     }
 
     public String getCheckInTime() {
@@ -39,7 +39,7 @@ public class TrainingTime {
         this.checkOutTime = checkOutTime;
     }
 
-    public String getNote() {  // Phương thức getter cho note
+    public String getNote() {
         return note;
     }
 
@@ -47,4 +47,3 @@ public class TrainingTime {
         this.note = note;
     }
 }
-

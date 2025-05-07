@@ -1,4 +1,3 @@
-
 package com.example.temp.Controller;
 
 import com.example.temp.DAO.MemberDAO;
@@ -13,7 +12,6 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.util.List;
 
 public class QLHV_Controller {
@@ -22,7 +20,6 @@ public class QLHV_Controller {
     @FXML private TextField tfPhone;
     @FXML private ComboBox<String> cbGender;
     @FXML private TextField tfAge;
-
 
     @FXML private TableView<Member> tableView;
     @FXML private TableColumn<Member, Integer> colCustomerID;
@@ -50,11 +47,24 @@ public class QLHV_Controller {
         Member member = getFormData();
         if (member == null) return;
 
-        MemberDAO.addMember(member);
-        showAlert("✅ Thêm hội viên thành công!");
-        loadMembers();
-        clearForm();
+        int id = member.getCustomerID();
+
+        // Kiểm tra mã hội viên đã tồn tại trong cơ sở dữ liệu
+        if (MemberDAO.isCustomerIDExists(id)) {
+            showAlert("⚠ Mã hội viên này đã tồn tại.");
+            return;
+        }
+
+        // Thêm vào CSDL
+        if (MemberDAO.addMember(member)) {
+            showAlert("✅ Thêm hội viên thành công!");
+            loadMembers();
+            clearForm();
+        } else {
+            showAlert("❌ Thêm hội viên thất bại.");
+        }
     }
+
 
     @FXML
     private void handleUpdate() {
@@ -77,7 +87,7 @@ public class QLHV_Controller {
     private void handleDelete() {
         Member selected = tableView.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            MemberDAO.deleteMember((selected.getCustomerID()));
+            MemberDAO.deleteMember(selected.getCustomerID());
             showAlert("🗑 Đã xóa hội viên!");
             loadMembers();
             clearForm();
@@ -99,7 +109,7 @@ public class QLHV_Controller {
 
     private void exportToCSV(File file) {
         try (FileWriter writer = new FileWriter(file)) {
-            writer.write("ID, Họ tên, SĐT, Giới tính, Lịch tập, Ngày bắt đầu, Ngày kết thúc, Tuổi\n");
+            writer.write("ID, Họ tên, SĐT, Giới tính, Tuổi\n");
             for (Member m : memberList) {
                 writer.write(String.format("%s,%s,%s,%s,%d\n",
                         m.getCustomerID(), m.getName(), m.getPhone(), m.getGender(), m.getAge()));
@@ -117,24 +127,43 @@ public class QLHV_Controller {
     }
 
     private Member getFormData() {
-        try {
-            int id = Integer.parseInt(tfCustomerID.getText());
-            String name = tfName.getText();
-            String phone = tfPhone.getText();
-            String gender = cbGender.getValue();
-            int age = Integer.parseInt(tfAge.getText());
+        String idText = tfCustomerID.getText();
+        String name = tfName.getText();
+        String phone = tfPhone.getText();
+        String gender = cbGender.getValue();
+        String ageText = tfAge.getText();
 
-            if (id < 100000 || id > 999999 || name.isEmpty() || phone.isEmpty() || gender == null ) {
-                showAlert("⚠ Vui lòng nhập đầy đủ thông tin!");
+        // Kiểm tra rỗng
+        if (idText.isEmpty() || name.isEmpty() || phone.isEmpty() || gender == null || ageText.isEmpty()) {
+            showAlert("⚠ Vui lòng nhập đầy đủ thông tin!");
+            return null;
+        }
+
+        try {
+            int id = Integer.parseInt(idText);
+            if (id < 100000 || id > 999999) {
+                showAlert("⚠ Mã hội viên phải gồm đúng 6 chữ số!");
+                return null;
+            }
+
+            if (!phone.matches("\\d{10}")) {
+                showAlert("⚠ Số điện thoại phải gồm đúng 10 chữ số!");
+                return null;
+            }
+
+            int age = Integer.parseInt(ageText);
+            if (age <= 0) {
+                showAlert("⚠ Tuổi phải lớn hơn 0!");
                 return null;
             }
 
             return new Member(id, name, phone, gender, age);
         } catch (NumberFormatException e) {
-            showAlert("⚠ Tuổi phải là số!");
+            showAlert("⚠ Mã hội viên và tuổi phải là số!");
             return null;
         }
     }
+
 
     private void handleTableClick(MouseEvent event) {
         Member selected = tableView.getSelectionModel().getSelectedItem();
@@ -161,5 +190,11 @@ public class QLHV_Controller {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    // Kiểm tra sự tồn tại của mã hội viên trong cơ sở dữ liệu
+    private boolean isCustomerIDExistsInQLHV(int customerID) {
+        return MemberDAO.getAllMembers().stream()
+                .anyMatch(member -> member.getCustomerID() == customerID);
     }
 }

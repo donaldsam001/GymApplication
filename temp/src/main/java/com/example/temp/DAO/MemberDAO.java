@@ -4,72 +4,112 @@ import com.example.temp.Models.Member;
 import com.example.temp.Utils.SQLiteConnection;
 
 import java.sql.*;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MemberDAO {
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
 
+    // Thêm hội viên vào cơ sở dữ liệu
+    public static boolean addMember(Member member) {
+        String sql = "INSERT INTO MemberDetail (customerID, name, phone, gender, age) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = SQLiteConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Set các giá trị vào PreparedStatement
+            stmt.setInt(1, member.getCustomerID());
+            stmt.setString(2, member.getName());
+            stmt.setString(3, member.getPhone());
+            stmt.setString(4, member.getGender());
+            stmt.setInt(5, member.getAge());
+
+            // Thực thi câu lệnh SQL
+            int rowsAffected = stmt.executeUpdate();
+
+            // Kiểm tra nếu có dòng bị ảnh hưởng (nghĩa là thêm thành công)
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("❌ Lỗi khi thêm hội viên: " + e.getMessage());
+            return false; // Nếu có lỗi, trả về false
+        }
+    }
+
+    // Cập nhật thông tin hội viên trong cơ sở dữ liệu
+    public static boolean updateMember(Member member) {
+        String sql = "UPDATE MemberDetail SET name = ?, phone = ?, gender = ?, age = ? WHERE customerID = ?";
+
+        try (Connection conn = SQLiteConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, member.getName());
+            stmt.setString(2, member.getPhone());
+            stmt.setString(3, member.getGender());
+            stmt.setInt(4, member.getAge());
+            stmt.setInt(5, member.getCustomerID());
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu cập nhật thành công
+        } catch (SQLException e) {
+            System.out.println("❌ Lỗi khi cập nhật hội viên: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // Xóa hội viên khỏi cơ sở dữ liệu
+    public static boolean deleteMember(int customerID) {
+        String sql = "DELETE FROM MemberDetail WHERE customerID = ?";
+
+        try (Connection conn = SQLiteConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, customerID);
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu xóa thành công
+        } catch (SQLException e) {
+            System.out.println("❌ Lỗi khi xóa hội viên: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // Lấy tất cả hội viên từ cơ sở dữ liệu
     public static List<Member> getAllMembers() {
         List<Member> members = new ArrayList<>();
         String sql = "SELECT * FROM MemberDetail";
+
         try (Connection conn = SQLiteConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
+
             while (rs.next()) {
-                members.add(new Member(
-                        rs.getInt("customerID"),
-                        rs.getString("name"),
-                        rs.getString("phone"),
-                        rs.getString("gender"),
-                        rs.getInt("age")
-                ));
+                int customerID = rs.getInt("customerID");
+                String name = rs.getString("name");
+                String phone = rs.getString("phone");
+                String gender = rs.getString("gender");
+                int age = rs.getInt("age");
+
+                members.add(new Member(customerID, name, phone, gender, age));
             }
         } catch (SQLException e) {
-            System.err.println("Error fetching members: " + e.getMessage());
+            System.out.println("❌ Lỗi khi lấy danh sách hội viên: " + e.getMessage());
         }
         return members;
     }
 
-    public static void addMember(Member member) {
-        String sql = "INSERT INTO MemberDetail (customerID, name, phone, gender, age) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = SQLiteConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, member.getCustomerID());
-            pstmt.setString(2, member.getName());
-            pstmt.setString(3, member.getPhone());
-            pstmt.setString(4, member.getGender());
-            pstmt.setInt(5, member.getAge());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Error adding member: " + e.getMessage());
-        }
-    }
+    // Kiểm tra xem mã hội viên đã tồn tại trong cơ sở dữ liệu chưa
+    public static boolean isCustomerIDExists(int customerID) {
+        String sql = "SELECT 1 FROM MemberDetail WHERE customerID = ?";
 
-    public static void updateMember(Member member) {
-        String sql = "UPDATE MemberDetail SET name=?, phone=?, gender=?, age=? WHERE customerID=?";
         try (Connection conn = SQLiteConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, member.getName());
-            pstmt.setString(2, member.getPhone());
-            pstmt.setString(3, member.getGender());
-            pstmt.setInt(4, member.getAge());
-            pstmt.setInt(5, member.getCustomerID());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Error updating member: " + e.getMessage());
-        }
-    }
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-    public static void deleteMember(int customerID) {
-        String sql = "DELETE FROM MemberDetail WHERE customerID = ?";
-        try (Connection conn = SQLiteConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, customerID);
-            pstmt.executeUpdate();
+            stmt.setInt(1, customerID);
+            ResultSet rs = stmt.executeQuery();
+
+            return rs.next(); // Nếu có bản ghi trả về true
         } catch (SQLException e) {
-            System.err.println("Error deleting member: " + e.getMessage());
+            System.out.println("❌ Lỗi khi kiểm tra mã hội viên: " + e.getMessage());
+            return false;
         }
     }
 }
