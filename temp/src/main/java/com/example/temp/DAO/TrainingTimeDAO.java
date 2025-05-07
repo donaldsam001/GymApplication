@@ -30,8 +30,8 @@ public class TrainingTimeDAO {
 
     // Cập nhật check-out time cho hội viên
     public static boolean insertCheckOut(int customerID, String checkOutTime) {
-        String sqlSelect = "SELECT MAX(id) AS lastId FROM TrainingTime WHERE customerID = ? AND checkOutTime IS NULL";
-        String sqlUpdate = "UPDATE TrainingTime SET checkOutTime = ? WHERE id = ?";
+        String sqlSelect = "SELECT MAX(customerID) AS lastId FROM TrainingTime WHERE customerID = ? AND checkOutTime IS NULL";
+        String sqlUpdate = "UPDATE TrainingTime SET checkOutTime = ? WHERE customerID = ?";
 
         try (Connection conn = SQLiteConnection.getConnection();
              PreparedStatement stmtSelect = conn.prepareStatement(sqlSelect)) {
@@ -79,7 +79,7 @@ public class TrainingTimeDAO {
     // Lấy tất cả bản ghi TrainingTime từ cơ sở dữ liệu
     public static List<TrainingTime> getAllTrainingTimes() {
         List<TrainingTime> list = new ArrayList<>();
-        String sql = "SELECT * FROM TrainingTime ORDER BY id DESC";
+        String sql = "SELECT * FROM TrainingTime ORDER BY customerID DESC";
 
         try (Connection conn = SQLiteConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -101,7 +101,7 @@ public class TrainingTimeDAO {
 
     // Lấy ID tiếp theo cho bản ghi mới
     public static int getNextId() {
-        String sql = "SELECT MAX(id) + 1 AS nextId FROM TrainingTime";
+        String sql = "SELECT MAX(customerID) + 1 AS nextId FROM TrainingTime";
 
         try (Connection conn = SQLiteConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);

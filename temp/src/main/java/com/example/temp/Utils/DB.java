@@ -28,7 +28,7 @@ public class DB {
                 // Membership package table
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS Membership_package (
-                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                id INTEGER PRIMARY KEY ,
                                 name TEXT NOT NULL,
                                 price REAL NOT NULL,
                                 description TEXT,
@@ -41,7 +41,7 @@ public class DB {
                 // Equipment table
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS Equipment (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        id INTEGER PRIMARY KEY ,
                         name TEXT NOT NULL,
                         description TEXT,
                         repairNote TEXT, 
@@ -73,7 +73,7 @@ public class DB {
 
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS TrainingTime (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        customerID INTEGER PRIMARY KEY ,
                         checkInTime TEXT,
                         checkOutTime TEXT,
                         note TEXT

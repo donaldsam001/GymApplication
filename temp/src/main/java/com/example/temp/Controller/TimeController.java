@@ -44,22 +44,22 @@ public class TimeController {
     // Phương thức xử lý check-in
     @FXML
     private void handleCheckIn() {
-        String customerID = fieldID.getText().trim();
+        int id = Integer.parseInt(fieldID.getText());
         String note = fieldNote.getText().trim();
 
-        if (customerID.isEmpty()) {
+        if (id < 100000 || id > 999999) {
             showInfo("⚠ Vui lòng nhập mã hội viên.");
             return;
         }
 
         // Kiểm tra mã hội viên có tồn tại trong bảng QLHV
-        if (!isCustomerIDExistsInQLHV(customerID)) {
+        if (!isCustomerIDExistsInQLHV(id)) {
             showInfo("⚠ Mã hội viên không tồn tại.");
             return;
         }
 
         // Kiểm tra xem hội viên có đã check-in chưa
-        if (TrainingTimeDAO.hasUnfinishedCheckIn(Integer.parseInt(customerID))) {
+        if (TrainingTimeDAO.hasUnfinishedCheckIn(id)) {
             showInfo("Hội viên này chưa check-out.");
             return;
         }
@@ -68,7 +68,7 @@ public class TimeController {
         String finalNote = note.isEmpty() ? "Check-in lúc " + checkInTime : note;
 
         // Tạo đối tượng TrainingTime và lưu vào cơ sở dữ liệu
-        TrainingTime trainingTime = new TrainingTime(Integer.parseInt(customerID), checkInTime, null, finalNote);
+        TrainingTime trainingTime = new TrainingTime(id, checkInTime, null, finalNote);
         if (TrainingTimeDAO.insertCheckIn(trainingTime)) {
             showInfo("✅ Check-in thành công.");
             clearForm();
@@ -81,9 +81,9 @@ public class TimeController {
     // Phương thức xử lý check-out
     @FXML
     private void handleCheckOut() {
-        String customerID = fieldID.getText().trim();
+        int customerID = Integer.parseInt(fieldID.getText());
 
-        if (customerID.isEmpty()) {
+        if (customerID < 100000 || customerID > 999999) {
             showInfo("⚠ Vui lòng nhập mã hội viên.");
             return;
         }
@@ -98,7 +98,7 @@ public class TimeController {
         String note = "Check-out lúc " + checkOutTime;
 
         // Cập nhật thời gian check-out
-        if (TrainingTimeDAO.insertCheckOut(Integer.parseInt(customerID), checkOutTime)) {
+        if (TrainingTimeDAO.insertCheckOut(customerID, checkOutTime)) {
             showInfo("✅ Check-out thành công.\n" + note);
             clearForm();
             loadTrainingTimes();
@@ -107,11 +107,10 @@ public class TimeController {
         }
     }
 
-    // Kiểm tra mã hội viên trong bảng QLHV
-    private boolean isCustomerIDExistsInQLHV(String customerID) {
-        return MemberDAO.getAllMembers().stream()
-                .anyMatch(member -> member.getCustomerID() == Integer.parseInt(customerID)); // Kiểm tra sự tồn tại của customerID
+    private boolean isCustomerIDExistsInQLHV(int customerID) {
+        return MemberDAO.isCustomerIDExists(customerID);
     }
+
 
     // Lấy thời gian hiện tại
     private String getNow() {

@@ -104,8 +104,8 @@ public class MemberDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, customerID);
-            ResultSet rs = stmt.executeQuery();
 
+            ResultSet rs = stmt.executeQuery();
             return rs.next(); // Nếu có bản ghi trả về true
         } catch (SQLException e) {
             System.out.println("❌ Lỗi khi kiểm tra mã hội viên: " + e.getMessage());
