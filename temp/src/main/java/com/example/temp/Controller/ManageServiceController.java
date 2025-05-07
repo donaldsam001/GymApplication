@@ -96,8 +96,10 @@ public class ManageServiceController {
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colExpDate.setCellValueFactory(new PropertyValueFactory<>("exp"));
-        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-
+        colStatus.setCellValueFactory(cellData -> {
+            boolean status = cellData.getValue().getStatus();
+            return new ReadOnlyStringWrapper(status ? "Đang hoạt động" : "Không hoạt động");
+        });
         listPackage.setItems(packageList);
     }
 
@@ -107,7 +109,10 @@ public class ManageServiceController {
         colDescriptionDel.setCellValueFactory(new PropertyValueFactory<>("description"));
         colExpDateDel.setCellValueFactory(new PropertyValueFactory<>("exp"));
         colPriceDel.setCellValueFactory(new PropertyValueFactory<>("price"));
-        colStatusDel.setCellValueFactory(new PropertyValueFactory<>("status"));
+        colStatusDel.setCellValueFactory(cellData -> {
+            boolean status = cellData.getValue().getStatus();
+            return new ReadOnlyStringWrapper(status ? "Đang hoạt động" : "Không hoạt động");
+        });
         colDel.setCellFactory(param -> new TableCell<>() {
             private final Button deleteBtn = new Button("Xóa");
             {

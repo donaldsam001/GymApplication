@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.temp.Controller.theController">
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.theController">
     <VBox spacing="15" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
 
         <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2a5058;" text="QUẢN LÝ THẺ HỘI VIÊN" />
@@ -28,15 +28,6 @@
 
                 <Label text="Mã KH" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                 <TextField fx:id="customerIDField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-                <Label text="Họ tên" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                <Label text="SĐT" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                <Label text="Giới tính" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                <ComboBox fx:id="genderComboBox" prefWidth="180" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <rowConstraints>
                <RowConstraints />
                <RowConstraints />
@@ -80,13 +71,10 @@
         <TableView fx:id="cardTableView" prefHeight="300" stylesheets="@../Styles/QLHoiVien.css">
             <columns>
                 <TableColumn fx:id="colCustomerID" text="Mã KH" />
-                <TableColumn fx:id="colName" text="Họ tên" />
-                <TableColumn fx:id="colPhone" text="SĐT" />
-                <TableColumn fx:id="colGender" text="Giới tính" />
-                <TableColumn fx:id="colStartDate" text="Bắt đầu" />
-                <TableColumn fx:id="colEndDate" text="Kết thúc" />
-                <TableColumn fx:id="colGoi" text="Gói" />
-                <TableColumn fx:id="colPrice" text="Giá" />
+                <TableColumn fx:id="colStartDate" prefWidth="139.20000457763672" text="Bắt đầu" />
+                <TableColumn fx:id="colEndDate" prefWidth="140.79998779296875" text="Kết thúc" />
+                <TableColumn fx:id="colGoi" prefWidth="102.4000244140625" text="Gói" />
+                <TableColumn fx:id="colPrice" prefWidth="153.59994506835938" text="Giá" />
             </columns>
         </TableView>
 

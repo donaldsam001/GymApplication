@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -27,7 +26,6 @@
             <Image url="@../../../../../../../../../iconkhoa.png" />
          </image>
       </ImageView>
-      <CheckBox fx:id="adminButton" layoutX="413.0" layoutY="230.0" mnemonicParsing="false" text="Quản trị viên" />
       <Pane layoutX="234.0" layoutY="121.0" prefHeight="102.0" prefWidth="329.0">
          <children>
             <Label layoutX="-1.0" layoutY="11.0" text="Tên đăng nhập:">
@@ -44,12 +42,11 @@
             <PasswordField fx:id="password" layoutX="139.0" layoutY="62.0" />
          </children>
       </Pane>
-      <Pane layoutX="301.0" layoutY="263.0" prefHeight="93.0" prefWidth="194.0">
+      <Pane layoutX="301.0" layoutY="230.0" prefHeight="93.0" prefWidth="194.0">
          <children>
             <Button fx:id="loginButton" layoutX="24.0" layoutY="13.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: #3567ff;" text="Đăng nhập" textFill="WHITE" />
             <Button fx:id="cancelButton" layoutX="25.0" layoutY="51.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: #3567ff;" text="Hủy" textFill="WHITE" />
          </children>
       </Pane>
-      <CheckBox fx:id="empButton" layoutX="299.0" layoutY="230.0" mnemonicParsing="false" text="Nhân viên" />
    </children>
 </AnchorPane>

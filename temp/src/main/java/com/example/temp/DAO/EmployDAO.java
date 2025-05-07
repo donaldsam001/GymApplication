@@ -87,12 +87,12 @@ public class EmployDAO {
 
     public void updateEmployee(Employee employee) {
         getConnection();
-        String sql = "UPDATE Employee SET name = ?, phone = ?, role = ? WHERE id = ?";
+        String sql = "UPDATE Employee SET name = ?, phone = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, employee.getName());
             stmt.setString(2, employee.getPhone());
 
-            stmt.setInt(4, employee.getId());
+            stmt.setInt(3, employee.getId());
             stmt.executeUpdate();
             logger.info("Updated Employee successfully.");
         } catch (SQLException e) {

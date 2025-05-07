@@ -13,17 +13,15 @@ import java.util.List;
 public class TimeController {
 
     @FXML private TableView<TrainingTime> timeTableView;
-    @FXML private TableColumn<TrainingTime, Integer> colCustomerID;
-    @FXML private TableColumn<TrainingTime, String> colName, colPhone, colStartDay, colEndDay, colNote;
+    @FXML private TableColumn<TrainingTime, String> colMemberId;
+    @FXML private TableColumn<TrainingTime, String> colStartDay, colEndDay, colNote;
 
-    @FXML private TextField fieldID, fieldName, fieldPhone, fieldNote;
+    @FXML private TextField fieldMemberId, fieldNote;
     @FXML private Label labelTotal;
 
     @FXML
     public void initialize() {
-        colCustomerID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        colMemberId.setCellValueFactory(new PropertyValueFactory<>("memberId"));
         colStartDay.setCellValueFactory(new PropertyValueFactory<>("checkInTime"));
         colEndDay.setCellValueFactory(new PropertyValueFactory<>("checkOutTime"));
         colNote.setCellValueFactory(new PropertyValueFactory<>("note"));
@@ -34,102 +32,86 @@ public class TimeController {
     private void loadTrainingTimes() {
         List<TrainingTime> allTrainingTimes = TrainingTimeDAO.getAllTrainingTimes();
         ObservableList<TrainingTime> updatedList = FXCollections.observableArrayList(allTrainingTimes);
-        timeTableView.getItems().setAll(updatedList);
-        timeTableView.refresh();
+        timeTableView.setItems(updatedList);
         labelTotal.setText("Tổng: " + updatedList.size());
     }
 
     @FXML
     private void handleCheckIn() {
-        String name = fieldName.getText().trim();
-        String phone = fieldPhone.getText().trim();
-        String note = fieldNote.getText().trim();
-        int id;
-
-        if (name.isEmpty() || phone.isEmpty()) {
-            showInfo("Vui lòng nhập đủ Tên và SĐT.");
-            return;
-        }
-
-        if (TrainingTimeDAO.hasUnfinishedCheckIn(phone)) {
-            showInfo("Hội viên này chưa check-out.");
-            return;
-        }
-
-        if (fieldID.getText().trim().isEmpty()) {
-            id = TrainingTimeDAO.getNextId();
-        } else {
-            try {
-                id = Integer.parseInt(fieldID.getText().trim());
-            } catch (NumberFormatException e) {
-                showInfo("ID không hợp lệ. Vui lòng nhập số.");
-                return;
-            }
-        }
-
-        String now = getNow();
-        String finalNote = note.isEmpty() ? "Check-in lúc " + now : note;
-
-        TrainingTime time = new TrainingTime(id, name, phone, now, null, finalNote);
-
-        if (TrainingTimeDAO.insertCheckIn(time)) {
-            showInfo("Check-in thành công.");
-            clearForm();
-            loadTrainingTimes();
-            timeTableView.scrollTo(0);
-        } else {
-            showInfo("Check-in thất bại.");
-        }
+//        String memberId = fieldMemberId.getText().trim();
+//        String note = fieldNote.getText().trim();
+//
+//        if (memberId.isEmpty()) {
+//            showInfo("Vui lòng nhập mã hội viên.");
+//            return;
+//        }
+//
+//        if (TrainingTimeDAO.hasUnfinishedCheckIn(memberId)) {
+//            showInfo("Hội viên này chưa check-out.");
+//            return;
+//        }
+//
+//        String now = getCurrentTime();
+//        String finalNote = note.isEmpty() ? "Check-in lúc " + now : note;
+//
+//        TrainingTime trainingTime = new TrainingTime(memberId, now, null, finalNote);
+//
+//        if (TrainingTimeDAO.insertCheckIn(trainingTime)) {
+//            showInfo("✅ Check-in thành công.");
+//            clearForm();
+//            loadTrainingTimes();
+//            timeTableView.scrollTo(0);
+//        } else {
+//            showInfo("❌ Check-in thất bại.");
+//        }
     }
 
     @FXML
     private void handleCheckOut() {
-        String phone = fieldPhone.getText().trim();
-
-        if (phone.isEmpty()) {
-            showInfo("Vui lòng nhập SĐT.");
-            return;
-        }
-
-        String now = getNow();
-        String note = "Check-out lúc " + now;
-
-        boolean updated = TrainingTimeDAO.insertCheckOut(phone, now);
-        boolean noteSaved = TrainingTimeDAO.updateNoteByPhone(phone, note);
-
-        if (!updated) {
-            showInfo("❌ Không tìm thấy bản ghi cần check-out (có thể đã check-out).");
-            return;
-        }
-
-        if (!noteSaved) {
-            showInfo("❌ Không cập nhật được ghi chú (có thể bản ghi đã bị thay đổi).");
-            return;
-        }
-
-        showInfo("✅ Check-out thành công.\n" + note);
-        clearForm();
-        loadTrainingTimes();
-        timeTableView.scrollTo(0);
+//        String memberId = fieldMemberId.getText().trim();
+//
+//        if (memberId.isEmpty()) {
+//            showInfo("Vui lòng nhập mã hội viên.");
+//            return;
+//        }
+//
+//        String now = getCurrentTime();
+//        String note = "Check-out lúc " + now;
+//
+//        boolean updated = TrainingTimeDAO.insertCheckOut(memberId, now);
+//        boolean noteUpdated = TrainingTimeDAO.updateNoteByMemberId(memberId, note);
+//
+//        if (!updated) {
+//            showInfo("❌ Không tìm thấy bản ghi cần check-out (có thể đã check-out).");
+//            return;
+//        }
+//
+//        if (!noteUpdated) {
+//            showInfo("❌ Không cập nhật được ghi chú.");
+//            return;
+//        }
+//
+//        showInfo("✅ Check-out thành công.\n" + note);
+//        clearForm();
+//        loadTrainingTimes();
+//        timeTableView.scrollTo(0);
     }
 
     private void clearForm() {
-        fieldID.clear();
-        fieldName.clear();
-        fieldPhone.clear();
+        fieldMemberId.clear();
         fieldNote.clear();
     }
 
-    private String getNow() {
+    private String getCurrentTime() {
         return java.time.LocalDateTime.now()
                 .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
-    private void showInfo(String msg) {
+    private void showInfo(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Thông báo");
         alert.setHeaderText(null);
-        alert.setContentText(msg);
+        alert.setContentText(message);
         alert.showAndWait();
     }
 }

@@ -39,8 +39,6 @@ public class Employee {
         this.password = password;
     }
 
-
-
     public String getPhone() {
         return phone;
     }

@@ -23,14 +23,11 @@ public class HomeController {
     @FXML
     private Button logout;
 
-    @FXML
-    private Button managementMembership;
+    @FXML private Button managementMembership;
 
-    @FXML
-    private Button btnStatistics;
+    @FXML private Button btnStatistics;
 
-    @FXML
-    private Pane topPane;
+    @FXML private Pane topPane;
 
     @FXML
     public void initialize() {
@@ -60,7 +57,6 @@ public class HomeController {
     @FXML
     private Pane mainContent; // Khu vực hiển thị nội dung
 
-
     @FXML
     private void openQLHoiVienPage(ActionEvent event){
         try {
@@ -71,8 +67,6 @@ public class HomeController {
             showAlert("Error", "Không thể mở cửa sổ Quản lý hội viên");
         }
     }
-
-
 
     @FXML
     private void openTrainingTime(ActionEvent event){
@@ -86,7 +80,6 @@ public class HomeController {
         }
     }
 
-
     @FXML
     private void openThe(ActionEvent event) {
         try {
@@ -99,7 +92,6 @@ public class HomeController {
         }
     }
 
-
     @FXML
     private void openEmpManagement(ActionEvent event) {
         try {
@@ -111,7 +103,6 @@ public class HomeController {
             showAlert("Error", "Không thể mở trang.");
         }
     }
-
 
     @FXML
     private void openDeviceManagement(ActionEvent event) {

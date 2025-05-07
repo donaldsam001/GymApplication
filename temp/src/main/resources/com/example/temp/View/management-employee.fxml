@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="620.0" prefWidth="1001.0" stylesheets="@../Styles/service.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.ManagementEmployeeController">
+<AnchorPane stylesheets="@../Styles/service.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.ManagementEmployeeController">
     <children>
-        <ScrollPane layoutX="0.8" prefHeight="432.0" prefWidth="804.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+        <ScrollPane layoutX="0.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <content>
-                <TabPane fx:id="tabPane" prefHeight="618.0" prefWidth="998.0" tabClosingPolicy="UNAVAILABLE">
+                <TabPane fx:id="tabPane" prefHeight="700.0" prefWidth="1100.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
                         <Tab text="Thêm nhân viên">
                             <content>
@@ -46,16 +46,16 @@
                         </Tab>
                         <Tab fx:id="tabView" text="Xem danh sách nhân viên">
                             <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="1100.0">
                                     <children>
-                                        <TableView fx:id="tableView" layoutX="26.0" layoutY="106.0" prefHeight="424.0" prefWidth="946.0">
+                                        <TableView fx:id="tableView" layoutX="100.0" layoutY="100.0" prefHeight="500.0" prefWidth="900.0">
                                             <columns>
                                                 <TableColumn fx:id="colID" prefWidth="183.20000839233398" text="Mã nhân viên" />
                                                 <TableColumn fx:id="colName" minWidth="8.79998779296875" prefWidth="436.8000030517578" text="Tên nhân viên" />
                                                 <TableColumn fx:id="colPhone" prefWidth="316.79998779296875" text="Số điện thoại" />
                                             </columns>
                                         </TableView>
-                              <TextField fx:id="inputSearch" layoutX="26.0" layoutY="33.0" minWidth="30.0" prefHeight="40.0" prefWidth="165.0" promptText="Tìm kiếm" />
+                              <TextField fx:id="inputSearch" layoutX="100.0" layoutY="35.0" minWidth="30.0" prefHeight="40.0" prefWidth="165.0" promptText="Tìm kiếm" />
                                     </children>
                                 </AnchorPane>
                             </content>
@@ -63,10 +63,10 @@
 
                         <Tab fx:id="tabUp" text="Cập nhật thông tin  viên">
                             <content>
-                                <AnchorPane prefHeight="386.0" prefWidth="768.0">
+                                <AnchorPane prefHeight="700.0" prefWidth="1100.0">
                                     <children>
-                                        <TextField fx:id="inputSearchUp" layoutX="36.0" layoutY="36.0" prefHeight="26.0" prefWidth="142.0" promptText="Tìm kiếm" />
-                                        <TableView fx:id="tableUp" layoutX="36.0" layoutY="106.0" prefHeight="418.0" prefWidth="926.0">
+                                        <TextField fx:id="inputSearchUp" layoutX="100.0" layoutY="35.0" prefHeight="26.0" prefWidth="100.0" promptText="Tìm kiếm" />
+                                        <TableView fx:id="tableUp" layoutX="100.0" layoutY="100.0" prefHeight="500.0" prefWidth="900.0">
                                             <columns>
                                                 <TableColumn fx:id="colIDUp" prefWidth="166.3999900817871" text="Mã nhân viên" />
                                                 <TableColumn fx:id="colNameUp" minWidth="8.79998779296875" prefWidth="451.99998474121094" text="Tên nhân viên" />
@@ -81,8 +81,8 @@
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0">
                                     <children>
-                                        <TextField fx:id="inputSearchDel" layoutX="36.0" layoutY="41.0" minWidth="80.0" prefHeight="26.0" prefWidth="108.0" promptText="Tìm kiếm" />
-                                        <TableView fx:id="tableDel" layoutX="36.0" layoutY="121.0" prefHeight="417.0" prefWidth="926.0">
+                                        <TextField fx:id="inputSearchDel" layoutX="100.0" layoutY="35.0" minWidth="80.0" prefHeight="26.0" prefWidth="100.0" promptText="Tìm kiếm" />
+                                        <TableView fx:id="tableDel" layoutX="100.0" layoutY="100.0" prefHeight="500.0" prefWidth="900.0">
                                             <columns>
                                                 <TableColumn fx:id="colIDDel" prefWidth="141.59999465942383" text="Mã nhân viên" />
                                                 <TableColumn fx:id="colNameDel" minWidth="8.79998779296875" prefWidth="361.59999084472656" text="Tên nhân viên" />

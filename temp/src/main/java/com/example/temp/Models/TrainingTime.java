@@ -2,17 +2,13 @@ package com.example.temp.Models;
 
 public class TrainingTime {
     private int id;
-    private String name;
-    private String phone;
     private String checkInTime;
     private String checkOutTime;
     private String note;  // Thêm trường note
 
     // Constructor
-    public TrainingTime(int id, String name, String phone, String checkInTime, String checkOutTime, String note) {
+    public TrainingTime(int id, String checkInTime, String checkOutTime, String note) {
         this.id = id;
-        this.name = name;
-        this.phone = phone;
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
         this.note = note;
@@ -25,22 +21,6 @@ public class TrainingTime {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getCheckInTime() {

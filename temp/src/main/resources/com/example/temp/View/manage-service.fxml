@@ -12,12 +12,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="633.0" prefWidth="1009.0" stylesheets="@../Styles/service.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.ManageServiceController">
+<AnchorPane stylesheets="@../Styles/service.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.ManageServiceController">
     <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <TabPane fx:id="tabPane" prefHeight="632.0" prefWidth="1010.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane fx:id="tabPane" prefHeight="700.0" prefWidth="1100.0" tabClosingPolicy="UNAVAILABLE">
             <Tab text="Tạo gói hội viên">
-                <AnchorPane>
-                    <VBox layoutX="64.0" layoutY="47.0" prefWidth="809" spacing="15" stylesheets="@../Styles/addUI.css">
+                <AnchorPane prefHeight="700.0" prefWidth="1100.0">
+                    <VBox layoutX="117.0" layoutY="79.0" prefHeight="189.0" prefWidth="810.0" spacing="15" stylesheets="@../Styles/addUI.css">
                         <!-- Mỗi HBox cùng styleClass="hbox" -->
                         <HBox styleClass="hbox">
                             <Label styleClass="form-label" text="Mã gói hội viên:" />
@@ -40,68 +40,68 @@
                             <TextField fx:id="inputPrice" styleClass="text-field" />
                         </HBox>
                     </VBox>
-                     <Button fx:id="handelCreate" alignment="CENTER" layoutX="477.0" layoutY="351.0" maxWidth="100" styleClass="button" text="Tạo" />
+                     <Button fx:id="handelCreate" alignment="CENTER" layoutX="522.0" layoutY="442.0" maxWidth="100" styleClass="button" text="Tạo" />
                 </AnchorPane>
             </Tab>
 
             <Tab fx:id="tabViewPackagesChange" text="Sửa gói hội viên">
                 <content>
-                    <AnchorPane prefHeight="512.0" prefWidth="978.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="1100.0">
                         <children>
-                            <TableView fx:id="listPackageChange" layoutX="31.0" layoutY="119.0" prefHeight="428.0" prefWidth="947.0">
+                            <TableView fx:id="listPackageChange" layoutX="100.0" layoutY="100.0" prefHeight="500.0" prefWidth="900.0">
                                 <columns>
                                     <TableColumn fx:id="colIdChange" prefWidth="119.2000036239624" text="Mã gói hội viên" />
-                                    <TableColumn fx:id="colNameChange" minWidth="8.79998779296875" prefWidth="113.5999755859375" text="Tên gói hội viên" />
-                                    <TableColumn fx:id="colDescriptionChange" prefWidth="271.1999816894531" text="Chi tiết" />
-                                    <TableColumn fx:id="colExpDateChange" minWidth="0.0" prefWidth="155.20001220703125" text="Thời hạn" />
-                                    <TableColumn fx:id="colPriceChange" prefWidth="134.4000244140625" text="Giá" />
-                                    <TableColumn fx:id="colStatusChange" prefWidth="144.800048828125" text="Trạng thái" />
+                                    <TableColumn fx:id="colNameChange" minWidth="8.79998779296875" prefWidth="224.00001525878906" text="Tên gói hội viên" />
+                                    <TableColumn fx:id="colDescriptionChange" prefWidth="247.20001220703125" text="Chi tiết" />
+                                    <TableColumn fx:id="colExpDateChange" minWidth="0.0" prefWidth="140.800048828125" text="Thời hạn(tháng)" />
+                                    <TableColumn fx:id="colPriceChange" prefWidth="140.0" text="Giá(vnđ)" />
+                                    <TableColumn fx:id="colStatusChange" prefWidth="188.7999267578125" text="Trạng thái" />
                                 </columns>
                             </TableView>
-                     <TextField fx:id="inputSearchChange" layoutX="31.0" layoutY="31.0" minWidth="190.0" prefHeight="40.0" prefWidth="370.0" promptText="Tìm kiếm" />
+                     <TextField fx:id="inputSearchChange" layoutX="100.0" layoutY="35.0" minWidth="190.0" prefHeight="40.0" prefWidth="370.0" promptText="Tìm kiếm" />
                         </children>
                     </AnchorPane>
                 </content>
             </Tab>
             <Tab fx:id="tabViewPackagesDel" text="Xóa gói hội viên">
                 <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="512.0" prefWidth="947.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="1100.0">
                         <children>
-                            <TableView fx:id="listPackageDel" layoutX="34.0" layoutY="127.0" prefHeight="432.0" prefWidth="942.0">
+                            <TableView fx:id="listPackageDel" layoutX="100.0" layoutY="100.0" prefHeight="500.0" prefWidth="900.0">
                                 <columns>
-                                    <TableColumn fx:id="colIdDel" prefWidth="113.59997272491455" text="Mã gói hội viên" />
-                                    <TableColumn fx:id="colNameDel" minWidth="8.79998779296875" prefWidth="136.8000030517578" text="Tên gói hội viên" />
-                                    <TableColumn fx:id="colDescriptionDel" prefWidth="253.59994506835938" text="Chi tiết" />
-                                    <TableColumn fx:id="colExpDateDel" minWidth="0.0" prefWidth="112.0" text="Thời hạn" />
-                                    <TableColumn fx:id="colPriceDel" prefWidth="89.59991455078125" text="Giá" />
-                                    <TableColumn fx:id="colStatusDel" prefWidth="130.39996337890625" text="Trạng thái" />
-                                    <TableColumn fx:id="colDel" prefWidth="96.0" text="Xóa" />
+                                    <TableColumn fx:id="colIdDel" prefWidth="109.60001373291016" text="Mã gói hội viên" />
+                                    <TableColumn fx:id="colNameDel" minWidth="8.79998779296875" prefWidth="133.59999084472656" text="Tên gói hội viên" />
+                                    <TableColumn fx:id="colDescriptionDel" prefWidth="210.40005493164062" text="Chi tiết" />
+                                    <TableColumn fx:id="colExpDateDel" minWidth="0.0" prefWidth="115.199951171875" text="Thời hạn(tháng)" />
+                                    <TableColumn fx:id="colPriceDel" prefWidth="100.79998779296875" text="Giá(vnđ)" />
+                                    <TableColumn fx:id="colStatusDel" prefWidth="135.20001220703125" text="Trạng thái" />
+                                    <TableColumn fx:id="colDel" minWidth="0.0" prefWidth="86.4000244140625" text="Xóa" />
                                 </columns>
                             </TableView>
-                            <Button fx:id="btnDeleteAll" layoutX="863.0" layoutY="26.0" mnemonicParsing="false" onAction="#DeleteAll" text="Xóa toàn bộ" />
-                     <TextField fx:id="inputSearchDel" layoutX="34.0" layoutY="24.0" minWidth="190.0" prefHeight="30.0" prefWidth="250.0" promptText="Tìm kiếm" />
+                            <Button fx:id="btnDeleteAll" layoutX="887.0" layoutY="35.0" mnemonicParsing="false" onAction="#DeleteAll" text="Xóa toàn bộ" />
+                     <TextField fx:id="inputSearchDel" layoutX="100.0" layoutY="35.0" minWidth="190.0" prefHeight="30.0" prefWidth="250.0" promptText="Tìm kiếm" />
                         </children>
                     </AnchorPane>
                 </content>
             </Tab>
             <Tab fx:id="tabViewPackages" text="Xem danh sách gói hội viên">
                 <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="1100.0">
                         <children>
-                            <TableView fx:id="listPackage" layoutX="35.0" layoutY="113.0" prefHeight="440.0" prefWidth="940.0">
+                            <TableView fx:id="listPackage" layoutX="100.0" layoutY="100.0" prefHeight="500.0" prefWidth="900.0">
                                 <columns>
-                                    <TableColumn fx:id="colId" prefWidth="107.99999713897705" text="Mã gói hội viên" />
-                                    <TableColumn fx:id="colName" minWidth="8.79998779296875" prefWidth="132.79998779296875" text="Tên gói hội viên" />
-                                    <TableColumn fx:id="colDescription" prefWidth="268.00001525878906" text="Chi tiết" />
-                                    <TableColumn fx:id="colExpDate" minWidth="0.0" prefWidth="163.20001220703125" text="Thời hạn" />
-                                    <TableColumn fx:id="colPrice" prefWidth="114.39996337890625" text="Giá" />
-                                    <TableColumn fx:id="colStatus" prefWidth="131.199951171875" text="Trạng thái" />
+                                    <TableColumn fx:id="colId" prefWidth="121.59998321533203" text="Mã gói hội viên" />
+                                    <TableColumn fx:id="colName" minWidth="8.79998779296875" prefWidth="180.8000030517578" text="Tên gói hội viên" />
+                                    <TableColumn fx:id="colDescription" prefWidth="238.39999389648438" text="Chi tiết" />
+                                    <TableColumn fx:id="colExpDate" minWidth="0.0" prefWidth="115.99993896484375" text="Thời hạn(tháng)" />
+                                    <TableColumn fx:id="colPrice" prefWidth="106.4000244140625" text="Giá(vnđ)" />
+                                    <TableColumn fx:id="colStatus" prefWidth="121.5999755859375" text="Trạng thái" />
                                 </columns>
                                 <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                 </columnResizePolicy>
                             </TableView>
-                            <TextField fx:id="inputSearch" layoutX="39.0" layoutY="29.0" minWidth="190.0" prefHeight="30.0" prefWidth="250.0" promptText="Tìm kiếm" />
+                            <TextField fx:id="inputSearch" layoutX="100.0" layoutY="35.0" minWidth="190.0" prefHeight="30.0" prefWidth="250.0" promptText="Tìm kiếm" />
                         </children>
                     </AnchorPane>
                 </content>

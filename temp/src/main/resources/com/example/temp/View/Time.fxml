@@ -12,20 +12,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="680" prefWidth="850" style="-fx-background-color: #ffffff; -fx-padding: 20;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.temp.Controller.TimeController">
-   <VBox alignment="CENTER" spacing="20" stylesheets="@../Styles/QLHoiVien.css">
+<AnchorPane prefHeight="680" prefWidth="850" style="-fx-background-color: #ffffff; -fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.TimeController">
+   <VBox alignment="CENTER" layoutX="144.0" layoutY="14.0" spacing="20" stylesheets="@../Styles/QLHoiVien.css">
 
       <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="QUẢN LÝ THỜI GIAN TẬP" />
 
       <GridPane alignment="CENTER" hgap="12" vgap="12">
          <Label text="ID (tuỳ chọn)" GridPane.columnIndex="0" GridPane.rowIndex="0" />
          <TextField fx:id="fieldID" promptText="Nhập ID hoặc để trống" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-         <Label text="Tên hội viên" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-         <TextField fx:id="fieldName" promptText="Nhập tên hội viên" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-         <Label text="Số điện thoại" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-         <TextField fx:id="fieldPhone" promptText="Nhập số điện thoại" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
          <Label text="Ghi chú" GridPane.columnIndex="0" GridPane.rowIndex="3" />
          <TextField fx:id="fieldNote" promptText="Nhập ghi chú nếu có" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -49,11 +43,9 @@
 
       <TableView fx:id="timeTableView" prefHeight="320" style="-fx-border-color: #bdc3c7; -fx-border-width: 1px;">
          <columns>
-            <TableColumn fx:id="colCustomerID" prefWidth="50" text="ID" />
-            <TableColumn fx:id="colName" prefWidth="150" text="Tên hội viên" />
-            <TableColumn fx:id="colPhone" prefWidth="120" text="SĐT" />
-            <TableColumn fx:id="colStartDay" prefWidth="150" text="Check-in" />
-            <TableColumn fx:id="colEndDay" prefWidth="150" text="Check-out" />
+            <TableColumn fx:id="colCustomerID" prefWidth="75.20004272460938" text="ID" />
+            <TableColumn fx:id="colStartDay" prefWidth="139.20005798339844" text="Check-in" />
+            <TableColumn fx:id="colEndDay" prefWidth="136.7999267578125" text="Check-out" />
             <TableColumn fx:id="colNote" prefWidth="199.33331298828125" text="Ghi chú" />
          </columns>
       </TableView>

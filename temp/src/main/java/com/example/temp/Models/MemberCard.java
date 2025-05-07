@@ -1,59 +1,41 @@
 package com.example.temp.Models;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class MemberCard {
-    private final SimpleStringProperty customerID;
-    private final SimpleStringProperty name;
-    private final SimpleStringProperty phone;
-    private final SimpleStringProperty gender;
+    private final SimpleIntegerProperty customerID;
+    private final SimpleIntegerProperty packageID;
     private final SimpleStringProperty startDate;
     private final SimpleStringProperty endDate;
     private final SimpleStringProperty goi;
     private final SimpleStringProperty price;
 
-    public MemberCard(String customerID, String name, String phone, String gender,
+    public MemberCard(int customerID, int packageID,
                       String startDate, String endDate, String goi, String price) {
-        this.customerID = new SimpleStringProperty(customerID);
-        this.name = new SimpleStringProperty(name);
-        this.phone = new SimpleStringProperty(phone);
-        this.gender = new SimpleStringProperty(gender);
+        this.customerID = new SimpleIntegerProperty(customerID);
+        this.packageID = new SimpleIntegerProperty(packageID);
+
         this.startDate = new SimpleStringProperty(startDate);
         this.endDate = new SimpleStringProperty(endDate);
         this.goi = new SimpleStringProperty(goi);
         this.price = new SimpleStringProperty(price);
     }
 
-    public String getCustomerID() {
+    public int getCustomerID() {
         return customerID.get();
     }
 
-    public void setCustomerID(String customerID) {
+    public void setCustomerID(int customerID) {
         this.customerID.set(customerID);
     }
 
-    public String getName() {
-        return name.get();
+    public int getPackageID() {
+        return packageID.get();
     }
 
-    public void setName(String name) {
-        this.name.set(name);
-    }
-
-    public String getPhone() {
-        return phone.get();
-    }
-
-    public void setPhone(String phone) {
-        this.phone.set(phone);
-    }
-
-    public String getGender() {
-        return gender.get();
-    }
-
-    public void setGender(String gender) {
-        this.gender.set(gender);
+    public void setPackageID(int packageID) {
+        this.packageID.set(packageID);
     }
 
     public String getStartDate() {
@@ -88,20 +70,12 @@ public class MemberCard {
         this.price.set(price);
     }
 
-    public SimpleStringProperty customerIDProperty() {
+    public SimpleIntegerProperty customerIDProperty() {
         return customerID;
     }
 
-    public SimpleStringProperty nameProperty() {
-        return name;
-    }
-
-    public SimpleStringProperty phoneProperty() {
-        return phone;
-    }
-
-    public SimpleStringProperty genderProperty() {
-        return gender;
+    public SimpleIntegerProperty nameProperty() {
+        return packageID;
     }
 
     public SimpleStringProperty startDateProperty() {

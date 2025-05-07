@@ -13,16 +13,13 @@ import java.time.LocalDate;
 public class theController {
 
     @FXML private TextField customerIDField;
-    @FXML private TextField nameField;
-    @FXML private TextField phoneField;
-    @FXML private ComboBox<String> genderComboBox;
     @FXML private ComboBox<String> goiComboBox;
     @FXML private DatePicker startDatePicker;
     @FXML private DatePicker endDatePicker;
     @FXML private TextField priceField;
 
     @FXML private TableView<MemberCard> cardTableView;
-    @FXML private TableColumn<MemberCard, String> colCustomerID;
+    @FXML private TableColumn<MemberCard, Integer> colCustomerID;
     @FXML private TableColumn<MemberCard, String> colName;
     @FXML private TableColumn<MemberCard, String> colPhone;
     @FXML private TableColumn<MemberCard, String> colGender;
@@ -36,15 +33,11 @@ public class theController {
     @FXML
     public void initialize() {
         colCustomerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        colGender.setCellValueFactory(new PropertyValueFactory<>("gender"));
         colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         colGoi.setCellValueFactory(new PropertyValueFactory<>("goi"));
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        genderComboBox.setItems(FXCollections.observableArrayList("Nam", "Nữ", "Khác"));
         goiComboBox.setItems(FXCollections.observableArrayList("1 tháng", "4 tháng", "6 tháng", "12 tháng"));
 
         startDatePicker.setValue(LocalDate.now());
@@ -83,43 +76,31 @@ public class theController {
 
     @FXML
     private void handlePayment() {
-        String customerID = customerIDField.getText();
-        String name = nameField.getText();
-        String phone = phoneField.getText();
-        String gender = genderComboBox.getValue();
+        int id = Integer.parseInt(customerIDField.getText());
         String goi = goiComboBox.getValue();
         String price = priceField.getText();
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
 
-        if (customerID.isEmpty() || name.isEmpty() || phone.isEmpty() || gender == null || goi == null || price.isEmpty() || startDate == null || endDate == null) {
+        if (id < 100000 || id > 999999  || goi == null || price.isEmpty() || startDate == null || endDate == null) {
             showAlert("Lỗi", "Vui lòng nhập đầy đủ thông tin.");
             return;
         }
 
-        // Validate phone number (at least 10 digits)
-        if (phone.length() < 10) {
-            showAlert("Lỗi", "Số điện thoại phải có ít nhất 10 chữ số.");
-            return;
-        }
 
         // Check if customerID already exists
-        if (MemberCardDAO.isCustomerIDExists(customerID)) {
-            showAlert("Lỗi", "Mã khách hàng " + customerID + " đã tồn tại. Vui lòng chọn mã khác.");
+        if (MemberCardDAO.isCustomerIDExists(String.valueOf(id))) {
+            showAlert("Lỗi", "Mã khách hàng " + id + " đã tồn tại. Vui lòng chọn mã khác.");
             return;
         }
 
-        MemberCard card = new MemberCard(customerID, name, phone, gender,
-                startDate.toString(), endDate.toString(), goi, price);
+        MemberCard card = new MemberCard(id,123456 , startDate.toString(), endDate.toString(), goi, price);
 
         if (MemberCardDAO.insertMemberCard(card)) {
             cardList.add(card);
             showAlert("Thành công", "Đăng ký thẻ thành công.");
             // Clear the form after successful registration
             customerIDField.clear();
-            nameField.clear();
-            phoneField.clear();
-            genderComboBox.setValue(null);
             goiComboBox.setValue(null);
             startDatePicker.setValue(LocalDate.now());
             endDatePicker.setValue(null);

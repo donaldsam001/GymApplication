@@ -52,35 +52,29 @@ public class DB {
 
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS MemberDetail (
-                        customerID TEXT PRIMARY KEY,
+                        customerID INTEGER PRIMARY KEY,
                         name TEXT NOT NULL,
                         phone TEXT NOT NULL,
                         gender TEXT NOT NULL,
-                        schedule TEXT,
-                        startDate TEXT,
-                        endDate TEXT,
                         age INTEGER
                     );
                 """);
 
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS MemberCard (
-                        customerID TEXT PRIMARY KEY,
-                        name TEXT NOT NULL,
-                        phone TEXT NOT NULL,
-                        gender TEXT NOT NULL,
-                        startDate TEXT,
-                        endDate TEXT,
-                        goi TEXT,
-                        price TEXT
+                                customerID INTEGER PRIMARY KEY,
+                                packageID INTEGER,
+                                startDate TEXT,
+                                endDate TEXT,
+                                goi TEXT,
+                                price TEXT,
+                                FOREIGN KEY (packageID) REFERENCES MembershipPackage(packageID)
                     );
                 """);
 
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS TrainingTime (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        name TEXT NOT NULL,
-                        phone TEXT NOT NULL,
                         checkInTime TEXT,
                         checkOutTime TEXT,
                         note TEXT

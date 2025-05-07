@@ -11,17 +11,15 @@ public class MemberCardDAO {
     private static String lastError = ""; // Store the last error message
 
     public static boolean insertMemberCard(MemberCard card) {
-        String sql = "INSERT INTO MemberCard (customerID, name, phone, gender, startDate, endDate, goi, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO MemberCard (customerID, packageID, startDate, endDate, goi, price) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, card.getCustomerID());
-            pstmt.setString(2, card.getName());
-            pstmt.setString(3, card.getPhone());
-            pstmt.setString(4, card.getGender());
-            pstmt.setString(5, card.getStartDate());
-            pstmt.setString(6, card.getEndDate());
-            pstmt.setString(7, card.getGoi());
-            pstmt.setString(8, card.getPrice());
+            pstmt.setInt(1, card.getCustomerID());
+            pstmt.setInt(2, card.getPackageID());
+            pstmt.setString(3, card.getStartDate());
+            pstmt.setString(4, card.getEndDate());
+            pstmt.setString(5, card.getGoi());
+            pstmt.setString(6, card.getPrice());
             pstmt.executeUpdate();
             lastError = "";
             return true;
@@ -58,10 +56,8 @@ public class MemberCardDAO {
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 cards.add(new MemberCard(
-                        rs.getString("customerID"),
-                        rs.getString("name"),
-                        rs.getString("phone"),
-                        rs.getString("gender"),
+                        rs.getInt("customerID"),
+                        rs.getInt("packageID"),
                         rs.getString("startDate"),
                         rs.getString("endDate"),
                         rs.getString("goi"),
@@ -75,12 +71,12 @@ public class MemberCardDAO {
         return cards;
     }
 
-    public static boolean updateMemberCardEndDate(String customerID, String newEndDate) {
+    public static boolean updateMemberCardEndDate(int customerID, String newEndDate) {
         String sql = "UPDATE MemberCard SET endDate = ? WHERE customerID = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, newEndDate);
-            stmt.setString(2, customerID);
+            stmt.setInt(2, customerID);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             lastError = e.getMessage();
@@ -89,11 +85,11 @@ public class MemberCardDAO {
         }
     }
 
-    public static boolean deleteMemberCard(String customerID) {
+    public static boolean deleteMemberCard(int customerID) {
         String sql = "DELETE FROM MemberCard WHERE customerID = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, customerID);
+            stmt.setInt(1, customerID);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             lastError = e.getMessage();
