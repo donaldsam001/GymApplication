@@ -24,6 +24,8 @@ public class MembershipPackageDAO {
         }
     }
 
+
+
     private void createTable() {
         String query = "CREATE TABLE IF NOT EXISTS Membership_package (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -116,6 +118,35 @@ public class MembershipPackageDAO {
             closeConnection();
         }
     }
+
+    public List<MembershipPackage> getActivePackages() {
+        getConnection();
+        List<MembershipPackage> list = new ArrayList<>();
+        String sql = "SELECT * FROM Membership_package WHERE status = 1";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                float price = rs.getFloat("price");
+                String description = rs.getString("description");
+                int exp = rs.getInt("exp");
+                boolean status = rs.getBoolean("status");
+
+                list.add(new MembershipPackage(id, name, price, description, exp, status));
+            }
+
+        } catch (SQLException e) {
+            logger.warning("❌ Lỗi khi lấy gói hội viên: " + e.getMessage());
+        } finally {
+            closeConnection();
+        }
+
+        return list;
+    }
+
 
     public void deleteMembershipPackage(int id) {
         getConnection();

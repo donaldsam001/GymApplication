@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane stylesheets="/com/example/temp/Styles/QLHoiVien.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.QLHV_Controller">
+<BorderPane stylesheets="/com/example/temp/Styles/QLHoiVien.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.ManagementMembershipController">
     <top>
         <Label styleClass="header-label" text="Quản lý Hội Viên" />
     </top>

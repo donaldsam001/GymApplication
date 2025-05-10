@@ -63,10 +63,12 @@ public class DB {
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS MemberCard (
                                 customerID INTEGER PRIMARY KEY,
-                                packageID INTEGER,
+                                packageID INTEGER NOT NULL,
+                                name TEXT,
+                                package TEXT,
                                 startDate TEXT,
                                 endDate TEXT,
-                                goi TEXT,
+                                exp  INTEGER NOT NULL,
                                 FOREIGN KEY (packageID) REFERENCES MembershipPackage(packageID)
                     );
                 """);

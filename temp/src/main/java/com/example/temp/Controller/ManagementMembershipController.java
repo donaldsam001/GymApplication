@@ -14,7 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class QLHV_Controller {
+public class ManagementMembershipController {
     @FXML private TextField tfCustomerID;
     @FXML private TextField tfName;
     @FXML private TextField tfPhone;

@@ -96,6 +96,23 @@ public class MemberDAO {
         return members;
     }
 
+    public static String getCustomerNameById(int customerID) {
+        String sql = "SELECT name FROM MemberDetail WHERE customerID = ?";
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:service_app.db");
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, customerID);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("name");
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Lỗi khi lấy tên hội viên: " + e.getMessage());
+        }
+        return null;
+    }
+
+
     // Kiểm tra xem mã hội viên đã tồn tại trong cơ sở dữ liệu chưa
     public static boolean isCustomerIDExists(int customerID) {
         String sql = "SELECT 1 FROM MemberDetail WHERE customerID = ?";

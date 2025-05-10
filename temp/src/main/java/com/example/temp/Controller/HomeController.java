@@ -63,7 +63,7 @@ public class HomeController {
     private void openQLHoiVienPage(ActionEvent event){
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/QL_HoiVien.fxml"));            Pane root = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/membership-view.fxml"));            Pane root = loader.load();
             mainContent.getChildren().setAll(root);        } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "Không thể mở cửa sổ Quản lý hội viên");
@@ -73,7 +73,7 @@ public class HomeController {
     @FXML
     private void openTrainingTime(ActionEvent event){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/Time.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/trainingtime-view.fxml"));
             Pane root = loader.load();
             mainContent.getChildren().setAll(root);
         } catch (IOException e) {
@@ -85,7 +85,7 @@ public class HomeController {
     @FXML
     private void openThe(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/the.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/membershipcard-view.fxml"));
             Pane root = loader.load();
             mainContent.getChildren().setAll(root);
         } catch (IOException e) {

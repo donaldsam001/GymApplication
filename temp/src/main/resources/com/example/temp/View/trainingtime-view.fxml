@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="680" prefWidth="850" style="-fx-background-color: #ffffff; -fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.TimeController">
+<AnchorPane prefHeight="680" prefWidth="850" style="-fx-background-color: #ffffff; -fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.TrainingTimeController">
    <VBox alignment="CENTER" layoutX="144.0" layoutY="14.0" spacing="20" stylesheets="@../Styles/QLHoiVien.css">
 
       <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="QUẢN LÝ THỜI GIAN TẬP" />

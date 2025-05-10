@@ -1,14 +1,10 @@
 package com.example.temp.Controller;
 
-import com.example.temp.DAO.EmployDAO;
-import com.example.temp.DAO.EquipmentDAO;
 import com.example.temp.DAO.MembershipPackageDAO;
-import com.example.temp.Models.Equipment;
 import com.example.temp.Models.MembershipPackage;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
@@ -17,10 +13,9 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.FloatStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ManageServiceController {
+public class ManagementPackageController {
 
     @FXML
     private TableView<MembershipPackage> listPackage, listPackageChange, listPackageDel;

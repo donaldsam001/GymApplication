@@ -13,7 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class TimeController {
+public class TrainingTimeController {
 
     @FXML private TextField fieldID; // Trường nhập mã hội viên
     @FXML private TextField fieldNote; // Trường ghi chú khi check-out
