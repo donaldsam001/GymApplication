@@ -2,6 +2,9 @@ package com.example.temp.Controller;
 
 import com.example.temp.DAO.MemberDAO;
 import com.example.temp.Models.Member;
+import com.example.temp.Models.MemberExtend;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,14 +24,24 @@ public class ManagementMembershipController {
     @FXML private ComboBox<String> cbGender;
     @FXML private TextField tfAge;
 
-    @FXML private TableView<Member> tableView;
+//    @FXML private TableView<Member> tableView;
     @FXML private TableColumn<Member, Integer> colCustomerID;
     @FXML private TableColumn<Member, String> colName;
     @FXML private TableColumn<Member, String> colPhone;
     @FXML private TableColumn<Member, String> colGender;
     @FXML private TableColumn<Member, Integer> colAge;
 
-    private ObservableList<Member> memberList;
+//    private ObservableList<Member> memberList;
+
+    @FXML private TableView<MemberExtend> tableView;
+    private ObservableList<MemberExtend> memberList;
+
+    @FXML private TableColumn<MemberExtend, String> colPackage;
+    @FXML private TableColumn<MemberExtend, String> colStartDate;
+    @FXML private TableColumn<MemberExtend, String> colEndDate;
+    @FXML private TableColumn<MemberExtend, Integer> colExp;
+
+
 
     @FXML
     public void initialize() {
@@ -38,6 +51,11 @@ public class ManagementMembershipController {
         colGender.setCellValueFactory(cellData -> cellData.getValue().genderProperty());
         colAge.setCellValueFactory(cellData -> cellData.getValue().ageProperty().asObject());
         cbGender.getItems().addAll("Nam", "Nữ");
+        colPackage.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getPackageName()));
+        colStartDate.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getStartDate()));
+        colEndDate.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getEndDate()));
+        colExp.setCellValueFactory(cell -> new SimpleIntegerProperty(cell.getValue().getExp()).asObject());
+
         loadMembers();
         tableView.setOnMouseClicked(this::handleTableClick);
     }
@@ -107,24 +125,54 @@ public class ManagementMembershipController {
         }
     }
 
+//    private void exportToCSV(File file) {
+//        try (FileWriter writer = new FileWriter(file)) {
+//            writer.write("ID, Họ tên, SĐT, Giới tính, Tuổi\n");
+//            for (Member m : memberList) {
+//                writer.write(String.format("%s,%s,%s,%s,%d\n",
+//                        m.getCustomerID(), m.getName(), m.getPhone(), m.getGender(), m.getAge()));
+//            }
+//            showAlert("✅ Đã xuất danh sách ra file CSV!");
+//        } catch (IOException e) {
+//            showAlert("❌ Lỗi khi xuất file: " + e.getMessage());
+//        }
+//    }
+
     private void exportToCSV(File file) {
         try (FileWriter writer = new FileWriter(file)) {
-            writer.write("ID, Họ tên, SĐT, Giới tính, Tuổi\n");
-            for (Member m : memberList) {
-                writer.write(String.format("%s,%s,%s,%s,%d\n",
-                        m.getCustomerID(), m.getName(), m.getPhone(), m.getGender(), m.getAge()));
+            writer.write("ID, Name, SĐT, Gender, Age, a, b, c, d\n");
+            for (MemberExtend m : memberList) {
+                writer.write(String.format("%d,%s,%s,%s,%d,%s,%s,%s,%d\n",
+                        m.getCustomerID(),
+                        m.getName(),
+                        m.getPhone(),
+                        m.getGender(),
+                        m.getAge(),
+                        m.getPackageName() != null ? m.getPackageName() : "",
+                        m.getStartDate() != null ? m.getStartDate() : "",
+                        m.getEndDate() != null ? m.getEndDate() : "",
+                        m.getExp()
+                ));
             }
-            showAlert("✅ Đã xuất danh sách ra file CSV!");
+            showAlert("✅ Đã xuất danh sách đầy đủ ra file CSV!");
         } catch (IOException e) {
             showAlert("❌ Lỗi khi xuất file: " + e.getMessage());
         }
     }
 
+
+//    private void loadMembers() {
+//        List<Member> members = MemberDAO.getAllMembers();
+//        memberList = FXCollections.observableArrayList(members);
+//        tableView.setItems(memberList);
+//    }
+
     private void loadMembers() {
-        List<Member> members = MemberDAO.getAllMembers();
+        List<MemberExtend> members = MemberDAO.getAllExtendedMembers();
         memberList = FXCollections.observableArrayList(members);
         tableView.setItems(memberList);
     }
+
 
     private Member getFormData() {
         String idText = tfCustomerID.getText();

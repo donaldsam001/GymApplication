@@ -1,18 +1,21 @@
 package com.example.temp.Models;
 
 public class MembershipPackage {
-    private int id;
-    private String name;
+    private int packageID;
+    private String packageName;
     private float price;
     private String description;
     private int exp;
     private boolean status;
 
-    public MembershipPackage() {}
+    public MembershipPackage(int packageID, String packageName) {
+        this.packageID = packageID;
+        this.packageName = packageName;
+    }
 
-    public MembershipPackage(int id, String name, float price, String description, int exp, boolean status) {
-        this.id = id;
-        this.name = name;
+    public MembershipPackage(int packageID, String packageName, float price, String description, int exp, boolean status) {
+        this.packageID = packageID;
+        this.packageName = packageName;
         this.price = price;
         this.description = description;
         this.exp = exp;
@@ -21,20 +24,20 @@ public class MembershipPackage {
 
     // Getter - Setter
 
-    public int getId() {
-        return id;
+    public int getPackageID() {
+        return packageID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPackageID(int packageID) {
+        this.packageID = packageID;
     }
 
-    public String getName() {
-        return name;
+    public String getPackageName() {
+        return packageName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
     public float getPrice() {

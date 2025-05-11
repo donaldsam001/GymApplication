@@ -11,19 +11,22 @@ public class MemberCardDAO {
     private static final String DB_URL = "jdbc:sqlite:service_app.db";
     private static String lastError = "";
 
+    // Thêm thẻ hội viên
     public static boolean insertMemberCard(MemberCard card) {
-        String sql = "INSERT INTO MemberCard (customerID, packageID, startDate, endDate, name, name, exp) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = """
+            INSERT INTO MemberCard (customerID, packageID, name, package, startDate, endDate, exp)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """;
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, card.getCustomerID());
-            pstmt.setInt(2, card.getPackageID());
-            pstmt.setString(3, card.getStartDate());
-            pstmt.setString(4, card.getEndDate());
-            pstmt.setString(5, card.getPackageName());
-            pstmt.setString(6, card.getCustomerName());
-            pstmt.setInt(7, card.getExp());
+            pstmt.setInt(2, card.getPackageID()); // packageID (từ superclass MembershipPackage)
+            pstmt.setString(3, card.getCustomerName());
+            pstmt.setString(4, card.getPackageName()); // package name (từ MembershipPackage)
+            pstmt.setString(5, card.getStartDate());
+            pstmt.setString(6, card.getEndDate());
+            pstmt.setInt(7, card.getExp()); // from superclass if có dùng
 
             pstmt.executeUpdate();
             lastError = "";
@@ -36,10 +39,12 @@ public class MemberCardDAO {
         }
     }
 
+    // Lấy thông tin lỗi
     public static String getLastError() {
         return lastError.isEmpty() ? "Không có lỗi cụ thể." : lastError;
     }
 
+    // Kiểm tra tồn tại theo customerID
     public static boolean isCustomerIDExists(int customerID) {
         String sql = "SELECT COUNT(*) FROM MemberCard WHERE customerID = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -56,9 +61,16 @@ public class MemberCardDAO {
         }
     }
 
+    // Lấy danh sách thẻ hội viên
     public static List<MemberCard> getAllMemberCards() {
         List<MemberCard> cards = new ArrayList<>();
-        String sql = "SELECT * FROM MemberCard";
+        String sql = """
+            SELECT mc.customerID, mc.startDate, mc.endDate, mc.name AS customerName,
+                   mp.id AS packageID, mp.name AS packageName
+            FROM MemberCard mc
+            JOIN Membership_package mp ON mc.packageID = mp.id
+        """;
+
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -66,12 +78,11 @@ public class MemberCardDAO {
             while (rs.next()) {
                 MemberCard card = new MemberCard(
                         rs.getInt("customerID"),
+                        rs.getString("customerName"),
                         rs.getInt("packageID"),
-                        rs.getString("name"),
-                        rs.getString("package"),
+                        rs.getString("packageName"),
                         rs.getString("startDate"),
-                        rs.getString("endDate"),
-                        rs.getInt("exp")
+                        rs.getString("endDate")
                 );
                 cards.add(card);
             }
@@ -83,6 +94,7 @@ public class MemberCardDAO {
         return cards;
     }
 
+    // Cập nhật ngày hết hạn của thẻ
     public static boolean updateMemberCardEndDate(int customerID, String newEndDate) {
         String sql = "UPDATE MemberCard SET endDate = ? WHERE customerID = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -99,6 +111,7 @@ public class MemberCardDAO {
         }
     }
 
+    // Xóa thẻ hội viên theo customerID
     public static boolean deleteMemberCard(int customerID) {
         String sql = "DELETE FROM MemberCard WHERE customerID = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);

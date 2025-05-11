@@ -59,8 +59,8 @@ public class MembershipPackageDAO {
         getConnection();
         String sql = "INSERT INTO Membership_package (id, name, price, description, exp, status) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, memPackage.getId());
-            stmt.setString(2, memPackage.getName());
+            stmt.setInt(1, memPackage.getPackageID());
+            stmt.setString(2, memPackage.getPackageName());
             stmt.setFloat(3, memPackage.getPrice());
             stmt.setString(4, memPackage.getDescription());
             stmt.setInt(5, memPackage.getExp());
@@ -103,12 +103,12 @@ public class MembershipPackageDAO {
         getConnection();
         String sql = "UPDATE Membership_package SET name = ?, price = ?, description = ?, exp = ?, status = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, memPackage.getName());
+            stmt.setString(1, memPackage.getPackageName());
             stmt.setFloat(2, memPackage.getPrice());
             stmt.setString(3, memPackage.getDescription());
             stmt.setInt(4, memPackage.getExp());
             stmt.setBoolean(5, memPackage.getStatus());
-            stmt.setInt(6, memPackage.getId());
+            stmt.setInt(6, memPackage.getPackageID());
 
             stmt.executeUpdate();
             logger.info("Updated MembershipPackage successfully.");

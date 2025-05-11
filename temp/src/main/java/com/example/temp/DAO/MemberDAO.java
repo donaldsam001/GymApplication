@@ -1,4 +1,5 @@
 package com.example.temp.DAO;
+import com.example.temp.Models.MemberExtend;
 
 import com.example.temp.Models.Member;
 import com.example.temp.Utils.SQLiteConnection;
@@ -128,5 +129,37 @@ public class MemberDAO {
             System.out.println("❌ Lỗi khi kiểm tra mã hội viên: " + e.getMessage());
             return false;
         }
+    }
+
+    public static List<MemberExtend> getAllExtendedMembers() {
+        List<MemberExtend> list = new ArrayList<>();
+        String sql = """
+        SELECT m.customerID, m.name, m.phone, m.gender, m.age,
+               c.package AS packageName, c.startDate, c.endDate, c.exp
+        FROM MemberDetail m
+        LEFT JOIN MemberCard c ON m.customerID = c.customerID
+    """;
+
+        try (Connection conn = SQLiteConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                list.add(new MemberExtend(
+                        rs.getInt("customerID"),
+                        rs.getString("name"),
+                        rs.getString("phone"),
+                        rs.getString("gender"),
+                        rs.getInt("age"),
+                        rs.getString("packageName"),
+                        rs.getString("startDate"),
+                        rs.getString("endDate"),
+                        rs.getInt("exp")
+                ));
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Lỗi khi lấy dữ liệu hội viên mở rộng: " + e.getMessage());
+        }
+
+        return list;
     }
 }

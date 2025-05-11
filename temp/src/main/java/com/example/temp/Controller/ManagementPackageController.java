@@ -75,8 +75,8 @@ public class ManagementPackageController {
         listPackageChange.setOnMouseClicked(event -> {
             MembershipPackage selected = listPackageChange.getSelectionModel().getSelectedItem();
             if (selected != null) {
-                inputCode.setText(String.valueOf(selected.getId()));
-                inputName.setText(selected.getName());
+                inputCode.setText(String.valueOf(selected.getPackageID()));
+                inputName.setText(selected.getPackageName());
                 inputDescription.setText(selected.getDescription());
                 inputExpDate.setText(String.valueOf(selected.getExp()));
                 inputPrice.setText(String.valueOf(selected.getPrice()));
@@ -114,7 +114,7 @@ public class ManagementPackageController {
                 deleteBtn.setOnAction(event -> {
                     MembershipPackage membershipPackage = getTableView().getItems().get(getIndex());
                     MembershipPackageDAO membershipPackageDAO = new MembershipPackageDAO();
-                    membershipPackageDAO.deleteMembershipPackage(membershipPackage.getId());
+                    membershipPackageDAO.deleteMembershipPackage(membershipPackage.getPackageID());
                     loadMembershipPackages();
                 });
             }
@@ -149,7 +149,7 @@ public class ManagementPackageController {
 
         colNameChange.setOnEditCommit(event -> {
             MembershipPackage mp = event.getRowValue();
-            mp.setName(event.getNewValue());
+            mp.setPackageName(event.getNewValue());
             updateMembershipPackage(mp);
         });
 

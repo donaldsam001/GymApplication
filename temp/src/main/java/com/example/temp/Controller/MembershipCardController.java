@@ -32,10 +32,10 @@ public class MembershipCardController {
     @FXML
     public void initialize() {
         colCustomerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("customerName")); // sửa lại
         colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-        colPackage.setCellValueFactory(new PropertyValueFactory<>("package"));
+        colPackage.setCellValueFactory(new PropertyValueFactory<>("name")); // gói từ superclass
 
         startDatePicker.setValue(LocalDate.now());
         goiComboBox.setOnAction(event -> updateEndDate());
@@ -54,6 +54,7 @@ public class MembershipCardController {
             showAlert("Lỗi", "Không thể tải danh sách thẻ: " + e.getMessage());
         }
     }
+
 
     private void updateEndDate() {
         MembershipPackage selected = goiComboBox.getValue();
@@ -86,14 +87,14 @@ public class MembershipCardController {
 
         String name = MemberDAO.getCustomerNameById(id);
 
+        // Dùng đúng constructor
         MemberCard card = new MemberCard(
                 id,
-                selectedPackage.getId(),
-                startDate.toString(),
-                endDate.toString(),
-                selectedPackage.getName(),
                 name,
-                selectedPackage.getExp()
+                selectedPackage.getPackageID(),
+                selectedPackage.getPackageName(),
+                startDate.toString(),
+                endDate.toString()
         );
 
         if (MemberCardDAO.insertMemberCard(card)) {
@@ -120,7 +121,7 @@ public class MembershipCardController {
         MembershipPackageDAO dao = new MembershipPackageDAO();
         List<MembershipPackage> packages = dao.getActivePackages();
         MembershipPackage matchedPackage = packages.stream()
-                .filter(p -> p.getId() == packageID)
+                .filter(p -> p.getPackageID() == packageID)
                 .findFirst()
                 .orElse(null);
 

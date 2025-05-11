@@ -6,7 +6,7 @@ public class AdminDAO {
     public Admin getAdminById(int id) {
         // giả lập Admin có id = 999999
         if (id == 999999) {
-            return new Admin(999999, "Administrator", "123456", "admin@example.com");
+            return new Admin(999999, "Administrator", "123456","0999999999", "admin@example.com");
         }
         return null;
     }

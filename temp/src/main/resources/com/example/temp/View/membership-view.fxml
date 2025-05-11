@@ -69,6 +69,10 @@
                     <TableColumn fx:id="colPhone" prefWidth="157.5999755859375" text="SĐT" />
                     <TableColumn fx:id="colGender" prefWidth="80.7999267578125" text="Giới tính" />
                     <TableColumn fx:id="colAge" prefWidth="71.2000732421875" text="Tuổi" />
+                    <TableColumn fx:id="colPackage" text="Gói" />
+                    <TableColumn fx:id="colStartDate" text="Ngày bắt đầu" />
+                    <TableColumn fx:id="colEndDate" text="Ngày kết thúc" />
+                    <TableColumn fx:id="colExp" text="Thời hạn" />
                 </columns>
             </TableView>
         </VBox>
