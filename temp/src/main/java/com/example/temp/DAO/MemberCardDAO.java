@@ -65,10 +65,10 @@ public class MemberCardDAO {
     public static List<MemberCard> getAllMemberCards() {
         List<MemberCard> cards = new ArrayList<>();
         String sql = """
-            SELECT mc.customerID, mc.startDate, mc.endDate, mc.name AS customerName,
-                              mp.id AS packageID, mp.name AS packageName, mc.exp
-                              FROM MemberCard mc
-                              JOIN Membership_package mp ON mc.packageID = mp.id
+                    SELECT mc.customerID, mc.startDate, mc.endDate, mc.name AS customerName,
+                      mp.id AS packageID, mp.name AS packageName, mc.exp
+                      FROM MemberCard mc
+                      JOIN Membership_package mp ON mc.packageID = mp.id
         """;
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -127,4 +127,42 @@ public class MemberCardDAO {
             return false;
         }
     }
+
+    public static List<MemberCard> searchByCustomerID(String keyword) {
+        List<MemberCard> list = new ArrayList<>();
+        String sql = """
+        SELECT mc.customerID, mc.startDate, mc.endDate, mc.name AS customerName,
+               mp.id AS packageID, mp.name AS packageName, mc.exp
+        FROM MemberCard mc
+        JOIN Membership_package mp ON mc.packageID = mp.id
+        WHERE CAST(mc.customerID AS TEXT) LIKE ?
+    """;
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + keyword + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                MemberCard card = new MemberCard(
+                        rs.getInt("customerID"),
+                        rs.getString("customerName"),
+                        rs.getInt("packageID"),
+                        rs.getString("packageName"),
+                        rs.getString("startDate"),
+                        rs.getString("endDate"),
+                        rs.getInt("exp")
+                );
+                list.add(card);
+            }
+
+        } catch (SQLException e) {
+            lastError = e.getMessage();
+            System.out.println("❌ Lỗi khi tìm kiếm thẻ hội viên: " + e.getMessage());
+        }
+
+        return list;
+    }
+
 }

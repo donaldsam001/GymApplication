@@ -3,7 +3,7 @@ package com.example.temp.Models;
 public class MembershipPackage {
     private int packageID;
     private String packageName;
-    private float price;
+    private int price;
     private String description;
     private int exp;
     private boolean status;
@@ -14,7 +14,7 @@ public class MembershipPackage {
         this.exp = exp;
     }
 
-    public MembershipPackage(int packageID, String packageName, float price, String description, int exp, boolean status) {
+    public MembershipPackage(int packageID, String packageName, int price, String description, int exp, boolean status) {
         this.packageID = packageID;
         this.packageName = packageName;
         this.price = price;
@@ -41,11 +41,11 @@ public class MembershipPackage {
         this.packageName = packageName;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

@@ -3,27 +3,26 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.StatisticsController">
    <children>
-      <TableView fx:id="salesTable" layoutX="50.0" layoutY="102.0" prefHeight="300.0" prefWidth="800.0">
+      <TableView fx:id="salesTable" editable="true" layoutX="50.0" layoutY="102.0" prefHeight="300.0" prefWidth="800.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
         <columns>
-          <TableColumn prefWidth="119.19997787475586" text="Mã gói hội viên" />
-          <TableColumn fx:id="colName" minWidth="6.4000244140625" prefWidth="262.40003967285156" text="Tên gói hội viên" />
-            <TableColumn fx:id="colSales" prefWidth="196.00003051757812" text="Số lượt bán" />
-            <TableColumn prefWidth="220.79998779296875" text="Doanh thu" />
+          <TableColumn fx:id="colID" editable="false" prefWidth="119.19997787475586" text="Mã gói hội viên" />
+          <TableColumn fx:id="colName" editable="false" minWidth="6.4000244140625" prefWidth="262.40003967285156" text="Tên gói hội viên" />
+            <TableColumn fx:id="colSales" editable="false" prefWidth="196.00003051757812" text="Số lượt bán" />
+            <TableColumn fx:id="colRevenue" editable="false" prefWidth="220.79998779296875" text="Doanh thu" />
         </columns>
       </TableView>
-      <TextArea layoutX="699.0" layoutY="431.0" prefHeight="19.0" prefWidth="150.0" />
-      <TextField layoutX="50.0" layoutY="47.0" prefHeight="38.0" prefWidth="208.0" promptText="Tìm kiếm bằng mã gói hội viên" />
+      <TextField fx:id="inputSearch" layoutX="50.0" layoutY="47.0" prefHeight="38.0" prefWidth="208.0" promptText="Tìm kiếm bằng mã gói hội viên" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="47.0" />
       <Label layoutX="565.0" layoutY="437.0" text="Tổng doanh thu:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
+      <TextField fx:id="totalRevenue" editable="false" layoutX="701.0" layoutY="437.0" AnchorPane.bottomAnchor="87.4" AnchorPane.rightAnchor="49.400000000000006" />
    </children>
 </AnchorPane>

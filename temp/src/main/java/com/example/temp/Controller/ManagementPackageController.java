@@ -12,6 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.FloatStringConverter;
 import javafx.util.converter.IntegerStringConverter;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class ManagementPackageController {
     @FXML
     private TableColumn<MembershipPackage, Integer> colExpDate, colExpDateChange, colExpDateDel;
     @FXML
-    private TableColumn<MembershipPackage, Float> colPrice, colPriceChange, colPriceDel;
+    private TableColumn<MembershipPackage, Integer> colPrice, colPriceChange, colPriceDel;
     @FXML
     private TableColumn<MembershipPackage, String> colStatus, colStatusChange, colStatusDel;
 
@@ -89,6 +91,19 @@ public class ManagementPackageController {
         colID.setCellValueFactory(new PropertyValueFactory<>("packageID"));
         colName.setCellValueFactory(new PropertyValueFactory<>("packageName"));
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colPrice.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                    setText(currencyFormat.format(item)); // Ví dụ: 1000000 -> 1.000.000 ₫
+                }
+            }
+        });
+
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colExpDate.setCellValueFactory(new PropertyValueFactory<>("exp"));
         colStatus.setCellValueFactory(cellData -> {
@@ -104,6 +119,19 @@ public class ManagementPackageController {
         colDescriptionDel.setCellValueFactory(new PropertyValueFactory<>("description"));
         colExpDateDel.setCellValueFactory(new PropertyValueFactory<>("exp"));
         colPriceDel.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colPriceDel.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                    setText(currencyFormat.format(item));
+                }
+            }
+        });
+
         colStatusDel.setCellValueFactory(cellData -> {
             boolean status = cellData.getValue().getStatus();
             return new ReadOnlyStringWrapper(status ? "Đang hoạt động" : "Không hoạt động");
@@ -142,11 +170,28 @@ public class ManagementPackageController {
         colExpDateChange.setCellValueFactory(new PropertyValueFactory<>("exp"));
         colPriceChange.setCellValueFactory(new PropertyValueFactory<>("price"));
 
+        // Hiển thị VNĐ khi không edit, nhưng giữ khả năng edit số
+        colPriceChange.setCellFactory(column -> new TextFieldTableCell<>(new IntegerStringConverter()) {
+            @Override
+            public void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else if (isEditing()) {
+                    setText(item.toString());
+                } else {
+                    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                    setText(currencyFormat.format(item));
+                }
+            }
+        });
+
+        // Các cột cho phép chỉnh sửa
         colNameChange.setCellFactory(TextFieldTableCell.forTableColumn());
         colDescriptionChange.setCellFactory(TextFieldTableCell.forTableColumn());
         colExpDateChange.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-        colPriceChange.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
 
+        // Cập nhật khi chỉnh sửa xong
         colNameChange.setOnEditCommit(event -> {
             MembershipPackage mp = event.getRowValue();
             mp.setPackageName(event.getNewValue());
@@ -171,6 +216,7 @@ public class ManagementPackageController {
             updateMembershipPackage(mp);
         });
 
+        // Cột trạng thái với combobox
         colStatusChange.setCellFactory(ComboBoxTableCell.forTableColumn("Đang hoạt động", "Không hoạt động"));
         colStatusChange.setCellValueFactory(cellData -> {
             boolean status = cellData.getValue().getStatus();
@@ -202,7 +248,7 @@ public class ManagementPackageController {
             String name = inputName.getText();
             String description = inputDescription.getText();
             int exp = Integer.parseInt(inputExpDate.getText());
-            float price = Float.parseFloat(inputPrice.getText());
+            int price = Integer.parseInt(inputPrice.getText());
 
             if (name.isEmpty() || description.isEmpty()) {
                 showAlert("Lỗi", "Vui lòng điền đầy đủ thông tin.", Alert.AlertType.ERROR);

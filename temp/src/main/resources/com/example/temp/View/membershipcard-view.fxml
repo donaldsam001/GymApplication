@@ -13,26 +13,29 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-
- <VBox spacing="15" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.MembershipCardController">
+<VBox spacing="15" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.MembershipCardController">
 
      <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2a5058;" text="QUẢN LÝ THẺ HỘI VIÊN" />
 
-     <HBox prefHeight="206.0" prefWidth="759.0" spacing="40">
+     <HBox prefHeight="230.0" prefWidth="770.0" spacing="40.0">
          <GridPane hgap="10" vgap="10">
              <columnConstraints>
                  <ColumnConstraints halignment="RIGHT" minWidth="100" />
                  <ColumnConstraints minWidth="180" />
              </columnConstraints>
 
-             <Label text="Mã hội viên" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-             <TextField fx:id="customerIDField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-         <Label text="Mã gói" GridPane.rowIndex="1" />
-         <TextField fx:id="packageIDField" GridPane.columnIndex="1" GridPane.rowIndex="1" editable="false"/>
-         <TextField fx:id="expField" GridPane.columnIndex="1" GridPane.rowIndex="2" editable="false" />
-         <Label text="Thời hạn" GridPane.rowIndex="2" />
+             <Label text="Mã hội viên" GridPane.rowIndex="2" />
+             <TextField fx:id="customerIDField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <Label text="Mã gói" GridPane.rowIndex="3" />
+         <TextField fx:id="packageIDField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <TextField fx:id="expField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         <Label text="Thời hạn" GridPane.rowIndex="4" />
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm" />
+         <TextField fx:id="inputSearch" GridPane.columnIndex="1" />
          <rowConstraints>
+            <RowConstraints />
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
@@ -53,21 +56,23 @@
          </rowConstraints>
          </GridPane>
 
-         <GridPane hgap="10" vgap="10">
+         <GridPane hgap="10" prefHeight="279.0" prefWidth="123.0" vgap="10">
              <columnConstraints>
                  <ColumnConstraints halignment="RIGHT" minWidth="100" />
                  <ColumnConstraints minWidth="180" />
              </columnConstraints>
 
-             <Label text="Gói" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-             <ComboBox fx:id="goiComboBox" prefWidth="180" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+             <Label text="Gói" GridPane.rowIndex="2" />
+             <ComboBox fx:id="goiComboBox" prefWidth="180" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-             <Label text="Bắt đầu" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-             <DatePicker fx:id="startDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+             <Label text="Bắt đầu" GridPane.rowIndex="3" />
+             <DatePicker fx:id="startDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-             <Label text="Kết thúc" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-             <DatePicker fx:id="endDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+             <Label text="Kết thúc" GridPane.rowIndex="4" />
+             <DatePicker fx:id="endDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />

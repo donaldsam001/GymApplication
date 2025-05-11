@@ -84,7 +84,7 @@ public class MembershipPackageDAO {
             while(rs.next()){
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
-                float price = rs.getFloat("price");
+                int price = rs.getInt("price");
                 String description = rs.getString("description");
                 int exp = rs.getInt("exp");
                 boolean status = rs.getBoolean("status");
@@ -130,7 +130,7 @@ public class MembershipPackageDAO {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
-                float price = rs.getFloat("price");
+                int price = rs.getInt("price");
                 String description = rs.getString("description");
                 int exp = rs.getInt("exp");
                 boolean status = rs.getBoolean("status");
@@ -175,7 +175,7 @@ public class MembershipPackageDAO {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
-                float price = rs.getFloat("price");
+                int price = rs.getInt("price");
                 String description = rs.getString("description");
                 int exp = rs.getInt("exp");
                 boolean status = rs.getBoolean("status");

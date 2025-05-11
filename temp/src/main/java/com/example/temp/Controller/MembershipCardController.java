@@ -12,9 +12,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.time.LocalDate;
 import java.util.List;
+
 
 public class MembershipCardController {
 
@@ -30,6 +30,7 @@ public class MembershipCardController {
     @FXML private TableColumn<MemberCard, String> colPackage;
     @FXML private TextField packageIDField;
     @FXML private TextField expField;
+    @FXML private TextField inputSearch;
 
     private ObservableList<MemberCard> cardList;
 
@@ -40,6 +41,7 @@ public class MembershipCardController {
         colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         colPackage.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getPackageName()));
+        inputSearch.textProperty().addListener((obs, oldVal, newVal) -> searchByCustomerID());
 
         startDatePicker.setValue(LocalDate.now());
 //        goiComboBox.setOnAction(event -> updateEndDate());
@@ -112,7 +114,8 @@ public class MembershipCardController {
         if (MemberCardDAO.insertMemberCard(card)) {
             cardList.add(card);
             showAlert("Thành công", "Đăng ký thẻ thành công.");
-            PackageSalesDAO.increaseSales(selectedPackage.getPackageID());
+            PackageSalesDAO dao = new PackageSalesDAO();
+            dao.increaseSales(selectedPackage.getPackageID());
             customerIDField.clear();
             goiComboBox.setValue(null);
             startDatePicker.setValue(LocalDate.now());
@@ -185,6 +188,17 @@ public class MembershipCardController {
             showAlert("Lỗi", "Lỗi khi xóa thẻ: " + e.getMessage());
         }
     }
+
+    private void searchByCustomerID() {
+        String keyword = inputSearch.getText().trim();
+        if (keyword.isEmpty()) {
+            cardList.setAll(MemberCardDAO.getAllMemberCards());
+        } else {
+            cardList.setAll(MemberCardDAO.searchByCustomerID(keyword));
+        }
+        cardTableView.setItems(cardList);
+    }
+
 
     private void displayPackageInfo() {
         MembershipPackage selected = goiComboBox.getValue();

@@ -30,7 +30,7 @@ public class DB {
                     CREATE TABLE IF NOT EXISTS Membership_package (
                                 id INTEGER PRIMARY KEY ,
                                 name TEXT NOT NULL,
-                                price REAL NOT NULL,
+                                price INTEGER NOT NULL,
                                 description TEXT,
                                 exp INTEGER NOT NULL,
                                 status INTEGER NOT NULL CHECK (status IN (0, 1))
@@ -86,6 +86,7 @@ public class DB {
                     CREATE TABLE IF NOT EXISTS PackageSalesStats (
                         packageID INTEGER PRIMARY KEY,
                         totalSales INTEGER DEFAULT 0,
+                        revenue INTEGER DEFAULT 0,
                         FOREIGN KEY (packageID) REFERENCES Membership_package(id)
                     );
                 """);
