@@ -26,7 +26,7 @@ public class EmployDAO {
 
     private void createTable() {
         String query = "CREATE TABLE IF NOT EXISTS Employee (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "id INTEGER PRIMARY KEY , " +
                 "name TEXT NOT NULL, " +
                 "password TEXT NOT NULL, " +
                 "phone TEXT NOT NULL, ";

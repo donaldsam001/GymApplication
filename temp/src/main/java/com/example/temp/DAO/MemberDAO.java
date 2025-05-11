@@ -152,8 +152,7 @@ public class MemberDAO {
                         rs.getInt("age"),
                         rs.getString("packageName"),
                         rs.getString("startDate"),
-                        rs.getString("endDate"),
-                        rs.getInt("exp")
+                        rs.getString("endDate")
                 ));
             }
         } catch (SQLException e) {

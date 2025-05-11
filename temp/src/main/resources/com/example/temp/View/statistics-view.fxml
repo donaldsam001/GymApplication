@@ -8,19 +8,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="822.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.StatisticsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.StatisticsController">
    <children>
-      <TableView layoutX="22.0" layoutY="104.0" prefHeight="300.0" prefWidth="800.0">
+      <TableView fx:id="salesTable" layoutX="50.0" layoutY="102.0" prefHeight="300.0" prefWidth="800.0">
         <columns>
           <TableColumn prefWidth="119.19997787475586" text="Mã gói hội viên" />
-          <TableColumn minWidth="6.4000244140625" prefWidth="262.40003967285156" text="Tên gói hội viên" />
-            <TableColumn prefWidth="130.39996337890625" text="Số lượt bán" />
-            <TableColumn prefWidth="175.99996337890627" text="Doanh thu" />
+          <TableColumn fx:id="colName" minWidth="6.4000244140625" prefWidth="262.40003967285156" text="Tên gói hội viên" />
+            <TableColumn fx:id="colSales" prefWidth="196.00003051757812" text="Số lượt bán" />
+            <TableColumn prefWidth="220.79998779296875" text="Doanh thu" />
         </columns>
       </TableView>
-      <TextArea layoutX="671.0" layoutY="437.0" prefHeight="19.0" prefWidth="150.0" />
-      <TextField layoutX="22.0" layoutY="53.0" prefHeight="38.0" prefWidth="208.0" promptText="Tìm kiếm bằng mã gói hội viên" />
-      <Label layoutX="527.0" layoutY="443.0" text="Tổng doanh thu:">
+      <TextArea layoutX="699.0" layoutY="431.0" prefHeight="19.0" prefWidth="150.0" />
+      <TextField layoutX="50.0" layoutY="47.0" prefHeight="38.0" prefWidth="208.0" promptText="Tìm kiếm bằng mã gói hội viên" />
+      <Label layoutX="565.0" layoutY="437.0" text="Tổng doanh thu:">
          <font>
             <Font size="16.0" />
          </font>

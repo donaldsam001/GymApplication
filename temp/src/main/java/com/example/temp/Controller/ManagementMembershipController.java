@@ -39,7 +39,6 @@ public class ManagementMembershipController {
     @FXML private TableColumn<MemberExtend, String> colPackage;
     @FXML private TableColumn<MemberExtend, String> colStartDate;
     @FXML private TableColumn<MemberExtend, String> colEndDate;
-    @FXML private TableColumn<MemberExtend, Integer> colExp;
 
 
 
@@ -54,7 +53,6 @@ public class ManagementMembershipController {
         colPackage.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getPackageName()));
         colStartDate.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getStartDate()));
         colEndDate.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getEndDate()));
-        colExp.setCellValueFactory(cell -> new SimpleIntegerProperty(cell.getValue().getExp()).asObject());
 
         loadMembers();
         tableView.setOnMouseClicked(this::handleTableClick);
@@ -150,8 +148,7 @@ public class ManagementMembershipController {
                         m.getAge(),
                         m.getPackageName() != null ? m.getPackageName() : "",
                         m.getStartDate() != null ? m.getStartDate() : "",
-                        m.getEndDate() != null ? m.getEndDate() : "",
-                        m.getExp()
+                        m.getEndDate() != null ? m.getEndDate() : ""
                 ));
             }
             showAlert("✅ Đã xuất danh sách đầy đủ ra file CSV!");

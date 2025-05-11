@@ -29,15 +29,15 @@ public class HomeController {
 
     @FXML private Pane topPane;
 
-    @FXML
-    public void initialize() {
-        if (!Session.isAdmin) {
-            vbox1.setVisible(false);
-            empManagement.setVisible(false);
-            btnStatistics.setVisible(false);
-
-        }
-    }
+//    @FXML
+//    public void initialize() {
+////        if (!Session.isAdmin) {
+////            vbox1.setVisible(false);
+////            empManagement.setVisible(false);
+////            btnStatistics.setVisible(false);
+////
+////        }
+//    }
 
     @FXML
     private void openLogout(ActionEvent event) {

@@ -18,7 +18,7 @@ public class DB {
                 // Employee table
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS Employee (
-                        id TEXT PRIMARY KEY,
+                        id INTEGER PRIMARY KEY,
                         name TEXT NOT NULL,
                         password TEXT NOT NULL,
                         phone TEXT NOT NULL
@@ -81,6 +81,15 @@ public class DB {
                         note TEXT
                     );
                 """);
+
+                stmt.execute("""
+                    CREATE TABLE IF NOT EXISTS PackageSalesStats (
+                        packageID INTEGER PRIMARY KEY,
+                        totalSales INTEGER DEFAULT 0,
+                        FOREIGN KEY (packageID) REFERENCES Membership_package(id)
+                    );
+                """);
+
 
                 System.out.println("Database and all tables created successfully.");
             }

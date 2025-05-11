@@ -11,10 +11,10 @@ public class MemberCard extends MembershipPackage {
 
     public MemberCard(int customerID, String customerName,
                       int packageID, String packageName,
-                      String startDate, String endDate) {
+                      String startDate, String endDate, int exp) {
 
         // Gọi constructor của lớp cha MembershipPackage
-        super(packageID, packageName);
+        super(packageID, packageName, exp);
 
         this.customerID = new SimpleIntegerProperty(customerID);
         this.startDate = new SimpleStringProperty(startDate);

@@ -78,7 +78,6 @@
                                     <TableColumn fx:id="colDel" minWidth="0.0" prefWidth="86.4000244140625" text="Xóa" />
                                 </columns>
                             </TableView>
-                            <Button fx:id="btnDeleteAll" layoutX="887.0" layoutY="35.0" mnemonicParsing="false" onAction="#DeleteAll" text="Xóa toàn bộ" />
                      <TextField fx:id="inputSearchDel" layoutX="100.0" layoutY="35.0" minWidth="190.0" prefHeight="30.0" prefWidth="250.0" promptText="Tìm kiếm" />
                         </children>
                     </AnchorPane>
@@ -90,7 +89,7 @@
                         <children>
                             <TableView fx:id="listPackage" layoutX="100.0" layoutY="100.0" prefHeight="500.0" prefWidth="900.0">
                                 <columns>
-                                    <TableColumn fx:id="colId" prefWidth="121.59998321533203" text="Mã gói hội viên" />
+                                    <TableColumn fx:id="colID" prefWidth="121.59998321533203" text="Mã gói hội viên" />
                                     <TableColumn fx:id="colName" minWidth="8.79998779296875" prefWidth="180.8000030517578" text="Tên gói hội viên" />
                                     <TableColumn fx:id="colDescription" prefWidth="238.39999389648438" text="Chi tiết" />
                                     <TableColumn fx:id="colExpDate" minWidth="0.0" prefWidth="115.99993896484375" text="Thời hạn(tháng)" />

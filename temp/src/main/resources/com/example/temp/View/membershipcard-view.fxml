@@ -29,8 +29,8 @@
              <Label text="Mã hội viên" GridPane.columnIndex="0" GridPane.rowIndex="0" />
              <TextField fx:id="customerIDField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
          <Label text="Mã gói" GridPane.rowIndex="1" />
-         <TextField fx:id="packageIDField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-         <TextField fx:id="expField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <TextField fx:id="packageIDField" GridPane.columnIndex="1" GridPane.rowIndex="1" editable="false"/>
+         <TextField fx:id="expField" GridPane.columnIndex="1" GridPane.rowIndex="2" editable="false" />
          <Label text="Thời hạn" GridPane.rowIndex="2" />
          <rowConstraints>
             <RowConstraints />

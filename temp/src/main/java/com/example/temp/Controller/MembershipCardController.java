@@ -3,8 +3,10 @@ package com.example.temp.Controller;
 import com.example.temp.DAO.MemberDAO;
 import com.example.temp.DAO.MemberCardDAO;
 import com.example.temp.DAO.MembershipPackageDAO;
+import com.example.temp.DAO.PackageSalesDAO;
 import com.example.temp.Models.MemberCard;
 import com.example.temp.Models.MembershipPackage;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,6 +28,8 @@ public class MembershipCardController {
     @FXML private TableColumn<MemberCard, String> colStartDate;
     @FXML private TableColumn<MemberCard, String> colEndDate;
     @FXML private TableColumn<MemberCard, String> colPackage;
+    @FXML private TextField packageIDField;
+    @FXML private TextField expField;
 
     private ObservableList<MemberCard> cardList;
 
@@ -35,10 +39,15 @@ public class MembershipCardController {
         colName.setCellValueFactory(new PropertyValueFactory<>("customerName")); // sửa lại
         colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-        colPackage.setCellValueFactory(new PropertyValueFactory<>("name")); // gói từ superclass
+        colPackage.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getPackageName()));
 
         startDatePicker.setValue(LocalDate.now());
-        goiComboBox.setOnAction(event -> updateEndDate());
+//        goiComboBox.setOnAction(event -> updateEndDate());
+        goiComboBox.setOnAction(event -> {
+            updateEndDate();
+            displayPackageInfo(); // Cập nhật thông tin gói
+        });
+
 
         try {
             List<MembershipPackage> packages = new MembershipPackageDAO().getActivePackages();
@@ -53,6 +62,8 @@ public class MembershipCardController {
         } catch (Exception e) {
             showAlert("Lỗi", "Không thể tải danh sách thẻ: " + e.getMessage());
         }
+
+
     }
 
 
@@ -94,12 +105,14 @@ public class MembershipCardController {
                 selectedPackage.getPackageID(),
                 selectedPackage.getPackageName(),
                 startDate.toString(),
-                endDate.toString()
+                endDate.toString(),
+                selectedPackage.getExp()
         );
 
         if (MemberCardDAO.insertMemberCard(card)) {
             cardList.add(card);
             showAlert("Thành công", "Đăng ký thẻ thành công.");
+            PackageSalesDAO.increaseSales(selectedPackage.getPackageID());
             customerIDField.clear();
             goiComboBox.setValue(null);
             startDatePicker.setValue(LocalDate.now());
@@ -172,6 +185,14 @@ public class MembershipCardController {
             showAlert("Lỗi", "Lỗi khi xóa thẻ: " + e.getMessage());
         }
     }
+
+    private void displayPackageInfo() {
+        MembershipPackage selected = goiComboBox.getValue();
+        if (selected == null) return;
+        packageIDField.setText(String.valueOf(selected.getPackageID()));
+        expField.setText(String.valueOf(selected.getExp()));
+    }
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

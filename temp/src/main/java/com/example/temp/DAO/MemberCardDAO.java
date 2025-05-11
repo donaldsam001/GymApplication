@@ -66,9 +66,9 @@ public class MemberCardDAO {
         List<MemberCard> cards = new ArrayList<>();
         String sql = """
             SELECT mc.customerID, mc.startDate, mc.endDate, mc.name AS customerName,
-                   mp.id AS packageID, mp.name AS packageName
-            FROM MemberCard mc
-            JOIN Membership_package mp ON mc.packageID = mp.id
+                              mp.id AS packageID, mp.name AS packageName, mc.exp
+                              FROM MemberCard mc
+                              JOIN Membership_package mp ON mc.packageID = mp.id
         """;
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -82,7 +82,8 @@ public class MemberCardDAO {
                         rs.getInt("packageID"),
                         rs.getString("packageName"),
                         rs.getString("startDate"),
-                        rs.getString("endDate")
+                        rs.getString("endDate"),
+                        rs.getInt("exp")
                 );
                 cards.add(card);
             }

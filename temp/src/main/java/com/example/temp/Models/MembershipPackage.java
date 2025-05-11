@@ -8,9 +8,10 @@ public class MembershipPackage {
     private int exp;
     private boolean status;
 
-    public MembershipPackage(int packageID, String packageName) {
+    public MembershipPackage(int packageID, String packageName, int exp) {
         this.packageID = packageID;
         this.packageName = packageName;
+        this.exp = exp;
     }
 
     public MembershipPackage(int packageID, String packageName, float price, String description, int exp, boolean status) {
@@ -71,4 +72,10 @@ public class MembershipPackage {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return this.packageName; // Hiển thị tên gói trong ComboBox
+    }
+
 }

@@ -28,7 +28,7 @@ public class MembershipPackageDAO {
 
     private void createTable() {
         String query = "CREATE TABLE IF NOT EXISTS Membership_package (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "id INTEGER PRIMARY KEY , " +
                 "name TEXT NOT NULL, " +
                 "price REAL NOT NULL, " +
                 "description TEXT, " +
@@ -155,19 +155,6 @@ public class MembershipPackageDAO {
             stmt.setInt(1, id);
             stmt.executeUpdate();
             logger.info("Deleted MembershipPackage with id: " + id);
-        } catch (SQLException e) {
-            logger.warning(e.toString());
-        } finally {
-            closeConnection();
-        }
-    }
-
-    public void deleteAllPackages() {
-        getConnection();
-        String sql = "DELETE FROM Membership_package";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.executeUpdate();
-            logger.info("All membership packages deleted.");
         } catch (SQLException e) {
             logger.warning(e.toString());
         } finally {

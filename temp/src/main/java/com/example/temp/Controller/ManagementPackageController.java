@@ -20,7 +20,7 @@ public class ManagementPackageController {
     @FXML
     private TableView<MembershipPackage> listPackage, listPackageChange, listPackageDel;
     @FXML
-    private TableColumn<MembershipPackage, Integer> colId, colIdChange, colIdDel;
+    private TableColumn<MembershipPackage, Integer> colID, colIdChange, colIdDel;
     @FXML
     private TableColumn<MembershipPackage, String> colName, colNameChange, colNameDel;
     @FXML
@@ -33,13 +33,13 @@ public class ManagementPackageController {
     private TableColumn<MembershipPackage, String> colStatus, colStatusChange, colStatusDel;
 
     @FXML
-    private TableColumn<MembershipPackage, Void> colDel,colChange;
+    private TableColumn<MembershipPackage, Void> colDel;
 
     @FXML
     private TextField inputCode, inputName, inputDescription, inputExpDate, inputPrice, inputSearch, inputSearchChange, inputSearchDel;
 
     @FXML
-    private Button handelCreate, btnDeleteAll;
+    private Button handelCreate;
     @FXML
     private Tab tabViewPackages, tabViewPackagesDel, tabViewPackagesChange;
     @FXML
@@ -86,8 +86,8 @@ public class ManagementPackageController {
     }
 
     private void setupTableView() {
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colID.setCellValueFactory(new PropertyValueFactory<>("packageID"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("packageName"));
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colExpDate.setCellValueFactory(new PropertyValueFactory<>("exp"));
@@ -99,8 +99,8 @@ public class ManagementPackageController {
     }
 
     private void setupDeleteTable() {
-        colIdDel.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colNameDel.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colIdDel.setCellValueFactory(new PropertyValueFactory<>("packageID"));
+        colNameDel.setCellValueFactory(new PropertyValueFactory<>("packageName"));
         colDescriptionDel.setCellValueFactory(new PropertyValueFactory<>("description"));
         colExpDateDel.setCellValueFactory(new PropertyValueFactory<>("exp"));
         colPriceDel.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -136,8 +136,8 @@ public class ManagementPackageController {
     private void setupChangeTable() {
         listPackageChange.setEditable(true);
 
-        colIdChange.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colNameChange.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colIdChange.setCellValueFactory(new PropertyValueFactory<>("packageID"));
+        colNameChange.setCellValueFactory(new PropertyValueFactory<>("packageName"));
         colDescriptionChange.setCellValueFactory(new PropertyValueFactory<>("description"));
         colExpDateChange.setCellValueFactory(new PropertyValueFactory<>("exp"));
         colPriceChange.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -276,21 +276,4 @@ public class ManagementPackageController {
         alert.setHeaderText(null);
         alert.showAndWait();
     }
-
-    @FXML
-    public void DeleteAll() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Xác nhận xóa");
-        alert.setContentText("Bạn có chắc chắn muốn xóa tất cả gói hội viên?");
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                MembershipPackageDAO dao = new MembershipPackageDAO();
-                dao.deleteAllPackages();
-                showAlert("Thành công", "Đã xóa toàn bộ gói hội viên.", Alert.AlertType.INFORMATION);
-                loadMembershipPackages();
-            }
-        });
-    }
-
-
 }
