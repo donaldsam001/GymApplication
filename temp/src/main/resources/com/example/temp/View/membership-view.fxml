@@ -14,16 +14,31 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane stylesheets="/com/example/temp/Styles/QLHoiVien.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.ManagementMembershipController">
-    <top>
-        <Label styleClass="header-label" text="Quản lý Hội Viên" />
-    </top>
+<BorderPane stylesheets="@../Styles/QLHoiVien.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.ManagementMembershipController">
 
     <center>
         <VBox spacing="10" styleClass="main-container">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
+         <GridPane hgap="10" layoutX="20.0" layoutY="20.0" styleClass="form-grid" vgap="10">
+            <columnConstraints>
+               <ColumnConstraints percentWidth="20" />
+               <ColumnConstraints percentWidth="30" />
+               <ColumnConstraints percentWidth="20" />
+               <ColumnConstraints percentWidth="30" />
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+            <children>
+               <TextField fx:id="inputSearch" GridPane.columnIndex="3" />
+               <Label text="Tìm kiếm:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            </children>
+         </GridPane>
 
             <GridPane hgap="10" styleClass="form-grid" vgap="10">
                 <columnConstraints>
@@ -33,7 +48,7 @@
                     <ColumnConstraints percentWidth="30" />
                 </columnConstraints>
 
-                <Label text="Mã HV:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Label text="Mã hội viên:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                 <TextField fx:id="tfCustomerID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
                 <Label text="Họ tên:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
@@ -53,6 +68,9 @@
                <RowConstraints />
                <RowConstraints />
             </rowConstraints>
+            <VBox.margin>
+               <Insets />
+            </VBox.margin>
             </GridPane>
 
             <HBox spacing="10" styleClass="button-group">
@@ -76,4 +94,7 @@
             </TableView>
         </VBox>
     </center>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
 </BorderPane>

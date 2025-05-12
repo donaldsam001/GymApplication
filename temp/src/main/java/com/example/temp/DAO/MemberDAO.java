@@ -1,7 +1,7 @@
 package com.example.temp.DAO;
-import com.example.temp.Models.MemberExtend;
+import com.example.temp.Models.Membership;
 
-import com.example.temp.Models.Member;
+import com.example.temp.Models.Membership;
 import com.example.temp.Utils.SQLiteConnection;
 
 import java.sql.*;
@@ -11,7 +11,7 @@ import java.util.List;
 public class MemberDAO {
 
     // Thêm hội viên vào cơ sở dữ liệu
-    public static boolean addMember(Member member) {
+    public static boolean addMember(Membership member) {
         String sql = "INSERT INTO MemberDetail (customerID, name, phone, gender, age) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = SQLiteConnection.getConnection();
@@ -36,7 +36,7 @@ public class MemberDAO {
     }
 
     // Cập nhật thông tin hội viên trong cơ sở dữ liệu
-    public static boolean updateMember(Member member) {
+    public static boolean updateMember(Membership member) {
         String sql = "UPDATE MemberDetail SET name = ?, phone = ?, gender = ?, age = ? WHERE customerID = ?";
 
         try (Connection conn = SQLiteConnection.getConnection();
@@ -74,28 +74,28 @@ public class MemberDAO {
     }
 
     // Lấy tất cả hội viên từ cơ sở dữ liệu
-    public static List<Member> getAllMembers() {
-        List<Member> members = new ArrayList<>();
-        String sql = "SELECT * FROM MemberDetail";
-
-        try (Connection conn = SQLiteConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                int customerID = rs.getInt("customerID");
-                String name = rs.getString("name");
-                String phone = rs.getString("phone");
-                String gender = rs.getString("gender");
-                int age = rs.getInt("age");
-
-                members.add(new Member(customerID, name, phone, gender, age));
-            }
-        } catch (SQLException e) {
-            System.out.println("❌ Lỗi khi lấy danh sách hội viên: " + e.getMessage());
-        }
-        return members;
-    }
+//    public static List<Membership> getAllMembers() {
+//        List<Membership> members = new ArrayList<>();
+//        String sql = "SELECT * FROM MemberDetail";
+//
+//        try (Connection conn = SQLiteConnection.getConnection();
+//             Statement stmt = conn.createStatement();
+//             ResultSet rs = stmt.executeQuery(sql)) {
+//
+//            while (rs.next()) {
+//                int customerID = rs.getInt("customerID");
+//                String name = rs.getString("name");
+//                String phone = rs.getString("phone");
+//                String gender = rs.getString("gender");
+//                int age = rs.getInt("age");
+//
+//                members.add(new Membership(customerID, name, phone, gender, age));
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("❌ Lỗi khi lấy danh sách hội viên: " + e.getMessage());
+//        }
+//        return members;
+//    }
 
     public static String getCustomerNameById(int customerID) {
         String sql = "SELECT name FROM MemberDetail WHERE customerID = ?";
@@ -112,6 +112,8 @@ public class MemberDAO {
         }
         return null;
     }
+
+
 
 
     // Kiểm tra xem mã hội viên đã tồn tại trong cơ sở dữ liệu chưa
@@ -131,8 +133,8 @@ public class MemberDAO {
         }
     }
 
-    public static List<MemberExtend> getAllExtendedMembers() {
-        List<MemberExtend> list = new ArrayList<>();
+    public static List<Membership> getAllExtendedMembers() {
+        List<Membership> list = new ArrayList<>();
         String sql = """
         SELECT m.customerID, m.name, m.phone, m.gender, m.age,
                c.package AS packageName, c.startDate, c.endDate, c.exp
@@ -144,7 +146,7 @@ public class MemberDAO {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                list.add(new MemberExtend(
+                list.add(new Membership(
                         rs.getInt("customerID"),
                         rs.getString("name"),
                         rs.getString("phone"),
@@ -161,4 +163,42 @@ public class MemberDAO {
 
         return list;
     }
+
+    public static List<Membership> searchMembers(String keyword) {
+        List<Membership> list = new ArrayList<>();
+        String sql = """
+        SELECT m.customerID, m.name, m.phone, m.gender, m.age,
+               c.package AS packageName, c.startDate, c.endDate, c.exp
+        FROM MemberDetail m
+        LEFT JOIN MemberCard c ON m.customerID = c.customerID
+        WHERE CAST(m.customerID AS TEXT) LIKE ? OR m.name LIKE ?
+    """;
+
+        try (Connection conn = SQLiteConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + keyword + "%");
+            stmt.setString(2, "%" + keyword + "%");
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                list.add(new Membership(
+                        rs.getInt("customerID"),
+                        rs.getString("name"),
+                        rs.getString("phone"),
+                        rs.getString("gender"),
+                        rs.getInt("age"),
+                        rs.getString("packageName"),
+                        rs.getString("startDate"),
+                        rs.getString("endDate")
+                ));
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Lỗi khi tìm kiếm hội viên: " + e.getMessage());
+        }
+
+        return list;
+    }
+
+
 }

@@ -1,20 +1,28 @@
 package com.example.temp.Models;
-
 import javafx.beans.property.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 
-public class Member {
+public class Membership {
     private final IntegerProperty ID;
     private final StringProperty name;
     private final StringProperty phone;
     private final StringProperty gender;
     private final IntegerProperty age;
+    private String packageName;
+    private String startDate;
+    private String endDate;
 
-    public Member(int ID, String name, String phone, String gender, int age) {
-        this.ID = new SimpleIntegerProperty(ID);
+    public Membership(int customerID, String name, String phone, String gender, int age,
+                      String packageName, String startDate, String endDate) {
+        this.ID = new SimpleIntegerProperty(customerID);
         this.name = new SimpleStringProperty(name);
         this.phone = new SimpleStringProperty(phone);
         this.gender = new SimpleStringProperty(gender);
         this.age = new SimpleIntegerProperty(age);
+        this.packageName = packageName;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public int getCustomerID() { return ID.get(); }
@@ -35,4 +43,8 @@ public class Member {
     public StringProperty genderProperty() { return gender; }
     public IntegerProperty ageProperty() { return age; }
 
+
+    public String getPackageName() { return packageName; }
+    public String getStartDate() { return startDate; }
+    public String getEndDate() { return endDate; }
 }

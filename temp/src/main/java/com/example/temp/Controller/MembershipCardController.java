@@ -44,7 +44,6 @@ public class MembershipCardController {
         inputSearch.textProperty().addListener((obs, oldVal, newVal) -> searchByCustomerID());
 
         startDatePicker.setValue(LocalDate.now());
-//        goiComboBox.setOnAction(event -> updateEndDate());
         goiComboBox.setOnAction(event -> {
             updateEndDate();
             displayPackageInfo(); // Cập nhật thông tin gói
