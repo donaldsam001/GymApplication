@@ -15,22 +15,26 @@ import javafx.collections.ObservableList;
 
 public class TrainingTimeController {
 
+    @FXML private TextField inputSearch;
     @FXML private TextField fieldID; // Trường nhập mã hội viên
     @FXML private TextField fieldNote; // Trường ghi chú khi check-out
     @FXML private TableView<TrainingTime> timeTableView; // Bảng hiển thị các bản ghi thời gian
     @FXML private TableColumn<TrainingTime, Integer> colCustomerID; // Cột CustomerID
-    @FXML private TableColumn<TrainingTime, String> colStartDay, colEndDay, colNote; // Các cột thời gian và ghi chú
+    @FXML private TableColumn<TrainingTime, String> colName, colStartDay, colEndDay, colNote; // Các cột thời gian và ghi chú
     @FXML private Label labelTotal; // Label hiển thị tổng số bản ghi
 
     @FXML
     public void initialize() {
         // Khởi tạo các cột trong bảng
         colCustomerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         colStartDay.setCellValueFactory(new PropertyValueFactory<>("checkInTime"));
         colEndDay.setCellValueFactory(new PropertyValueFactory<>("checkOutTime"));
         colNote.setCellValueFactory(new PropertyValueFactory<>("note"));
 
         loadTrainingTimes(); // Tải dữ liệu bảng khi khởi tạo
+        inputSearch.setOnKeyReleased(e -> handleSearch());
+
     }
 
     // Phương thức để tải tất cả bản ghi từ TrainingTime
@@ -67,8 +71,10 @@ public class TrainingTimeController {
         String checkInTime = getNow();
         String finalNote = note.isEmpty() ? "Check-in lúc " + checkInTime : note;
 
+        String name = MemberDAO.getCustomerNameById(id);
+
         // Tạo đối tượng TrainingTime và lưu vào cơ sở dữ liệu
-        TrainingTime trainingTime = new TrainingTime(id, checkInTime, null, finalNote);
+        TrainingTime trainingTime = new TrainingTime(id,name, checkInTime, null, finalNote);
         if (TrainingTimeDAO.insertCheckIn(trainingTime)) {
             showInfo("✅ Check-in thành công.");
             clearForm();
@@ -110,6 +116,23 @@ public class TrainingTimeController {
     private boolean isCustomerIDExistsInQLHV(int customerID) {
         return MemberDAO.isCustomerIDExists(customerID);
     }
+
+    @FXML
+    private void handleSearch() {
+        String keyword = inputSearch.getText().trim();
+        if (keyword.isEmpty()) {
+            loadTrainingTimes();
+            return;
+        }
+
+        ObservableList<TrainingTime> filteredList = FXCollections.observableArrayList(
+                TrainingTimeDAO.searchTrainingTimes(keyword)
+        );
+        timeTableView.getItems().setAll(filteredList);
+        timeTableView.refresh();
+        labelTotal.setText("Tổng: " + filteredList.size());
+    }
+
 
 
     // Lấy thời gian hiện tại

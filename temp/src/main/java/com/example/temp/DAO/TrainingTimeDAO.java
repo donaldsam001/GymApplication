@@ -1,5 +1,6 @@
 package com.example.temp.DAO;
 
+import com.example.temp.Models.Membership;
 import com.example.temp.Models.TrainingTime;
 import com.example.temp.Utils.SQLiteConnection;
 
@@ -11,14 +12,15 @@ public class TrainingTimeDAO {
 
     // Thêm bản ghi check-in vào cơ sở dữ liệu
     public static boolean insertCheckIn(TrainingTime trainingTime) {
-        String sql = "INSERT INTO TrainingTime (customerID, checkInTime, note) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO TrainingTime (customerID, customerName, checkInTime, note) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = SQLiteConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, trainingTime.getCustomerID());  // customerID là int
-            stmt.setString(2, trainingTime.getCheckInTime());
-            stmt.setString(3, trainingTime.getNote());
+            stmt.setString(2, trainingTime.getCustomerName());
+            stmt.setString(3, trainingTime.getCheckInTime());
+            stmt.setString(4, trainingTime.getNote());
 
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0; // Trả về true nếu có bản ghi được thêm
@@ -88,6 +90,7 @@ public class TrainingTimeDAO {
             while (rs.next()) {
                 list.add(new TrainingTime(
                         rs.getInt("customerID"),  // customerID là int
+                        rs.getString("customerName"),
                         rs.getString("checkInTime"),
                         rs.getString("checkOutTime"),
                         rs.getString("note")
@@ -115,4 +118,29 @@ public class TrainingTimeDAO {
         }
         return 1; // Nếu không có bản ghi nào, trả về 1
     }
+
+    public static List<TrainingTime> searchTrainingTimes(String keyword) {
+        List<TrainingTime> results = new ArrayList<>();
+        String query = "SELECT * FROM TrainingTime WHERE customerName LIKE ? OR customerID LIKE ?";
+        try (Connection conn = SQLiteConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            String likeKeyword = "%" + keyword + "%";
+            stmt.setString(1, likeKeyword);
+            stmt.setString(2, likeKeyword);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                results.add(new TrainingTime(
+                        rs.getInt("customerID"),
+                        rs.getString("customerName"),
+                        rs.getString("checkInTime"),
+                        rs.getString("checkOutTime"),
+                        rs.getString("note")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
+
 }

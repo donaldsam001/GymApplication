@@ -76,7 +76,8 @@ public class DB {
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS TrainingTime (
                         customerID INTEGER PRIMARY KEY ,
-                        checkInTime TEXT,
+                        customerName TEXT,
+                        checkInTime TEXT NOT NULL,
                         checkOutTime TEXT,
                         note TEXT
                     );

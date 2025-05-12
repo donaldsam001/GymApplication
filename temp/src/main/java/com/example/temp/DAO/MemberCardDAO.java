@@ -161,7 +161,6 @@ public class MemberCardDAO {
             lastError = e.getMessage();
             System.out.println("❌ Lỗi khi tìm kiếm thẻ hội viên: " + e.getMessage());
         }
-
         return list;
     }
 
