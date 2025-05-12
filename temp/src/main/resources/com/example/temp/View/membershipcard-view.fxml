@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -15,89 +16,92 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.MembershipCardController">
 
-     <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2a5058;" text="QUẢN LÝ THẺ HỘI VIÊN" />
-
-     <HBox prefHeight="230.0" prefWidth="770.0" spacing="40.0">
-         <GridPane hgap="10" vgap="10">
-             <columnConstraints>
-                 <ColumnConstraints halignment="RIGHT" minWidth="100" />
-                 <ColumnConstraints minWidth="180" />
-             </columnConstraints>
-
-             <Label text="Mã hội viên" GridPane.rowIndex="2" />
-             <TextField fx:id="customerIDField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-         <Label text="Mã gói" GridPane.rowIndex="3" />
-         <TextField fx:id="packageIDField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-         <TextField fx:id="expField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-         <Label text="Thời hạn" GridPane.rowIndex="4" />
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm" />
-         <TextField fx:id="inputSearch" GridPane.columnIndex="1" />
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
-            <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
-         </rowConstraints>
-         </GridPane>
-
-         <GridPane hgap="10" prefHeight="279.0" prefWidth="123.0" vgap="10">
-             <columnConstraints>
-                 <ColumnConstraints halignment="RIGHT" minWidth="100" />
-                 <ColumnConstraints minWidth="180" />
-             </columnConstraints>
-
-             <Label text="Gói" GridPane.rowIndex="2" />
-             <ComboBox fx:id="goiComboBox" prefWidth="180" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-             <Label text="Bắt đầu" GridPane.rowIndex="3" />
-             <DatePicker fx:id="startDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-             <Label text="Kết thúc" GridPane.rowIndex="4" />
-             <DatePicker fx:id="endDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
-         </GridPane>
-      <VBox.margin>
-         <Insets left="50.0" right="50.0" />
-      </VBox.margin>
-     </HBox>
-
-     <HBox alignment="CENTER" spacing="12">
-         <Button onAction="#handlePayment" styleClass="btn-add" stylesheets="@../Styles/QLHoiVien.css" text="Đăng ký" />
-         <Button onAction="#handleRenewCard" styleClass="btn-export" stylesheets="@../Styles/QLHoiVien.css" text="Gia hạn" />
-         <Button onAction="#handleDeleteCard" styleClass="btn-delete" stylesheets="@../Styles/QLHoiVien.css" text="Xóa" />
-     </HBox>
-
-     <TableView fx:id="cardTableView" prefHeight="300" stylesheets="@../Styles/QLHoiVien.css">
-         <columns>
-             <TableColumn fx:id="colCustomerID" prefWidth="96.00003051757812" text="Mã hội viên" />
-         <TableColumn fx:id="colName" prefWidth="200.80004119873047" text="Tên hội viên" />
-             <TableColumn fx:id="colPackage" prefWidth="172.7999267578125" text="Gói" />
-             <TableColumn fx:id="colStartDate" prefWidth="192.00009155273438" text="Bắt đầu" />
-             <TableColumn fx:id="colEndDate" prefWidth="195.199951171875" text="Kết thúc" />
-         </columns>
-     </TableView>
-
- </VBox>
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.MembershipCardController">
+   <children>
+      <VBox spacing="15" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      
+                 <HBox spacing="40.0">
+               <GridPane hgap="10" vgap="10">
+                   <columnConstraints>
+                       <ColumnConstraints halignment="RIGHT" minWidth="100" />
+                       <ColumnConstraints minWidth="180" />
+                   </columnConstraints>
+      
+                         <Label text="Mã hội viên" GridPane.rowIndex="2" />
+                   <TextField fx:id="customerIDField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               <Label text="Mã gói" GridPane.rowIndex="3" />
+               <TextField fx:id="packageIDField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+               <TextField fx:id="expField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+               <Label text="Thời hạn" GridPane.rowIndex="4" />
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm" />
+               <TextField fx:id="inputSearch" GridPane.columnIndex="1" />
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+                  <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+               </rowConstraints>
+               </GridPane>
+      
+                     <GridPane hgap="10" prefHeight="279.0" prefWidth="123.0" vgap="10">
+                   <columnConstraints>
+                       <ColumnConstraints halignment="RIGHT" minWidth="100" />
+                       <ColumnConstraints minWidth="180" />
+                   </columnConstraints>
+      
+                         <Label text="Gói" GridPane.rowIndex="2" />
+                   <ComboBox fx:id="goiComboBox" prefWidth="180" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      
+                         <Label text="Bắt đầu" GridPane.rowIndex="3" />
+                   <DatePicker fx:id="startDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      
+                         <Label text="Kết thúc" GridPane.rowIndex="4" />
+                   <DatePicker fx:id="endDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+               </GridPane>
+           </HBox>
+      
+                                            <HBox alignment="CENTER" spacing="12">
+               <Button onAction="#handlePayment" styleClass="btn-add" stylesheets="@../Styles/QLHoiVien.css" text="Đăng ký" />
+               <Button onAction="#handleRenewCard" styleClass="btn-export" stylesheets="@../Styles/QLHoiVien.css" text="Gia hạn" />
+               <Button onAction="#handleDeleteCard" styleClass="btn-delete" stylesheets="@../Styles/QLHoiVien.css" text="Xóa" />
+           </HBox>
+      
+                 <TableView fx:id="cardTableView" stylesheets="@../Styles/QLHoiVien.css">
+               <columns>
+                   <TableColumn fx:id="colCustomerID" prefWidth="96.00003051757812" text="Mã hội viên" />
+               <TableColumn fx:id="colName" prefWidth="272.8000030517578" text="Tên hội viên" />
+                   <TableColumn fx:id="colPackage" prefWidth="174.39996337890625" text="Gói" />
+                   <TableColumn fx:id="colStartDate" prefWidth="176.0" text="Bắt đầu" />
+                   <TableColumn fx:id="colEndDate" prefWidth="179.199951171875" text="Kết thúc" />
+               </columns>
+           </TableView>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      
+       </VBox>
+   </children>
+</AnchorPane>

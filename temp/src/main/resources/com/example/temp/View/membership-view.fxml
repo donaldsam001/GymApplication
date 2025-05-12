@@ -17,7 +17,7 @@
 <BorderPane stylesheets="@../Styles/QLHoiVien.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.ManagementMembershipController">
 
     <center>
-        <VBox spacing="10" styleClass="main-container">
+        <VBox spacing="20.0" styleClass="main-container">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
@@ -31,8 +31,8 @@
             <rowConstraints>
                <RowConstraints />
                <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
+               <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+               <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
             </rowConstraints>
             <children>
                <TextField fx:id="inputSearch" GridPane.columnIndex="3" />
@@ -80,17 +80,20 @@
                 <Button onAction="#handleExportList" styleClass="btn-export" stylesheets="@../Styles/QLHoiVien.css" text="📋 Xem danh sách và Xuất file" />
             </HBox>
 
-            <TableView fx:id="tableView" prefHeight="450.0" stylesheets="@../Styles/QLHoiVien.css">
+            <TableView fx:id="tableView" stylesheets="@../Styles/QLHoiVien.css">
                 <columns>
-                    <TableColumn fx:id="colCustomerID" text="Mã HV" />
-                    <TableColumn fx:id="colName" prefWidth="192.00001525878906" text="Họ tên" />
-                    <TableColumn fx:id="colPhone" prefWidth="164.0" text="SĐT" />
-                    <TableColumn fx:id="colGender" prefWidth="93.5999755859375" text="Giới tính" />
-                    <TableColumn fx:id="colAge" prefWidth="71.20001220703125" text="Tuổi" />
-                    <TableColumn fx:id="colPackage" prefWidth="57.60003662109375" text="Gói" />
-                    <TableColumn fx:id="colStartDate" prefWidth="112.79998779296875" text="Ngày bắt đầu" />
-                    <TableColumn fx:id="colEndDate" prefWidth="94.4000244140625" text="Ngày kết thúc" />
+                    <TableColumn fx:id="colCustomerID" prefWidth="91.19998025894165" text="Mã hội viên" />
+                    <TableColumn fx:id="colName" prefWidth="215.99998474121094" text="Họ tên" />
+                    <TableColumn fx:id="colPhone" prefWidth="186.39993286132812" text="SĐT" />
+                    <TableColumn fx:id="colGender" prefWidth="89.60000610351562" text="Giới tính" />
+                    <TableColumn fx:id="colAge" prefWidth="59.20001220703125" text="Tuổi" />
+                    <TableColumn fx:id="colPackage" prefWidth="132.0" text="Gói" />
+                    <TableColumn fx:id="colStartDate" minWidth="132.0" prefWidth="163.99993896484375" text="Ngày bắt đầu" />
+                    <TableColumn fx:id="colEndDate" minWidth="0.0" prefWidth="160.00006103515625" text="Ngày kết thúc" />
                 </columns>
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
             </TableView>
         </VBox>
     </center>

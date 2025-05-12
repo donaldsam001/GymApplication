@@ -19,7 +19,7 @@ public class StatisticsController {
     @FXML private TableColumn<PackageSalesStats, Integer> colSales;
     @FXML private TableColumn<PackageSalesStats, String> colRevenue;
 
-    @FXML private TextField totalRevenue;
+    @FXML private Label totalRevenue;
     @FXML private TextField inputSearch;
 
     private ObservableList<PackageSalesStats> saleList = FXCollections.observableArrayList();
@@ -40,7 +40,7 @@ public class StatisticsController {
         salesTable.setItems(FXCollections.observableArrayList(stats));
 
         int total = stats.stream().mapToInt(PackageSalesStats::getRevenue).sum();
-        totalRevenue.setText( String.format("%,d₫", total));
+        totalRevenue.setText("Tổng doanh thu: " + String.format("%,d₫", total));
         inputSearch.textProperty().addListener((obs, oldVal, newVal) -> searchPackages());
 
     }

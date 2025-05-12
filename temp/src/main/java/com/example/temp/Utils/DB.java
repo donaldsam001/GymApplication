@@ -114,7 +114,5 @@ public class DB {
             System.out.println("Database file does not exist.");
         }
     }
-
-
 }
 
