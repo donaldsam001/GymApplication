@@ -16,16 +16,20 @@
    <VBox alignment="CENTER" layoutX="110.4" layoutY="80.0" prefHeight="560.0" prefWidth="900.0" spacing="20" stylesheets="@../Styles/QLHoiVien.css" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="60.0">
 
       <GridPane alignment="CENTER" hgap="12" vgap="12">
-         <Label text="ID " GridPane.columnIndex="0" GridPane.rowIndex="0" />
-         <TextField fx:id="fieldID" promptText="Nhập ID hoặc để trống" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+         <Label text="Mã hội  viên" GridPane.rowIndex="3" />
+         <TextField fx:id="fieldID" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-         <Label text="Ghi chú" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-         <TextField fx:id="fieldNote" promptText="Nhập ghi chú nếu có" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <Label text="Ghi chú" GridPane.rowIndex="5" />
+         <TextField fx:id="fieldNote" promptText="Nhập ghi chú nếu có" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         <TextField fx:id="inputSearch" prefHeight="26.0" prefWidth="210.0" promptText="Mã hội viên hoặc tên hội viên" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         <Label text="Tìm kiếm" GridPane.rowIndex="1" />
          <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
+            <ColumnConstraints halignment="RIGHT" percentWidth="15.0" />
+            <ColumnConstraints percentWidth="30.0" />
          </columnConstraints>
          <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
@@ -38,22 +42,6 @@
 
          <Button fx:id="btnCheckOut" onAction="#handleCheckOut" style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 8px 20px;" text="✖ Check-out" />
       </HBox>
-      <GridPane alignment="CENTER" hgap="12" layoutX="10.0" layoutY="70.0" vgap="12">
-         <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
-         <children>
-            <Label text="Tìm kiếm" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="inputSearch" prefHeight="26.0" prefWidth="210.0" promptText="Nhập mã hội viên hoặc tên hội viên" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-         </children>
-      </GridPane>
    
       <TableView fx:id="timeTableView" style="-fx-border-color: #bdc3c7; -fx-border-width: 1px;">
          <columns>

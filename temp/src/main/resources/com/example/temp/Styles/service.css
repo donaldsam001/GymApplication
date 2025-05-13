@@ -22,10 +22,6 @@
     -fx-padding: 10;
 }
 
-.table-view {
-    -fx-table-cell-border-color: transparent;
-    -fx-padding: 10;
-}
 
 .anchor-pane {
     -fx-background-color: #f9f9f9;
@@ -33,7 +29,6 @@
 
 .text {
     -fx-font-size: 14px;
-    -fx-font-weight: bold;
     -fx-min-width: 150px;
 }
 .hbox {

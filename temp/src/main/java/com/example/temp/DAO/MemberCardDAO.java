@@ -135,13 +135,14 @@ public class MemberCardDAO {
                mp.id AS packageID, mp.name AS packageName, mc.exp
         FROM MemberCard mc
         JOIN Membership_package mp ON mc.packageID = mp.id
-        WHERE CAST(mc.customerID AS TEXT) LIKE ?
+        WHERE CAST(mc.customerID AS TEXT) LIKE ? OR mc.name LIKE ?
     """;
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setString(1, "%" + keyword + "%");
+            stmt.setString(2, "%" + keyword + "%");
+
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {

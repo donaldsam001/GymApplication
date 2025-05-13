@@ -158,6 +158,9 @@ public class MembershipCardController {
 
         try {
             if (MemberCardDAO.updateMemberCardEndDate(selected.getCustomerID(), newEndDate.toString())) {
+                PackageSalesDAO packageSalesDAO = new PackageSalesDAO();
+                packageSalesDAO.increaseSales(packageID);
+
                 cardTableView.refresh();
                 showAlert("Thành công", "Gia hạn thẻ thành công. Ngày hết hạn mới: " + newEndDate);
             } else {

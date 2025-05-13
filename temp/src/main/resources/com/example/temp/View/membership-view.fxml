@@ -23,10 +23,8 @@
             </padding>
          <GridPane hgap="10" layoutX="20.0" layoutY="20.0" styleClass="form-grid" vgap="10">
             <columnConstraints>
-               <ColumnConstraints percentWidth="20" />
-               <ColumnConstraints percentWidth="30" />
-               <ColumnConstraints percentWidth="20" />
-               <ColumnConstraints percentWidth="30" />
+               <ColumnConstraints halignment="RIGHT" percentWidth="15.0" />
+               <ColumnConstraints percentWidth="34.0" />
             </columnConstraints>
             <rowConstraints>
                <RowConstraints />
@@ -35,27 +33,27 @@
                <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
             </rowConstraints>
             <children>
-               <TextField fx:id="inputSearch" GridPane.columnIndex="3" />
-               <Label text="Tìm kiếm:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+               <TextField fx:id="inputSearch" promptText="Mã hội viên hoặc tên hội viên" GridPane.columnIndex="1" />
+               <Label text="Tìm kiếm:" GridPane.rowIndex="0" />
             </children>
          </GridPane>
 
             <GridPane hgap="10" styleClass="form-grid" vgap="10">
                 <columnConstraints>
-                    <ColumnConstraints percentWidth="20" />
-                    <ColumnConstraints percentWidth="30" />
-                    <ColumnConstraints percentWidth="20" />
-                    <ColumnConstraints percentWidth="30" />
+                    <ColumnConstraints halignment="RIGHT" percentWidth="15.0" />
+                    <ColumnConstraints percentWidth="35.0" />
+                    <ColumnConstraints halignment="RIGHT" percentWidth="15.0" />
+                    <ColumnConstraints percentWidth="35.0" />
                 </columnConstraints>
 
                 <Label text="Mã hội viên:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                <TextField fx:id="tfCustomerID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <TextField fx:id="tfCustomerID" promptText="6 chữ số (100000-999999)" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
                 <Label text="Họ tên:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
                 <TextField fx:id="tfName" GridPane.columnIndex="3" GridPane.rowIndex="0" />
 
                 <Label text="SĐT:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <TextField fx:id="tfPhone" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="tfPhone" promptText="10 chữ số" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                 <Label text="Giới tính:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                 <ComboBox fx:id="cbGender" prefHeight="25.0" prefWidth="185.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />

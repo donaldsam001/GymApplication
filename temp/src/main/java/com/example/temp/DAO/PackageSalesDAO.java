@@ -120,11 +120,12 @@ public class PackageSalesDAO {
             (IFNULL(ps.totalSales, 0) * mp.price) AS revenue
         FROM Membership_package mp
         LEFT JOIN PackageSalesStats ps ON mp.id = ps.packageID
-        WHERE CAST(mp.id AS TEXT) LIKE ?
+        WHERE CAST(mp.id AS TEXT) LIKE ? OR mp.name LIKE ?
     """;
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, "%" + keyword + "%");
+            stmt.setString(2, "%" + keyword + "%");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 list.add(new PackageSalesStats(
