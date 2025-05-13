@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane style="-fx-background-color: #ffffff; -fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.TrainingTimeController">
-   <VBox alignment="CENTER" layoutX="110.4" layoutY="80.0" prefHeight="560.0" prefWidth="900.0" spacing="20" stylesheets="@../Styles/QLHoiVien.css" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="60.0">
+   <VBox alignment="CENTER" layoutX="110.4" layoutY="80.0" spacing="20.0" stylesheets="@../Styles/QLHoiVien.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
       <GridPane alignment="CENTER" hgap="12" vgap="12">
          <Label text="Mã hội  viên" GridPane.rowIndex="3" />
@@ -47,12 +48,18 @@
          <columns>
             <TableColumn fx:id="colCustomerID" prefWidth="81.60000467300415" text="Mã hội viên" />
             <TableColumn fx:id="colName" prefWidth="212.80001068115234" text="Tên hội viên" />
-            <TableColumn fx:id="colStartDay" prefWidth="120.79998779296875" text="Check-in" />
-            <TableColumn fx:id="colEndDay" minWidth="0.0" prefWidth="119.19992065429688" text="Check-out" />
-            <TableColumn fx:id="colNote" prefWidth="358.4000244140625" text="Ghi chú" />
+            <TableColumn fx:id="colStartDay" prefWidth="170.4000244140625" text="Check-in" />
+            <TableColumn fx:id="colEndDay" minWidth="0.0" prefWidth="166.39993286132812" text="Check-out" />
+            <TableColumn fx:id="colNote" prefWidth="416.0" text="Ghi chú" />
          </columns>
       </TableView>
 
       <Label fx:id="labelTotal" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Tổng số hội viên: 0" />
+      <padding>
+         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+      </padding>
    </VBox>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
 </AnchorPane>

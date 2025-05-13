@@ -75,13 +75,15 @@ public class DB {
 
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS TrainingTime (
-                        customerID INTEGER PRIMARY KEY ,
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        customerID INTEGER,
                         customerName TEXT,
                         checkInTime TEXT NOT NULL,
                         checkOutTime TEXT,
                         note TEXT
                     );
                 """);
+
 
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS PackageSalesStats (

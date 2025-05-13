@@ -101,11 +101,16 @@ public class TrainingTimeController {
         }
 
         String checkOutTime = getNow();
-        String note = "Check-out lúc " + checkOutTime;
+        String additionalNote = fieldNote.getText().trim();
+        String finalNote = "";
+        if (!additionalNote.isEmpty()) {
+            finalNote += additionalNote;
+        }
+
 
         // Cập nhật thời gian check-out
-        if (TrainingTimeDAO.insertCheckOut(customerID, checkOutTime)) {
-            showInfo("✅ Check-out thành công.\n" + note);
+        if (TrainingTimeDAO.insertCheckOut(customerID, checkOutTime, finalNote)) {
+            showInfo("✅ Check-out thành công.\n" );
             clearForm();
             loadTrainingTimes();
         } else {

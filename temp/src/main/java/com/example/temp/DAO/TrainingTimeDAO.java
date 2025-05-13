@@ -30,37 +30,34 @@ public class TrainingTimeDAO {
         }
     }
 
-    // Cập nhật check-out time cho hội viên
-    public static boolean insertCheckOut(int customerID, String checkOutTime) {
-        String sqlSelect = "SELECT MAX(customerID) AS lastId FROM TrainingTime WHERE customerID = ? AND checkOutTime IS NULL";
-        String sqlUpdate = "UPDATE TrainingTime SET checkOutTime = ? WHERE customerID = ?";
+    public static boolean insertCheckOut(int customerID, String checkOutTime, String additionalNote) {
+        String selectSql = "SELECT id, note FROM TrainingTime WHERE customerID = ? AND checkOutTime IS NULL ORDER BY id DESC LIMIT 1";
+        String updateSql = "UPDATE TrainingTime SET checkOutTime = ?, note = ? WHERE id = ?";
 
         try (Connection conn = SQLiteConnection.getConnection();
-             PreparedStatement stmtSelect = conn.prepareStatement(sqlSelect)) {
+             PreparedStatement selectStmt = conn.prepareStatement(selectSql)) {
 
-            stmtSelect.setInt(1, customerID);  // customerID là int
-            ResultSet rs = stmtSelect.executeQuery();
+            selectStmt.setInt(1, customerID);
+            ResultSet rs = selectStmt.executeQuery();
 
             if (rs.next()) {
-                int lastId = rs.getInt("lastId");
-                if (lastId == 0) {
-                    System.out.println("❌ Không có bản ghi check-in chưa được check-out.");
-                    return false;
-                }
+                int id = rs.getInt("id");
+                String currentNote = rs.getString("note");
+                String combinedNote = (currentNote != null ? currentNote + " | " : "") + additionalNote;
 
-                try (PreparedStatement stmtUpdate = conn.prepareStatement(sqlUpdate)) {
-                    stmtUpdate.setString(1, checkOutTime);
-                    stmtUpdate.setInt(2, lastId);
-                    int rows = stmtUpdate.executeUpdate();
-                    return rows > 0;
+                try (PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
+                    updateStmt.setString(1, checkOutTime);
+                    updateStmt.setString(2, combinedNote);
+                    updateStmt.setInt(3, id);
+                    return updateStmt.executeUpdate() > 0;
                 }
             }
-            return false;
         } catch (SQLException e) {
-            System.out.println("❌ Lỗi khi check-out: " + e.getMessage());
-            return false;
+            System.out.println("❌ Lỗi khi cập nhật check-out: " + e.getMessage());
         }
+        return false;
     }
+
 
     // Kiểm tra xem hội viên có đang có check-in mà chưa check-out không
     public static boolean hasUnfinishedCheckIn(int customerID) {
@@ -101,6 +98,22 @@ public class TrainingTimeDAO {
         }
         return list;
     }
+
+    public static boolean deleteTrainingHistoryByCustomerID(int customerID) {
+        String sql = "DELETE FROM TrainingTime WHERE customerID = ?";
+
+        try (Connection conn = SQLiteConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, customerID);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu có dòng bị xóa
+        } catch (SQLException e) {
+            System.out.println("❌ Lỗi khi xóa lịch sử check-in/out: " + e.getMessage());
+            return false;
+        }
+    }
+
 
     // Lấy ID tiếp theo cho bản ghi mới
     public static int getNextId() {

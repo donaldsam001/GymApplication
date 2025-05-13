@@ -12,6 +12,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ManagementEmployeeController {
 
@@ -68,7 +69,7 @@ public class ManagementEmployeeController {
             {
                 deleteBtn.setOnAction(event -> {
                     Employee emp = getTableView().getItems().get(getIndex());
-                    new EmployDAO().deleteEmployee(emp.getId());
+                    confirmAndDeleteEmployee(emp.getId());
                     loadEmployees();
                 });
             }
@@ -206,4 +207,20 @@ public class ManagementEmployeeController {
         return password.toString();
     }
 
+    public void confirmAndDeleteEmployee(int id) {
+        Employee emp = deleteList.stream().filter(e -> e.getId() == id).findFirst().orElse(null);
+        String name = (emp != null) ? emp.getName() : "";
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Xác nhận xóa");
+        alert.setHeaderText("Bạn có chắc chắn muốn xóa nhân viên " + name + " (ID " + id + ")?");
+        alert.setContentText("Thao tác này không thể hoàn tác.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            EmployDAO dao = new EmployDAO();
+            dao.deleteEmployee(id);
+            loadEmployees();
+        }
+    }
 }

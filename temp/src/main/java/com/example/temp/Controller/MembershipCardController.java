@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
 public class MembershipCardController {
@@ -175,21 +176,31 @@ public class MembershipCardController {
     private void handleDeleteCard() {
         MemberCard selected = cardTableView.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            showAlert("Lỗi", "Vui lòng chọn thẻ để xóa.");
+            showAlert("Lỗi", "⚠ Vui lòng chọn thẻ hội viên để xóa!");
             return;
         }
 
-        try {
-            if (MemberCardDAO.deleteMemberCard(selected.getCustomerID())) {
-                cardList.remove(selected);
-                showAlert("Thành công", "Đã xóa thẻ hội viên.");
-            } else {
-                showAlert("Lỗi", "Không thể xóa thẻ. Kiểm tra lỗi: " + MemberCardDAO.getLastError());
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Xác nhận xóa thẻ");
+        alert.setHeaderText("Bạn có chắc chắn muốn xóa thẻ của hội viên \"" + selected.getCustomerName() + "\" (ID: " + selected.getCustomerID() + ")?");
+        alert.setContentText("Thao tác này không thể hoàn tác.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                if (MemberCardDAO.deleteMemberCard(selected.getCustomerID())) {
+                    cardList.remove(selected); // Cập nhật lại danh sách
+                    showAlert("Thành công", "🗑 Đã xóa thẻ hội viên.");
+                } else {
+                    showAlert("Lỗi", "Không thể xóa thẻ. Kiểm tra lỗi: " + MemberCardDAO.getLastError());
+                }
+            } catch (Exception e) {
+                showAlert("Lỗi", "Lỗi khi xóa thẻ: " + e.getMessage());
             }
-        } catch (Exception e) {
-            showAlert("Lỗi", "Lỗi khi xóa thẻ: " + e.getMessage());
         }
     }
+
+
 
     private void searchByCustomerID() {
         String keyword = inputSearch.getText().trim();

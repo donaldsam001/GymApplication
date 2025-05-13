@@ -2,6 +2,7 @@ package com.example.temp.Controller;
 
 import com.example.temp.DAO.MemberCardDAO;
 import com.example.temp.DAO.MemberDAO;
+import com.example.temp.DAO.MembershipPackageDAO;
 import com.example.temp.Models.Membership;
 import com.example.temp.Models.Membership;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,7 +16,9 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Member;
 import java.util.List;
+import java.util.Optional;
 
 public class ManagementMembershipController {
     @FXML private TextField tfCustomerID;
@@ -105,16 +108,25 @@ public class ManagementMembershipController {
     @FXML
     private void handleDelete() {
         Membership selected = tableView.getSelectionModel().getSelectedItem();
-        if (selected != null) {
+        if (selected == null) {
+            showAlert("⚠ Vui lòng chọn hội viên để xóa!");
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Xác nhận xóa");
+        alert.setHeaderText("Bạn có chắc chắn muốn xóa hội viên \"" + selected.getName() + "\" (ID: " + selected.getCustomerID() + ")?");
+        alert.setContentText("Thao tác này sẽ xóa cả thẻ và lịch sử check-in/out của hội viên.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             MemberDAO.deleteMember(selected.getCustomerID());
-            MemberCardDAO.deleteMemberCard(selected.getCustomerID());
-            showAlert("🗑 Đã xóa hội viên!");
+            showAlert("🗑 Đã xóa toàn bộ dữ liệu của hội viên!");
             loadMembers();
             clearForm();
-        } else {
-            showAlert("⚠ Vui lòng chọn hội viên để xóa!");
         }
     }
+
 
     @FXML
     private void handleExportList() {

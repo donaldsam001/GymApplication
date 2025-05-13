@@ -1,7 +1,9 @@
 package com.example.temp.Controller;
 
 import com.example.temp.DAO.EquipmentDAO;
+import com.example.temp.DAO.MembershipPackageDAO;
 import com.example.temp.Models.Equipment;
+import com.example.temp.Models.MembershipPackage;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +16,7 @@ import javafx.util.converter.LocalDateStringConverter;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public class DeviceManagementController {
 
@@ -96,10 +99,9 @@ public class DeviceManagementController {
         colDel.setCellFactory(param -> new TableCell<>() {
             private final Button deleteBtn = new Button("Xóa");
             {
-                deleteBtn.setOnAction(e -> {
+                deleteBtn.setOnAction(event -> {
                     Equipment eq = getTableView().getItems().get(getIndex());
-                    new EquipmentDAO().deleteEquipment(eq.getId());
-                    loadEquipment();
+                    confirmAndDeleteDevice(eq.getId());
                 });
             }
             @Override
@@ -241,6 +243,23 @@ public class DeviceManagementController {
         } else if (selectedTab == tabDel) {
             keyword = inputSearchDel.getText().trim();
             deleteList.setAll(dao.searchEquipment(keyword));
+        }
+    }
+
+    public void confirmAndDeleteDevice(int id) {
+        Equipment equipment = deleteList.stream().filter(e -> e.getId() == id).findFirst().orElse(null);
+        String name = (equipment != null) ? equipment.getName() : "";
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Xác nhận xóa");
+        alert.setHeaderText("Bạn có chắc chắn muốn xóa thiết bị " + name + " (ID " + id + ")?");
+        alert.setContentText("Thao tác này không thể hoàn tác.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            EquipmentDAO dao = new EquipmentDAO();
+            dao.deleteEquipment(id);
+            loadEquipment();
         }
     }
 

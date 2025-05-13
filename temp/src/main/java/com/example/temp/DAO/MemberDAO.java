@@ -66,6 +66,7 @@ public class MemberDAO {
             stmt.setInt(1, customerID);
 
             int rowsAffected = stmt.executeUpdate();
+            TrainingTimeDAO.deleteTrainingHistoryByCustomerID(customerID);
             return rowsAffected > 0; // Trả về true nếu xóa thành công
         } catch (SQLException e) {
             System.out.println("❌ Lỗi khi xóa hội viên: " + e.getMessage());
@@ -73,29 +74,6 @@ public class MemberDAO {
         }
     }
 
-    // Lấy tất cả hội viên từ cơ sở dữ liệu
-//    public static List<Membership> getAllMembers() {
-//        List<Membership> members = new ArrayList<>();
-//        String sql = "SELECT * FROM MemberDetail";
-//
-//        try (Connection conn = SQLiteConnection.getConnection();
-//             Statement stmt = conn.createStatement();
-//             ResultSet rs = stmt.executeQuery(sql)) {
-//
-//            while (rs.next()) {
-//                int customerID = rs.getInt("customerID");
-//                String name = rs.getString("name");
-//                String phone = rs.getString("phone");
-//                String gender = rs.getString("gender");
-//                int age = rs.getInt("age");
-//
-//                members.add(new Membership(customerID, name, phone, gender, age));
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("❌ Lỗi khi lấy danh sách hội viên: " + e.getMessage());
-//        }
-//        return members;
-//    }
 
     public static String getCustomerNameById(int customerID) {
         String sql = "SELECT name FROM MemberDetail WHERE customerID = ?";

@@ -1,6 +1,8 @@
 package com.example.temp.Controller;
 
+import com.example.temp.DAO.EmployDAO;
 import com.example.temp.DAO.MembershipPackageDAO;
+import com.example.temp.Models.Employee;
 import com.example.temp.Models.MembershipPackage;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -16,6 +18,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ManagementPackageController {
 
@@ -141,8 +144,7 @@ public class ManagementPackageController {
             {
                 deleteBtn.setOnAction(event -> {
                     MembershipPackage membershipPackage = getTableView().getItems().get(getIndex());
-                    MembershipPackageDAO membershipPackageDAO = new MembershipPackageDAO();
-                    membershipPackageDAO.deleteMembershipPackage(membershipPackage.getPackageID());
+                    confirmAndDeletePackage(membershipPackage.getPackageID());
                     loadMembershipPackages();
                 });
             }
@@ -306,6 +308,22 @@ public class ManagementPackageController {
         }
     }
 
+    public void confirmAndDeletePackage(int id) {
+        MembershipPackage p = deleteList.stream().filter(e -> e.getPackageID() == id).findFirst().orElse(null);
+        String name = (p != null) ? p.getPackageName() : "";
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Xác nhận xóa");
+        alert.setHeaderText("Bạn có chắc chắn muốn xóa gói hội viên " + name + " (ID " + id + ")?");
+        alert.setContentText("Thao tác này không thể hoàn tác.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            MembershipPackageDAO dao = new MembershipPackageDAO();
+            dao.deleteMembershipPackage(id);
+            loadMembershipPackages();
+        }
+    }
 
     private void clearInputs() {
         inputCode.clear();
