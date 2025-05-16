@@ -11,6 +11,8 @@ module com.example.temp {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires org.apache.poi.poi;
+    requires org.apache.poi.ooxml;
 
     opens com.example.temp to javafx.fxml;
     exports com.example.temp;

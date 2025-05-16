@@ -19,6 +19,13 @@ import java.io.IOException;
 import java.lang.reflect.Member;
 import java.util.List;
 import java.util.Optional;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class ManagementMembershipController {
     @FXML private TextField tfCustomerID;
@@ -135,41 +142,56 @@ public class ManagementMembershipController {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV", "*.csv"));
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
-            exportToCSV(file);
+            exportToExcel(file);
         }
     }
 
-//    private void exportToCSV(File file) {
-//        try (FileWriter writer = new FileWriter(file)) {
-//            writer.write("ID, Họ tên, SĐT, Giới tính, Tuổi\n");
-//            for (Member m : memberList) {
-//                writer.write(String.format("%s,%s,%s,%s,%d\n",
-//                        m.getCustomerID(), m.getName(), m.getPhone(), m.getGender(), m.getAge()));
-//            }
-//            showAlert("✅ Đã xuất danh sách ra file CSV!");
-//        } catch (IOException e) {
-//            showAlert("❌ Lỗi khi xuất file: " + e.getMessage());
-//        }
-//    }
+    private void exportToExcel(File file) {
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Danh sách hội viên");
 
-    private void exportToCSV(File file) {
-        try (FileWriter writer = new FileWriter(file)) {
-            writer.write("ID, Name, SĐT, Gender, Age, a, b, c, d\n");
-            for (Membership m : memberList) {
-                writer.write(String.format("%d,%s,%s,%s,%d,%s,%s,%s,%d\n",
-                        m.getCustomerID(),
-                        m.getName(),
-                        m.getPhone(),
-                        m.getGender(),
-                        m.getAge(),
-                        m.getPackageName() != null ? m.getPackageName() : "",
-                        m.getStartDate() != null ? m.getStartDate() : "",
-                        m.getEndDate() != null ? m.getEndDate() : ""
-                ));
+            // Tạo header style
+            CellStyle headerStyle = workbook.createCellStyle();
+            Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+            headerStyle.setFont(headerFont);
+
+            // Header
+            String[] headers = {"Mã hội viên", "Họ tên", "SĐT", "Giới tính", "Tuổi", "Tên gói", "Ngày bắt đầu", "Ngày kết thúc"};
+            Row headerRow = sheet.createRow(0);
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+                cell.setCellStyle(headerStyle);
             }
-            showAlert("✅ Đã xuất danh sách đầy đủ ra file CSV!");
+
+            // Ghi dữ liệu hội viên
+            int rowNum = 1;
+            for (Membership m : memberList) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(m.getCustomerID());
+                row.createCell(1).setCellValue(m.getName());
+                row.createCell(2).setCellValue(m.getPhone());
+                row.createCell(3).setCellValue(m.getGender());
+                row.createCell(4).setCellValue(m.getAge());
+                row.createCell(5).setCellValue(m.getPackageName() != null ? m.getPackageName() : "");
+                row.createCell(6).setCellValue(m.getStartDate() != null ? m.getStartDate().toString() : "");
+                row.createCell(7).setCellValue(m.getEndDate() != null ? m.getEndDate().toString() : "");
+            }
+
+            // Tự động căn chỉnh độ rộng cột
+            for (int i = 0; i < headers.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            // Ghi ra file
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                workbook.write(fos);
+            }
+
+            showAlert("✅ Đã xuất danh sách đầy đủ ra file Excel!");
         } catch (IOException e) {
-            showAlert("❌ Lỗi khi xuất file: " + e.getMessage());
+            showAlert("❌ Lỗi khi xuất file Excel: " + e.getMessage());
         }
     }
 
