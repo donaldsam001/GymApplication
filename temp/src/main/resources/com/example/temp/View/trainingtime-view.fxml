@@ -42,6 +42,7 @@
          <Button fx:id="btnCheckIn" onAction="#handleCheckIn" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 8px 20px;" text="✔ Check-in" />
 
          <Button fx:id="btnCheckOut" onAction="#handleCheckOut" style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 8px 20px;" text="✖ Check-out" />
+         <Button fx:id="btnUpdate" layoutX="407.0" layoutY="10.0" onAction="#handleUpdateNote" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 8px 20px;" text="Cập nhật ghi chú" />
       </HBox>
    
       <TableView fx:id="timeTableView" style="-fx-border-color: #bdc3c7; -fx-border-width: 1px;">

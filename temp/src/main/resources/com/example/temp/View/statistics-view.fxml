@@ -12,9 +12,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.control.ComboBox?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.StatisticsController">
    <children>
-      <TableView fx:id="salesTable" editable="true" layoutX="50.0" layoutY="100.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
+
+      <ComboBox fx:id="comboStatType" layoutX="20" layoutY="20" prefWidth="150"/>
+      <ComboBox fx:id="comboYear" layoutX="190" layoutY="20" prefWidth="100"/>
+
+      <TableView fx:id="statsTable" editable="true" layoutX="50.0" layoutY="100.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
         <columns>
           <TableColumn fx:id="colID" editable="false" prefWidth="137.60000455379486" text="Mã gói hội viên" />
           <TableColumn fx:id="colName" editable="false" minWidth="6.4000244140625" prefWidth="314.4000701904297" text="Tên gói hội viên" />

@@ -116,6 +116,10 @@ public class MembershipCardController {
             showAlert("Thành công", "Đăng ký thẻ thành công.");
             PackageSalesDAO dao = new PackageSalesDAO();
             dao.increaseSales(selectedPackage.getPackageID());
+            String today = LocalDate.now().toString();
+
+            PackageSalesDAO salesDAO = new PackageSalesDAO();
+            salesDAO.addSale(selectedPackage.getPackageID(), selectedPackage.getPrice(), today);
             customerIDField.clear();
             goiComboBox.setValue(null);
             startDatePicker.setValue(LocalDate.now());

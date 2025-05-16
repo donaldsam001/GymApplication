@@ -3,22 +3,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.temp.Controller.HomeController">
-  <children>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.temp.Controller.StatisticsController">
+    <children>
+      <ComboBox fx:id="comboStatType" layoutX="20" layoutY="20" prefWidth="150"/>
+      <ComboBox fx:id="comboYear" layoutX="190" layoutY="20" prefWidth="100"/>
 
-    <VBox fx:id="vbox" spacing="10" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="0.0" prefWidth="200">
-      <children>
-        <Button fx:id="empManagement" text="Quản lý nhân viên" />
-        <Button fx:id="deviceManagement" text="Quản lý thiết bị" />
-        <Button fx:id="managementMembership1" text="Gói hội viên" />
-        <Button fx:id="btnStatistics" text="Thống kê" />
-        <Button fx:id="notification" text="Thông báo" />
-        <Button fx:id="setting" text="Cài đặt" />
-        <Button fx:id="logout" text="Đăng xuất" />
-      </children>
-    </VBox>
+      <TableView fx:id="statsTable" layoutX="20" layoutY="60" prefWidth="600" prefHeight="400">
+        <columns>
+          <TableColumn fx:id="colID" editable="false" prefWidth="137.60000455379486" text="Mã gói hội viên" />
+          <TableColumn fx:id="colName" editable="false" minWidth="6.4000244140625" prefWidth="314.4000701904297" text="Tên gói hội viên" />
+          <TableColumn fx:id="colSales" editable="false" prefWidth="117.59994506835938" text="Số lượt bán" />
+          <TableColumn fx:id="colRevenue" editable="false" prefWidth="229.60009765625" text="Doanh thu" />
+        </columns>
+      </TableView>
 
-    <Pane fx:id="mainContent" style="-fx-background-color: #f5f5f5;" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" />
-
-  </children>
+    </children>
 </AnchorPane>

@@ -1,4 +1,3 @@
-// com.example.temp.Models.Session.java
 package com.example.temp.Models;
 
 public class Session {

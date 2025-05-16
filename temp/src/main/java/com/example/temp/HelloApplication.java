@@ -16,6 +16,7 @@ public class HelloApplication extends Application {
 //        db.createDatabase();
 //    }
 
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/temp/View/home-view.fxml"));

@@ -58,6 +58,20 @@ public class TrainingTimeDAO {
         return false;
     }
 
+    // Cập nhật thông tin hội viên trong cơ sở dữ liệu
+    public boolean updateNote(int id, String note) {
+        String sql = "UPDATE TrainingTime SET note = ? WHERE customerID = ?";
+        try (Connection conn = SQLiteConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, note);
+            stmt.setInt(2, id);
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     // Kiểm tra xem hội viên có đang có check-in mà chưa check-out không
     public static boolean hasUnfinishedCheckIn(int customerID) {

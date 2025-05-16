@@ -1,14 +1,12 @@
 package com.example.temp.Controller;
 
+import com.example.temp.Models.Membership;
 import com.example.temp.Models.TrainingTime;
 import com.example.temp.DAO.TrainingTimeDAO;
 import com.example.temp.DAO.MemberDAO;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +21,7 @@ public class TrainingTimeController {
     @FXML private TableColumn<TrainingTime, String> colName, colStartDay, colEndDay, colNote; // Các cột thời gian và ghi chú
     @FXML private Label labelTotal; // Label hiển thị tổng số bản ghi
 
+
     @FXML
     public void initialize() {
         // Khởi tạo các cột trong bảng
@@ -34,7 +33,6 @@ public class TrainingTimeController {
 
         loadTrainingTimes(); // Tải dữ liệu bảng khi khởi tạo
         inputSearch.setOnKeyReleased(e -> handleSearch());
-
     }
 
     // Phương thức để tải tất cả bản ghi từ TrainingTime
@@ -138,7 +136,29 @@ public class TrainingTimeController {
         labelTotal.setText("Tổng: " + filteredList.size());
     }
 
+    @FXML
+    private void handleUpdateNote(ActionEvent event) {
+        TrainingTime selected = timeTableView.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            String newNote = fieldNote.getText();
+            updateNoteOnly(selected, newNote);
+            loadTrainingTimes();
+        } else {
+            showAlert( "Vui lòng chọn một dòng để cập nhật ghi chú.");
+        }
+    }
 
+
+    private void updateNoteOnly(TrainingTime trainingTime, String newNote) {
+        TrainingTimeDAO dao = new TrainingTimeDAO();
+        boolean success = dao.updateNote(trainingTime.getCustomerID(), newNote);
+        if (success) {
+            trainingTime.setNote(newNote); // cập nhật lại trong model
+            showAlert("Đã cập nhật ghi chú.");
+        } else {
+            showAlert("Không thể cập nhật ghi chú.");
+        }
+    }
 
     // Lấy thời gian hiện tại
     private String getNow() {
@@ -152,6 +172,14 @@ public class TrainingTimeController {
         alert.setTitle("Thông báo");
         alert.setHeaderText(null);
         alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Thông báo");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
         alert.showAndWait();
     }
 

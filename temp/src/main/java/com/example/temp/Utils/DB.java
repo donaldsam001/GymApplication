@@ -85,6 +85,18 @@ public class DB {
                 """);
 
 
+                                // Bảng chi tiết từng lượt bán - dùng cho thống kê theo thời gian
+                stmt.execute("""
+                    CREATE TABLE IF NOT EXISTS package_sales (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        packageID INTEGER NOT NULL,
+                        total_price REAL NOT NULL,
+                        sale_date TEXT NOT NULL,
+                        FOREIGN KEY (packageID) REFERENCES Membership_package(id)
+                    );
+                """);
+
+                // (Tùy chọn) Bảng thống kê tổng theo package - có thể cập nhật định kỳ
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS PackageSalesStats (
                         packageID INTEGER PRIMARY KEY,
@@ -93,6 +105,7 @@ public class DB {
                         FOREIGN KEY (packageID) REFERENCES Membership_package(id)
                     );
                 """);
+
 
 
                 System.out.println("Database and all tables created successfully.");
