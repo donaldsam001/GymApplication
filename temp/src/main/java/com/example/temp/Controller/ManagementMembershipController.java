@@ -22,10 +22,7 @@ import java.util.Optional;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class ManagementMembershipController {
     @FXML private TextField tfCustomerID;
@@ -35,14 +32,12 @@ public class ManagementMembershipController {
     @FXML private TextField tfAge;
     @FXML private TextField inputSearch;
 
-//    @FXML private TableView<Member> tableView;
     @FXML private TableColumn<Membership, Integer> colCustomerID;
     @FXML private TableColumn<Membership, String> colName;
     @FXML private TableColumn<Membership, String> colPhone;
     @FXML private TableColumn<Membership, String> colGender;
     @FXML private TableColumn<Membership, Integer> colAge;
 
-//    private ObservableList<Member> memberList;
 
     @FXML private TableView<Membership> tableView;
     private ObservableList<Membership> memberList;
@@ -258,6 +253,8 @@ public class ManagementMembershipController {
             tfPhone.setText(selected.getPhone());
             cbGender.setValue(selected.getGender());
             tfAge.setText(String.valueOf(selected.getAge()));
+
+            tfCustomerID.setDisable(true); // ✅ Không cho chỉnh sửa khi cập nhật
         }
     }
 

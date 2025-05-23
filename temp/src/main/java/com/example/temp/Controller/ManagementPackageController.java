@@ -196,27 +196,70 @@ public class ManagementPackageController {
         // Cập nhật khi chỉnh sửa xong
         colNameChange.setOnEditCommit(event -> {
             MembershipPackage mp = event.getRowValue();
-            mp.setPackageName(event.getNewValue());
+            String newName = event.getNewValue().trim();
+            if (newName.isEmpty()) {
+                showAlert("Lỗi", "Tên gói không được để trống.", Alert.AlertType.ERROR);
+                listPackageChange.refresh(); // hủy thay đổi
+                return;
+            }
+            mp.setPackageName(newName);
             updateMembershipPackage(mp);
         });
 
         colDescriptionChange.setOnEditCommit(event -> {
             MembershipPackage mp = event.getRowValue();
-            mp.setDescription(event.getNewValue());
+            String newDesc = event.getNewValue().trim();
+            if (newDesc.isEmpty()) {
+                showAlert("Lỗi", "Mô tả không được để trống.", Alert.AlertType.ERROR);
+                listPackageChange.refresh();
+                return;
+            }
+            mp.setDescription(newDesc);
             updateMembershipPackage(mp);
         });
+
 
         colExpDateChange.setOnEditCommit(event -> {
             MembershipPackage mp = event.getRowValue();
-            mp.setExp(event.getNewValue());
+            Integer newExp = event.getNewValue();
+            if (newExp == null || newExp <= 0) {
+                showAlert("Lỗi", "Thời hạn phải là số nguyên dương.", Alert.AlertType.ERROR);
+                listPackageChange.refresh();
+                return;
+            }
+            // Kiểm tra dữ liệu
+            if (!isNumber(String.valueOf(mp.getPrice()))) {
+                showAlert("Lỗi", "Giá không hợp lệ. Không được nhập chữ cái.", Alert.AlertType.ERROR);
+                return;
+            }
+
+            mp.setExp(newExp);
             updateMembershipPackage(mp);
         });
 
+
         colPriceChange.setOnEditCommit(event -> {
             MembershipPackage mp = event.getRowValue();
-            mp.setPrice(event.getNewValue());
-            updateMembershipPackage(mp);
+            try {
+                Integer newPrice = event.getNewValue();
+                if (newPrice == null || newPrice < 0) {
+                    showAlert("Lỗi", "Giá phải là số nguyên không âm.", Alert.AlertType.ERROR);
+                    listPackageChange.refresh();
+                    return;
+                }
+                if (!isNumber(String.valueOf(mp.getExp()))) {
+                    showAlert("Lỗi", "Thời hạn không hợp lệ. Không được nhập chữ cái.", Alert.AlertType.ERROR);
+                    return;
+                }
+                mp.setPrice(newPrice);
+                updateMembershipPackage(mp);
+            } catch (NumberFormatException ex) {
+                showAlert("Lỗi", "Giá phải là số. Không được nhập chữ cái.", Alert.AlertType.ERROR);
+                listPackageChange.refresh();
+            }
         });
+
+
 
         // Cột trạng thái với combobox
         colStatusChange.setCellFactory(ComboBoxTableCell.forTableColumn("Đang hoạt động", "Không hoạt động"));
@@ -331,6 +374,15 @@ public class ManagementPackageController {
         inputDescription.clear();
         inputExpDate.clear();
         inputPrice.clear();
+    }
+
+    private boolean isNumber(String text) {
+        try {
+            Float.parseFloat(text);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     private void showAlert(String title, String content, Alert.AlertType type) {

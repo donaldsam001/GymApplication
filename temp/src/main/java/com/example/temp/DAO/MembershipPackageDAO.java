@@ -100,6 +100,8 @@ public class MembershipPackageDAO {
     }
 
     public void updateMembershipPackage(MembershipPackage memPackage) {
+
+
         getConnection();
         String sql = "UPDATE Membership_package SET name = ?, price = ?, description = ?, exp = ?, status = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -207,5 +209,13 @@ public class MembershipPackageDAO {
         return false;
     }
 
+    private boolean isNumber(String text) {
+        try {
+            Float.parseFloat(text);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 
 }
