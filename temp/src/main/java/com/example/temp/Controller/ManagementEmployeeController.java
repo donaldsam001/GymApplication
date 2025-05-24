@@ -21,11 +21,14 @@ public class ManagementEmployeeController {
     @FXML private TableColumn<Employee, String> colName, colNameUp, colNameDel;
     @FXML private TableColumn<Employee, String> colPhone, colPhoneUp, colPhoneDel;
     @FXML private TableColumn<Employee, Void> colDel;
+    @FXML private TableColumn<Employee, String> colRole, colRoleUp, colRoleDel;
+
 
     @FXML private TextField inputCode, inputName, inputPhoneNumber, inputSearch, inputSearchUp, inputSearchDel;
     @FXML private Button handelCreate, btnDel;
     @FXML private Tab tabView, tabDel, tabUp;
     @FXML private TabPane tabPane;
+    @FXML private CheckBox checkIsReceptionist;
 
     private ObservableList<Employee> employeeList = FXCollections.observableArrayList();
     private ObservableList<Employee> deleteList = FXCollections.observableArrayList();
@@ -54,6 +57,10 @@ public class ManagementEmployeeController {
         colID.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        colRole.setCellValueFactory(cellData -> {
+            boolean status = cellData.getValue().isReceptionist();
+            return new ReadOnlyStringWrapper(status ? "Tiếp tân" : "");
+        });
         tableView.setItems(employeeList);
     }
 
@@ -62,7 +69,10 @@ public class ManagementEmployeeController {
         colIDDel.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNameDel.setCellValueFactory(new PropertyValueFactory<>("name"));
         colPhoneDel.setCellValueFactory(new PropertyValueFactory<>("phone"));
-
+        colRoleDel.setCellValueFactory(cellData -> {
+            boolean status = cellData.getValue().isReceptionist();
+            return new ReadOnlyStringWrapper(status ? "Tiếp tân" : "");
+        });
         colDel.setCellFactory(param -> new TableCell<>() {
             private final Button deleteBtn = new Button("Xóa");
 
@@ -106,6 +116,10 @@ public class ManagementEmployeeController {
             e.setPhone(event.getNewValue());
             updateEmployee(e);
         });
+        colRoleUp.setCellValueFactory(cellData -> {
+            boolean status = cellData.getValue().isReceptionist();
+            return new ReadOnlyStringWrapper(status ? "Tiếp tân" : "");
+        });
 
         tableUp.setItems(changeList);
     }
@@ -125,6 +139,7 @@ public class ManagementEmployeeController {
             String name = inputName.getText();
             String phone = inputPhoneNumber.getText();
             String password = generateRandomPassword(8); // hoặc 10, 12 ký tự tùy bạn
+            boolean isReceptionist = checkIsReceptionist.isSelected();
 
             if (name.isEmpty() || phone.isEmpty() ) {
                 showAlert("Lỗi", "Vui lòng điền đầy đủ thông tin.", Alert.AlertType.ERROR);
@@ -148,7 +163,7 @@ public class ManagementEmployeeController {
                 return;
             }
 
-            Employee e = new Employee(id, name, password, phone);
+            Employee e = new Employee(id, name, password, phone, isReceptionist);
             dao.insertEmployee(e);
             showAlert("Thành công", "Thêm nhân viên thành công!", Alert.AlertType.INFORMATION);
             clearInputs();

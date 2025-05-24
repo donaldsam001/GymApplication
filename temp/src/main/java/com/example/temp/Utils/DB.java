@@ -15,14 +15,26 @@ public class DB {
             if (conn != null) {
                 Statement stmt = conn.createStatement();
 
+                // Admin table
+                stmt.execute("""
+                    CREATE TABLE IF NOT EXISTS Admin (
+                        id INTEGER PRIMARY KEY,
+                        name TEXT NOT NULL,
+                        password TEXT NOT NULL,
+                        phone TEXT NOT NULL, 
+                        email TEXT NOT NULL
+                    );
+                """);
+
                 // Employee table
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS Employee (
                         id INTEGER PRIMARY KEY,
                         name TEXT NOT NULL,
                         password TEXT NOT NULL,
-                        phone TEXT NOT NULL
-                    );
+                        phone TEXT NOT NULL, 
+                        isReceptionist INTEGER NOT NULL CHECK (isReceptionist IN (0, 1))
+                                                                        );
                 """);
 
                 // Membership package table
@@ -106,7 +118,11 @@ public class DB {
                     );
                 """);
 
-
+                // Tạo admin mặc định nếu chưa tồn tại
+                stmt.execute("""
+                    INSERT OR IGNORE INTO Admin (id, name, password, phone, email)
+                    VALUES (999999, 'Default Admin', '999999', '0987654321', 'admin@example.com');
+                """);
 
                 System.out.println("Database and all tables created successfully.");
             }

@@ -41,7 +41,7 @@ public class LoginController {
 
             // Check Admin trước
             AdminDAO adminDAO = new AdminDAO();
-            Admin admin = adminDAO.getAdminById(id);
+            Admin admin = adminDAO.getAdminInf(id);
 
             if (admin != null && admin.getPassword().equals(pass)) {
                 Session.isAdmin = true;

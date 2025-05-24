@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -33,6 +34,7 @@
                                                 <TableColumn fx:id="colID" prefWidth="183.20000839233398" text="Mã nhân viên" />
                                                 <TableColumn fx:id="colName" minWidth="8.79998779296875" prefWidth="402.3999938964844" text="Tên nhân viên" />
                                                 <TableColumn fx:id="colPhone" prefWidth="228.0" text="Số điện thoại" />
+                                    <TableColumn fx:id="colRole" prefWidth="180.8000488281249" text="Chức vụ" />
                                             </columns>
                                         </TableView>
                               <GridPane alignment="CENTER" layoutX="70.0" layoutY="54.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="30.0">
@@ -63,7 +65,7 @@
                             <content>
                                 <AnchorPane>
                                     <children>
-                                        <VBox layoutX="84.0" layoutY="95.0" prefHeight="206.0" prefWidth="760.0" spacing="15" stylesheets="@../Styles/addUI.css">
+                                        <VBox layoutX="84.0" layoutY="95.0" prefHeight="269.0" prefWidth="760.0" spacing="15" stylesheets="@../Styles/addUI.css">
                                             <HBox styleClass="hbox">
                                                 <Label styleClass="form-label" text="Mã nhân viên:" />
                                                 <TextField fx:id="inputCode" styleClass="text-field" HBox.hgrow="ALWAYS" />
@@ -78,6 +80,12 @@
                                                 <Label styleClass="form-label" text="Số điện thoại:" />
                                                 <TextField fx:id="inputPhoneNumber" styleClass="text-field" HBox.hgrow="ALWAYS" />
                                             </HBox>
+                                 <HBox layoutX="10.0" layoutY="120.0" styleClass="hbox">
+                                    <children>
+                                       <Label styleClass="form-label" text="Nhân viên tiếp tân:" />
+                                       <CheckBox fx:id="checkIsReceptionist" mnemonicParsing="false" />
+                                    </children>
+                                 </HBox>
                                         </VBox>
 
                                         <Button fx:id="handelCreate" layoutX="464.0" layoutY="380.0" text="Thêm" />
@@ -97,7 +105,8 @@
                                             <columns>
                                                 <TableColumn fx:id="colIDUp" prefWidth="166.3999900817871" text="Mã nhân viên" />
                                                 <TableColumn fx:id="colNameUp" minWidth="8.79998779296875" prefWidth="451.99998474121094" text="Tên nhân viên" />
-                                                <TableColumn fx:id="colPhoneUp" prefWidth="297.60003662109375" text="Số điện thoại" />
+                                                <TableColumn fx:id="colPhoneUp" prefWidth="223.199951171875" text="Số điện thoại" />
+                                    <TableColumn fx:id="colRoleUp" prefWidth="152.79986572265625" text="Chức vụ" />
                                             </columns>
                                         </TableView>
                               <GridPane alignment="CENTER" layoutX="70.0" layoutY="45.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="30.0">
@@ -132,8 +141,9 @@
                                             <columns>
                                                 <TableColumn fx:id="colIDDel" prefWidth="141.59999465942383" text="Mã nhân viên" />
                                                 <TableColumn fx:id="colNameDel" minWidth="8.79998779296875" prefWidth="361.59999084472656" text="Tên nhân viên" />
-                                                <TableColumn fx:id="colPhoneDel" prefWidth="288.800048828125" text="Số điện thoại" />
-                                                <TableColumn fx:id="colDel" prefWidth="124.00006103515625" text="Xóa" />
+                                                <TableColumn fx:id="colPhoneDel" prefWidth="227.19998168945312" text="Số điện thoại" />
+                                    <TableColumn fx:id="colRoleDel" prefWidth="168.79998779296875" text="Chức vụ" />
+                                                <TableColumn fx:id="colDel" prefWidth="94.39990234375" text="Xóa" />
                                             </columns>
                                         </TableView>
                               <GridPane alignment="CENTER" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="30.0">

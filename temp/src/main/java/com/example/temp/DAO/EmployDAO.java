@@ -29,7 +29,8 @@ public class EmployDAO {
                 "id INTEGER PRIMARY KEY , " +
                 "name TEXT NOT NULL, " +
                 "password TEXT NOT NULL, " +
-                "phone TEXT NOT NULL, ";
+                "phone TEXT NOT NULL, " +
+                "isReceptionist INTEGER NOT NULL CHECK (isReceptionist IN (0, 1))";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.executeUpdate();
             logger.info("Table created or already exists.");
@@ -50,12 +51,14 @@ public class EmployDAO {
 
     public void insertEmployee(Employee employee) {
         getConnection();
-        String sql = "INSERT INTO Employee (id, name, password, phone) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Employee (id, name, password, phone, isReceptionist) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, employee.getId());
             stmt.setString(2, employee.getName());
             stmt.setString(3, employee.getPassword());
             stmt.setString(4, employee.getPhone());
+            stmt.setInt(5, employee.isReceptionist() ? 1 : 0);
+
             stmt.executeUpdate();
             logger.info("Inserted Employee successfully.");
         } catch (SQLException e) {
@@ -77,7 +80,8 @@ public class EmployDAO {
                 String name = rs.getString("name");
                 String password = rs.getString("password");
                 String phone = rs.getString("phone");
-                employees.add(new Employee(id, name, password, phone));
+                boolean isReceptionist = rs.getBoolean("isReceptionist");
+                employees.add(new Employee(id, name, password, phone, isReceptionist));
             }
         } catch (SQLException e) {
             logger.warning(e.toString());
@@ -131,7 +135,8 @@ public class EmployDAO {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("password"),
-                        rs.getString("phone")
+                        rs.getString("phone"),
+                        rs.getBoolean("isReceptionist")
                 ));
             }
         } catch (SQLException e) {
@@ -169,7 +174,8 @@ public class EmployDAO {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("password"),
-                        rs.getString("phone")
+                        rs.getString("phone"),
+                        rs.getBoolean("isReceptionist")
                 );
             }
         } catch (SQLException e) {
