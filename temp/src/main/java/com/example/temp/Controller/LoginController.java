@@ -31,14 +31,21 @@ public class LoginController {
     private PasswordField password;
 
     @FXML
-    private TextField username;
+    private TextField tfID;
 
     @FXML
     void handleLogin(ActionEvent event) {
+        String idText = tfID.getText().trim();
+        String passwordText = password.getText().trim();
+
         try {
-            int id = Integer.parseInt(username.getText().trim()); // dùng id
+            int id = Integer.parseInt(tfID.getText().trim()); // dùng id
             String pass = password.getText().trim();
 
+        if (idText.isEmpty() || passwordText.isEmpty()) {
+            showAlert("Lỗi", "ID và mật khẩu không được để trống.");
+            return;
+        }
             // Check Admin trước
             AdminDAO adminDAO = new AdminDAO();
             Admin admin = adminDAO.getAdminInf(id);
@@ -55,7 +62,7 @@ public class LoginController {
             EmployDAO employDAO = new EmployDAO();
             Employee emp = employDAO.getEmployeeById(id);
 
-            if (emp != null && emp.getPassword().equals(pass)) {
+            if (emp != null && emp.getPassword().equals(pass) && emp.isReceptionist() ) {
                 Session.isAdmin = false;
                 Session.userId = emp.getId();
                 Session.userName = emp.getName();

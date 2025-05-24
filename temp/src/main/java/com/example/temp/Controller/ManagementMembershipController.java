@@ -72,10 +72,16 @@ public class ManagementMembershipController {
         if (member == null) return;
 
         int id = member.getCustomerID();
+        String phone = member.getPhone();
 
         // Kiểm tra mã hội viên đã tồn tại trong cơ sở dữ liệu
         if (MemberDAO.isCustomerIDExists(id)) {
             showAlert("⚠ Mã hội viên này đã tồn tại.");
+            return;
+        }
+        // Kiểm tra sdt hội viên đã tồn tại trong cơ sở dữ liệu
+        if (MemberDAO.isCustomerPhoneExists(phone)) {
+            showAlert("⚠ Sdt hội viên này đã tồn tại.");
             return;
         }
 
@@ -221,10 +227,14 @@ public class ManagementMembershipController {
                 showAlert("⚠ Số điện thoại phải gồm đúng 10 chữ số!");
                 return null;
             }
+            if (phone.charAt(0) != '0') {
+                showAlert("⚠ Số điện thoại phải bắt đầu bằng chữ số 0!");
+                return null;
+            }
 
             int age = Integer.parseInt(ageText);
-            if (age <= 0) {
-                showAlert("⚠ Tuổi phải lớn hơn 0!");
+            if (age <= 12) {
+                showAlert("⚠ Tuổi phải lớn hơn 12!");
                 return null;
             }
 

@@ -45,8 +45,6 @@ public class ManagementEmployeeController {
         inputSearchUp.textProperty().addListener((obs, oldVal, newVal) -> searchEmployee());
         inputSearchDel.textProperty().addListener((obs, oldVal, newVal) -> searchEmployee());
 
-
-
         handelCreate.setOnAction(e -> {
             createEmployee();
             loadEmployees();
@@ -160,12 +158,22 @@ public class ManagementEmployeeController {
                 showAlert("Lỗi", "Số điện thoại phải gồm đúng 10 chữ số.", Alert.AlertType.ERROR);
                 return;
             }
+            if (phone.charAt(0) != '0'){
+                showAlert("Lỗi", " Số điện thoại phải bắt đầu bằng số 0.", Alert.AlertType.ERROR);
+                refreshTable();
+                return;
+            }
 
             EmployDAO dao = new EmployDAO();
             if (dao.isEmployeeIdExists(id)) {
                 showAlert("Lỗi", "Mã nhân viên đã tồn tại. Vui lòng nhập mã khác.", Alert.AlertType.ERROR);
                 return;
             }
+            if (dao.isEmployeePhoneExists(phone)) {
+                showAlert("Lỗi", "Sdt nhân viên đã tồn tại. Vui lòng nhập sdt khác.", Alert.AlertType.ERROR);
+                return;
+            }
+
 
             Employee e = new Employee(id, name, password, phone, isReceptionist);
             dao.insertEmployee(e);
@@ -178,7 +186,28 @@ public class ManagementEmployeeController {
 
 
     private void updateEmployee(Employee e) {
-        new EmployDAO().updateEmployee(e);
+        EmployDAO dao= new EmployDAO();
+        if(e.getName().isEmpty()){
+            showAlert("Lỗi", "Vui lòng điền đầy đủ ho ten.", Alert.AlertType.ERROR);
+            refreshTable();
+            return;
+        }
+        if ( e.getPhone().isEmpty() || !e.getPhone().matches("\\d{10}")){
+            showAlert("Lỗi", " Vui lòng nhập đủ 10 chữ số.", Alert.AlertType.ERROR);
+            refreshTable();
+            return;
+        }
+        if (e.getPhone().charAt(0) != '0'){
+            showAlert("Lỗi", " Số điện thoại phải bắt đầu bằng số 0.", Alert.AlertType.ERROR);
+            refreshTable();
+            return;
+        }
+        if (dao.isEmployeePhoneExists(e.getPhone()) ){
+            showAlert("Lỗi", "Sdt nhân viên đã tồn tại. Vui lòng nhập sdt khác.", Alert.AlertType.ERROR);
+            refreshTable();
+            return;
+        }
+        dao.updateEmployee(e);
         showAlert("Thành công", "Đã cập nhật thông tin nhân viên.", Alert.AlertType.INFORMATION);
         loadEmployees();
     }
@@ -200,12 +229,17 @@ public class ManagementEmployeeController {
             deleteList.setAll(dao.searchEmployee(keyword));
         }
     }
+    private void refreshTable() {
+        tableUp.setItems(FXCollections.observableArrayList(new EmployDAO().getAllEmployees()));
+    }
 
 
     private void clearInputs() {
         inputCode.clear();
         inputName.clear();
         inputPhoneNumber.clear();
+        checkIsReceptionist.setSelected(false); // Uncheck the checkbox
+
     }
 
     private void showAlert(String title, String msg, Alert.AlertType type) {

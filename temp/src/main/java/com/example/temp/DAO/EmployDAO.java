@@ -161,6 +161,22 @@ public class EmployDAO {
         }
         return false;
     }
+    public boolean isEmployeePhoneExists(String phone) {
+        getConnection();
+        String sql = "SELECT COUNT(*) FROM Employee WHERE phone = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, phone);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            logger.warning(e.toString());
+        } finally {
+            closeConnection();
+        }
+        return false;
+    }
 
     public Employee getEmployeeById(int id) {
         getConnection();

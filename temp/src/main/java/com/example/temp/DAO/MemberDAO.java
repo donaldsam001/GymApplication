@@ -110,6 +110,22 @@ public class MemberDAO {
             return false;
         }
     }
+    // Kiểm tra xem sdt hội viên đã tồn tại trong cơ sở dữ liệu chưa
+    public static boolean isCustomerPhoneExists(String phone) {
+        String sql = "SELECT 1 FROM MemberDetail WHERE phone = ?";
+
+        try (Connection conn = SQLiteConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, phone);
+
+            ResultSet rs = stmt.executeQuery();
+            return rs.next(); // Nếu có bản ghi trả về true
+        } catch (SQLException e) {
+            System.out.println("❌ Lỗi khi kiểm tra sdt hội viên: " + e.getMessage());
+            return false;
+        }
+    }
 
     public static List<Membership> getAllExtendedMembers() {
         List<Membership> list = new ArrayList<>();
