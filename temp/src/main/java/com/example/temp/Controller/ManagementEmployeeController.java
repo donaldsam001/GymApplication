@@ -138,8 +138,12 @@ public class ManagementEmployeeController {
             int id = Integer.parseInt(inputCode.getText());
             String name = inputName.getText();
             String phone = inputPhoneNumber.getText();
-            String password = generateRandomPassword(8); // hoặc 10, 12 ký tự tùy bạn
             boolean isReceptionist = checkIsReceptionist.isSelected();
+            String password = "";
+
+            if (isReceptionist){
+                password = generateRandomPassword(8); // hoặc 10, 12 ký tự tùy bạn
+            }
 
             if (name.isEmpty() || phone.isEmpty() ) {
                 showAlert("Lỗi", "Vui lòng điền đầy đủ thông tin.", Alert.AlertType.ERROR);

@@ -28,7 +28,7 @@ public class EmployDAO {
         String query = "CREATE TABLE IF NOT EXISTS Employee (" +
                 "id INTEGER PRIMARY KEY , " +
                 "name TEXT NOT NULL, " +
-                "password TEXT NOT NULL, " +
+                "password TEXT, " +
                 "phone TEXT NOT NULL, " +
                 "isReceptionist INTEGER NOT NULL CHECK (isReceptionist IN (0, 1))";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
