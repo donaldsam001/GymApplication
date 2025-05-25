@@ -1,8 +1,6 @@
 package com.example.temp.Controller;
 
-import com.example.temp.DAO.EmployDAO;
 import com.example.temp.DAO.MembershipPackageDAO;
-import com.example.temp.Models.Employee;
 import com.example.temp.Models.MembershipPackage;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -12,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.converter.FloatStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -280,7 +277,7 @@ public class ManagementPackageController {
 
     private void loadMembershipPackages() {
         MembershipPackageDAO dao = new MembershipPackageDAO();
-        List<MembershipPackage> packages = dao.getData();
+        List<MembershipPackage> packages = dao.getAllPackage();
 
         packageList.setAll(packages);
         deleteList.setAll(packages);
@@ -309,6 +306,10 @@ public class ManagementPackageController {
                 showAlert("Lỗi", "Thời hạn từ 1 tháng trở lên.", Alert.AlertType.ERROR);
                 return;
             }
+            if (price < 0) {
+                showAlert("Lỗi", "Giá gói phải lớn hơn hoặc bằng 0.", Alert.AlertType.ERROR);
+                return;
+            }
 
             MembershipPackageDAO dao = new MembershipPackageDAO();
             if (dao.isPackageExists(id)) {
@@ -325,9 +326,30 @@ public class ManagementPackageController {
         }
     }
 
-    private void updateMembershipPackage(MembershipPackage updated) {
+    private void updateMembershipPackage(MembershipPackage mp) {
         MembershipPackageDAO dao = new MembershipPackageDAO();
-        dao.updateMembershipPackage(updated);
+        if (mp.getPackageName().isEmpty()){
+            showAlert("Lỗi", "Vui lòng điền đầy đủ tên gói.", Alert.AlertType.ERROR);
+            refreshTable();
+            return;
+        }
+        if (mp.getDescription().isEmpty()){
+            showAlert("Lỗi", "Vui lòng điền đầy đủ mô tả gói.", Alert.AlertType.ERROR);
+            refreshTable();
+            return;
+        }
+        if (mp.getExp()<=0){
+            showAlert("Lỗi", "Thời hạn có hiệu lực phải lớn hơn 0.", Alert.AlertType.ERROR);
+            refreshTable();
+            return;
+        }
+        if (mp.getPrice() < 0){
+            showAlert("Lỗi", "Giá trị của gói phải lớn hơn hoặc bằng 0.", Alert.AlertType.ERROR);
+            refreshTable();
+            return;
+        }
+
+        dao.updateMembershipPackage(mp);
         showAlert("Thành công", "Đã cập nhật gói hội viên!", Alert.AlertType.INFORMATION);
         loadMembershipPackages();
     }
@@ -367,7 +389,9 @@ public class ManagementPackageController {
             loadMembershipPackages();
         }
     }
-
+    private void refreshTable() {
+        listPackageChange.setItems(FXCollections.observableArrayList(new MembershipPackageDAO().getAllPackage()));
+    }
     private void clearInputs() {
         inputCode.clear();
         inputName.clear();

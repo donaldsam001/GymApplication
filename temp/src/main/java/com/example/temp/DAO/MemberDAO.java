@@ -110,22 +110,24 @@ public class MemberDAO {
             return false;
         }
     }
-    // Kiểm tra xem sdt hội viên đã tồn tại trong cơ sở dữ liệu chưa
-    public static boolean isCustomerPhoneExists(String phone) {
-        String sql = "SELECT 1 FROM MemberDetail WHERE phone = ?";
+    // Kiểm tra SDT đã tồn tại chưa, ngoại trừ một customerID cụ thể (dùng khi cập nhật)
+    public static boolean isCustomerPhoneExists(String phone, int excludeCustomerID) {
+        String sql = "SELECT 1 FROM MemberDetail WHERE phone = ? AND customerID != ?";
 
         try (Connection conn = SQLiteConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, phone);
+            stmt.setInt(2, excludeCustomerID);
 
             ResultSet rs = stmt.executeQuery();
-            return rs.next(); // Nếu có bản ghi trả về true
+            return rs.next(); // Nếu có bản ghi => đã tồn tại
         } catch (SQLException e) {
-            System.out.println("❌ Lỗi khi kiểm tra sdt hội viên: " + e.getMessage());
+            System.out.println("❌ Lỗi khi kiểm tra số điện thoại hội viên (bỏ qua ID): " + e.getMessage());
             return false;
         }
     }
+
 
     public static List<Membership> getAllExtendedMembers() {
         List<Membership> list = new ArrayList<>();

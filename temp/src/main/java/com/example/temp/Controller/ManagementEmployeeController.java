@@ -73,7 +73,6 @@ public class ManagementEmployeeController {
         });
         colDel.setCellFactory(param -> new TableCell<>() {
             private final Button deleteBtn = new Button("Xóa");
-
             {
                 deleteBtn.setOnAction(event -> {
                     Employee emp = getTableView().getItems().get(getIndex());
@@ -81,14 +80,12 @@ public class ManagementEmployeeController {
                     loadEmployees();
                 });
             }
-
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 setGraphic(empty ? null : deleteBtn);
             }
         });
-
         tableDel.setItems(deleteList);
     }
 
@@ -125,7 +122,7 @@ public class ManagementEmployeeController {
 
     private void loadEmployees() {
         EmployDAO dao = new EmployDAO();
-        List<Employee> list = dao.getAllEmployees(); // nên đổi tên hàm này cho phù hợp
+        List<Employee> list = dao.getAllEmployees();
         employeeList.setAll(list);
         deleteList.setAll(list);
         changeList.setAll(list);
@@ -169,7 +166,7 @@ public class ManagementEmployeeController {
                 showAlert("Lỗi", "Mã nhân viên đã tồn tại. Vui lòng nhập mã khác.", Alert.AlertType.ERROR);
                 return;
             }
-            if (dao.isEmployeePhoneExists(phone)) {
+            if (dao.isEmployeePhoneExists(phone, id)) {
                 showAlert("Lỗi", "Sdt nhân viên đã tồn tại. Vui lòng nhập sdt khác.", Alert.AlertType.ERROR);
                 return;
             }
@@ -192,6 +189,13 @@ public class ManagementEmployeeController {
             refreshTable();
             return;
         }
+        // Kiểm tra tên chỉ gồm các chữ cái (có hỗ trợ tiếng Việt nếu cần)
+        if (!e.getName().matches("^[a-zA-ZÀ-Ỹà-ỹ\\s]+$")) {
+            showAlert("Lỗi", "Tên chỉ được chứa các chữ cái và khoảng trắng.", Alert.AlertType.ERROR);
+            refreshTable();
+            return;
+        }
+
         if ( e.getPhone().isEmpty() || !e.getPhone().matches("\\d{10}")){
             showAlert("Lỗi", " Vui lòng nhập đủ 10 chữ số.", Alert.AlertType.ERROR);
             refreshTable();
@@ -202,7 +206,7 @@ public class ManagementEmployeeController {
             refreshTable();
             return;
         }
-        if (dao.isEmployeePhoneExists(e.getPhone()) ){
+        if (dao.isEmployeePhoneExists(e.getPhone(), e.getId()) ){
             showAlert("Lỗi", "Sdt nhân viên đã tồn tại. Vui lòng nhập sdt khác.", Alert.AlertType.ERROR);
             refreshTable();
             return;

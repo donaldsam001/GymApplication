@@ -1,9 +1,6 @@
 package com.example.temp.Controller;
 
-import com.example.temp.DAO.MemberCardDAO;
 import com.example.temp.DAO.MemberDAO;
-import com.example.temp.DAO.MembershipPackageDAO;
-import com.example.temp.Models.Membership;
 import com.example.temp.Models.Membership;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -14,9 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Member;
 import java.util.List;
 import java.util.Optional;
 import org.apache.poi.ss.usermodel.*;
@@ -70,21 +65,12 @@ public class ManagementMembershipController {
     private void handleAdd() {
         Membership member = getFormData();
         if (member == null) return;
-
         int id = member.getCustomerID();
-        String phone = member.getPhone();
-
         // Kiểm tra mã hội viên đã tồn tại trong cơ sở dữ liệu
         if (MemberDAO.isCustomerIDExists(id)) {
             showAlert("⚠ Mã hội viên này đã tồn tại.");
-            return;
+            return ;
         }
-        // Kiểm tra sdt hội viên đã tồn tại trong cơ sở dữ liệu
-        if (MemberDAO.isCustomerPhoneExists(phone)) {
-            showAlert("⚠ Sdt hội viên này đã tồn tại.");
-            return;
-        }
-
         // Thêm vào CSDL
         if (MemberDAO.addMember(member)) {
             showAlert("✅ Thêm hội viên thành công!");
@@ -205,40 +191,46 @@ public class ManagementMembershipController {
 
     private Membership getFormData() {
         String idText = tfCustomerID.getText();
-        String name = tfName.getText();
-        String phone = tfPhone.getText();
-        String gender = cbGender.getValue();
+        String nameText = tfName.getText();
+        String phoneText = tfPhone.getText();
+        String genderText = cbGender.getValue();
         String ageText = tfAge.getText();
 
         // Kiểm tra rỗng
-        if (idText.isEmpty() || name.isEmpty() || phone.isEmpty() || gender == null || ageText.isEmpty()) {
+        if (idText.isEmpty() || nameText.isEmpty() || phoneText.isEmpty() || genderText == null || ageText.isEmpty()) {
             showAlert("⚠ Vui lòng nhập đầy đủ thông tin!");
             return null;
         }
 
         try {
             int id = Integer.parseInt(idText);
+
+            // Kiểm tra sdt hội viên đã tồn tại trong cơ sở dữ liệu
+            if (MemberDAO.isCustomerPhoneExists(phoneText, id)) {
+                showAlert("⚠ Sdt hội viên này đã tồn tại.");
+                return null;
+            }
             if (id < 100000 || id > 999999) {
                 showAlert("⚠ Mã hội viên phải gồm đúng 6 chữ số!");
                 return null;
             }
 
-            if (!phone.matches("\\d{10}")) {
+            if (!phoneText.matches("\\d{10}")) {
                 showAlert("⚠ Số điện thoại phải gồm đúng 10 chữ số!");
                 return null;
             }
-            if (phone.charAt(0) != '0') {
+            if (phoneText.charAt(0) != '0') {
                 showAlert("⚠ Số điện thoại phải bắt đầu bằng chữ số 0!");
                 return null;
             }
 
-            int age = Integer.parseInt(ageText);
+            int age= Integer.parseInt(ageText);
             if (age <= 12) {
                 showAlert("⚠ Tuổi phải lớn hơn 12!");
                 return null;
             }
 
-            return new Membership(id, name, phone, gender, age, "", "", "");
+            return new Membership(id, nameText, phoneText, genderText, age, "", "", "");
         } catch (NumberFormatException e) {
             showAlert("⚠ Mã hội viên và tuổi phải là số!");
             return null;

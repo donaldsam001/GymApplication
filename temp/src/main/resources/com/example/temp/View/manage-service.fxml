@@ -100,12 +100,12 @@
                         <children>
                             <TableView fx:id="listPackageChange" layoutX="100.0" layoutY="100.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
                                 <columns>
-                                    <TableColumn fx:id="colIdChange" prefWidth="119.2000036239624" text="Mã gói hội viên" />
+                                    <TableColumn fx:id="colIdChange" editable="false" prefWidth="119.2000036239624" text="Mã gói hội viên" />
                                     <TableColumn fx:id="colNameChange" minWidth="8.79998779296875" prefWidth="224.00001525878906" text="Tên gói hội viên" />
                                     <TableColumn fx:id="colDescriptionChange" prefWidth="237.59994506835938" text="Chi tiết" />
                                     <TableColumn fx:id="colExpDateChange" minWidth="0.0" prefWidth="114.4000244140625" text="Thời hạn(tháng)" />
                                     <TableColumn fx:id="colPriceChange" minWidth="0.0" prefWidth="86.39996337890625" text="Giá(vnđ)" />
-                                    <TableColumn fx:id="colStatusChange" minWidth="100.0" prefWidth="168.7999267578125" text="Trạng thái" />
+                                    <TableColumn fx:id="colStatusChange" minWidth="100.0" prefWidth="174.4000122070313" text="Trạng thái" />
                                 </columns>
                             </TableView>
                      <GridPane alignment="CENTER" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="30.0">
@@ -144,7 +144,7 @@
                                     <TableColumn fx:id="colExpDateDel" minWidth="0.0" prefWidth="112.80001831054688" text="Thời hạn(tháng)" />
                                     <TableColumn fx:id="colPriceDel" prefWidth="89.5999755859375" text="Giá(vnđ)" />
                                     <TableColumn fx:id="colStatusDel" prefWidth="154.4000244140625" text="Trạng thái" />
-                                    <TableColumn fx:id="colDel" minWidth="0.0" prefWidth="96.800048828125" text="Xóa" />
+                                    <TableColumn fx:id="colDel" minWidth="0.0" prefWidth="103.1998291015625" text="Xóa" />
                                 </columns>
                             </TableView>
                      <GridPane alignment="CENTER" layoutX="70.0" layoutY="45.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="30.0">

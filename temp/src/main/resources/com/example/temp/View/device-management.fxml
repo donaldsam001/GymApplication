@@ -67,12 +67,12 @@
                            <children>
                               <TableView fx:id="repairDateTable" layoutX="100.0" layoutY="100.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
                                  <columns>
-                                    <TableColumn fx:id="colIDRepair" prefWidth="82.40000915527344" text="Mã thiết bị" />
+                                    <TableColumn fx:id="colIDRepair" editable="false" prefWidth="82.40000915527344" text="Mã thiết bị" />
                                     <TableColumn fx:id="colNameRepair" minWidth="8.79998779296875" prefWidth="145.60000610351562" text="Tên thiết bị" />
                                     <TableColumn fx:id="colDescriptionRepair" prefWidth="189.5999755859375" text="Chi tiết" />
                                     <TableColumn fx:id="colMaintenanceContent" minWidth="0.0" prefWidth="192.79995727539062" text="Nội dung bảo trì" />
                                     <TableColumn fx:id="colRepairDate" prefWidth="181.5999755859375" text="Ngày bảo trì" />
-                                    <TableColumn fx:id="colStatusRepair" prefWidth="154.39996337890625" text="Trạng thái" />
+                                    <TableColumn fx:id="colStatusRepair" prefWidth="166.40008544921875" text="Trạng thái" />
                                  </columns>
                               </TableView>
                               <GridPane alignment="CENTER" layoutX="70.0" layoutY="44.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="30.0">

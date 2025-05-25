@@ -1,5 +1,6 @@
 package com.example.temp.Controller;
 
+import com.example.temp.DAO.EmployDAO;
 import com.example.temp.DAO.EquipmentDAO;
 import com.example.temp.DAO.MembershipPackageDAO;
 import com.example.temp.Models.Equipment;
@@ -224,8 +225,19 @@ public class DeviceManagementController {
     }
 
     private void updateEquipment(Equipment eq) {
-        new EquipmentDAO().updateEquipment(eq);
+        EquipmentDAO dao = new EquipmentDAO();
+        if(eq.getName().isEmpty()){
+            showAlert("Lỗi", "Vui lòng điền đầy đủ tên thiết bị.", Alert.AlertType.ERROR);
+            refreshTable();
+            return;
+        }
+        if(eq.getDescription().isEmpty()){
+            showAlert("Lỗi", "Vui lòng điền đầy đủ mô tả thiết bị.", Alert.AlertType.ERROR);
+            refreshTable();
+            return;
+        }
         showAlert("Thành công", "Thiết bị đã được cập nhật!", Alert.AlertType.INFORMATION);
+        dao.updateEquipment(eq);
         loadEquipment();
     }
 
@@ -262,7 +274,9 @@ public class DeviceManagementController {
             loadEquipment();
         }
     }
-
+    private void refreshTable() {
+        repairDateTable.setItems(FXCollections.observableArrayList(new EquipmentDAO().getAllEquipment()));
+    }
     private void clearInputs() {
         inputCode.clear();
         inputName.clear();

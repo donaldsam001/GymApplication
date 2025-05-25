@@ -74,7 +74,7 @@ public class MembershipPackageDAO {
         }
     }
 
-    public List<MembershipPackage> getData() {
+    public List<MembershipPackage> getAllPackage() {
         getConnection();
         String query = "select * from Membership_package";
         List<MembershipPackage> List = new ArrayList<>();
