@@ -4,6 +4,7 @@ import com.example.temp.Models.PackageSale;
 import com.example.temp.Models.PackageSalesStats;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -54,219 +55,116 @@ public class PackageSalesDAO {
         }
     }
 
-    public void addSale(int packageID, int totalPrice, String saleDate) {
+    public void recordSale(PackageSale sale) {
         getConnection();
-        String sql = "INSERT INTO package_sales (packageID, total_price, sale_date) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Package_Sales (customerID, packageID, total_price, sale_date, type) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, packageID);
-            stmt.setInt(2, totalPrice);
-            stmt.setString(3, saleDate);
+            stmt.setInt(1, sale.getCustomerId());
+            stmt.setInt(2, sale.getPackageId());
+            stmt.setInt(3, sale.getTotalPrice());
+            stmt.setString(4, sale.getSaleDate().toString());
+            stmt.setString(5, sale.getType());
             stmt.executeUpdate();
-            logger.info("✅ Added sale record for packageID: " + packageID);
         } catch (SQLException e) {
-            logger.warning("❌ Error adding sale: " + e.getMessage());
-        } finally {
-            closeConnection();
-        }
-    }
-
-    public List<PackageSalesStats> getRevenueByMonth(int year) {
-        getConnection();
-        List<PackageSalesStats> statsList = new ArrayList<>();
-        String sql = """
-            SELECT strftime('%m', sale_date) AS timeUnit,
-                   COUNT(*) AS totalSales,
-                   SUM(total_price) AS revenue
-            FROM package_sales
-            WHERE strftime('%Y', sale_date) = ?
-            GROUP BY timeUnit
-            ORDER BY timeUnit
-        """;
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, String.valueOf(year));
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    statsList.add(new PackageSalesStats(
-                            0,
-                            "Tháng " + rs.getString("timeUnit"),
-                            rs.getInt("totalSales"),
-                            rs.getInt("revenue")
-                    ));
-                }
-            }
-        } catch (SQLException e) {
-            logger.warning("❌ Error retrieving monthly revenue: " + e.getMessage());
-        } finally {
-            closeConnection();
-        }
-        return statsList;
-    }
-
-    public List<PackageSalesStats> getRevenueByQuarter(int year) {
-        getConnection();
-        List<PackageSalesStats> statsList = new ArrayList<>();
-        String sql = """
-            SELECT
-                CASE
-                    WHEN CAST(strftime('%m', sale_date) AS INTEGER) BETWEEN 1 AND 3 THEN 'Quý 1'
-                    WHEN CAST(strftime('%m', sale_date) AS INTEGER) BETWEEN 4 AND 6 THEN 'Quý 2'
-                    WHEN CAST(strftime('%m', sale_date) AS INTEGER) BETWEEN 7 AND 9 THEN 'Quý 3'
-                    ELSE 'Quý 4'
-                END AS timeUnit,
-                COUNT(*) AS totalSales,
-                SUM(total_price) AS revenue
-            FROM package_sales
-            WHERE strftime('%Y', sale_date) = ?
-            GROUP BY timeUnit
-            ORDER BY timeUnit
-        """;
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, String.valueOf(year));
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    statsList.add(new PackageSalesStats(
-                            0,
-                            rs.getString("timeUnit"),
-                            rs.getInt("totalSales"),
-                            rs.getInt("revenue")
-                    ));
-                }
-            }
-        } catch (SQLException e) {
-            logger.warning("❌ Error retrieving quarterly revenue: " + e.getMessage());
-        } finally {
-            closeConnection();
-        }
-        return statsList;
-    }
-
-    public List<PackageSalesStats> getRevenueByYear() {
-        getConnection();
-        List<PackageSalesStats> statsList = new ArrayList<>();
-        String sql = """
-            SELECT strftime('%Y', sale_date) AS timeUnit,
-                   COUNT(*) AS totalSales,
-                   SUM(total_price) AS revenue
-            FROM package_sales
-            GROUP BY timeUnit
-            ORDER BY timeUnit
-        """;
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                statsList.add(new PackageSalesStats(
-                        0,
-                        rs.getString("timeUnit"),
-                        rs.getInt("totalSales"),
-                        rs.getInt("revenue")
-                ));
-            }
-        } catch (SQLException e) {
-            logger.warning("❌ Error retrieving yearly revenue: " + e.getMessage());
-        } finally {
-            closeConnection();
+            e.printStackTrace();
         }
 
-        return statsList;
-    }
-
-    public List<PackageSalesStats> searchPackagesByID(String keyword) {
-        getConnection();
-        List<PackageSalesStats> statsList = new ArrayList<>();
-        String sql = """
-            SELECT 
-                mp.id AS packageID,
-                mp.name AS packageName,
-                COUNT(ps.id) AS totalSales,
-                IFNULL(SUM(ps.total_price), 0) AS revenue
-            FROM Membership_package mp
-            LEFT JOIN package_sales ps ON mp.id = ps.packageID
-            WHERE CAST(mp.id AS TEXT) LIKE ? OR mp.name LIKE ?
-            GROUP BY mp.id, mp.name
-        """;
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, "%" + keyword + "%");
-            stmt.setString(2, "%" + keyword + "%");
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    statsList.add(new PackageSalesStats(
-                            rs.getInt("packageID"),
-                            rs.getString("packageName"),
-                            rs.getInt("totalSales"),
-                            rs.getInt("revenue")
-                    ));
-                }
-            }
-        } catch (SQLException e) {
-            logger.warning("❌ Error searching packages: " + e.getMessage());
-        } finally {
-            closeConnection();
-        }
-
-        return statsList;
+        closeConnection();
     }
 
     public List<PackageSalesStats> getAllStats() {
         getConnection();
         List<PackageSalesStats> statsList = new ArrayList<>();
-        String sql = """
-            SELECT 
-                mp.id AS packageID,
-                mp.name AS packageName,
-                COUNT(ps.id) AS totalSales,
-                IFNULL(SUM(ps.total_price), 0) AS revenue
-            FROM Membership_package mp
-            LEFT JOIN package_sales ps ON mp.id = ps.packageID
-            GROUP BY mp.id, mp.name
-        """;
+        String sql = "SELECT packageID, COUNT(*) AS totalSales, SUM(total_price) AS revenue FROM Package_Sales GROUP BY packageID";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        try (
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                statsList.add(new PackageSalesStats(
-                        rs.getInt("packageID"),
-                        rs.getString("packageName"),
-                        rs.getInt("totalSales"),
-                        rs.getInt("revenue")
-                ));
+                PackageSalesStats stats = new PackageSalesStats();
+                stats.setPackageId(rs.getInt("packageID"));
+                stats.setTotalSales(rs.getInt("totalSales"));
+                stats.setRevenue(rs.getInt("revenue"));
+                statsList.add(stats);
             }
         } catch (SQLException e) {
-            logger.warning("❌ Error retrieving stats: " + e.getMessage());
-        } finally {
-            closeConnection();
+            e.printStackTrace();
         }
-
         return statsList;
     }
 
-
-    public void increaseSales(int packageID) {
+    public List<PackageSale> getSalesByPeriod(String periodType, int year, int value) {
         getConnection();
-        String sql = """
-            INSERT INTO PackageSalesStats (packageID, totalSales, revenue)
-            VALUES (?, 1, (SELECT price FROM Membership_package WHERE id = ?))
-            ON CONFLICT(packageID) DO UPDATE SET
-                totalSales = totalSales + 1,
-                revenue = revenue + (SELECT price FROM Membership_package WHERE id = ?)
-        """;
+        String dateCondition = switch (periodType.toLowerCase()) {
+            case "month" -> "strftime('%Y-%m', sale_date) = '" + year + "-" + String.format("%02d", value) + "'";
+            case "quarter" -> {
+                String months = switch (value) {
+                    case 1 -> "('01','02','03')";
+                    case 2 -> "('04','05','06')";
+                    case 3 -> "('07','08','09')";
+                    case 4 -> "('10','11','12')";
+                    default -> throw new IllegalArgumentException("Invalid quarter");
+                };
+                yield "strftime('%Y', sale_date) = '" + year + "' AND strftime('%m', sale_date) IN " + months;
+            }
+            case "year" -> "strftime('%Y', sale_date) = '" + year + "'";
+            default -> throw new IllegalArgumentException("Invalid periodType");
+        };
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, packageID);
-            stmt.setInt(2, packageID);
-            stmt.setInt(3, packageID);
-            stmt.executeUpdate();
-            logger.info("Updated sales for packageID: " + packageID);
+        List<PackageSale> result = new ArrayList<>();
+        String sql = "SELECT * FROM Package_Sales WHERE " + dateCondition;
+
+        try (
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                PackageSale sale = new PackageSale();
+                sale.setId(rs.getInt("id"));
+                sale.setCustomerId(rs.getInt("customerID"));
+                sale.setPackageId(rs.getInt("packageID"));
+                sale.setTotalPrice(rs.getInt("total_price"));
+                sale.setSaleDate(LocalDate.parse(rs.getString("sale_date")));
+                sale.setType(rs.getString("type"));
+                result.add(sale);
+            }
         } catch (SQLException e) {
-            logger.warning("❌ Error updating sales: " + e.getMessage());
-        } finally {
-            closeConnection();
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public void updateOrInsertStats(int packageId, int price) {
+        getConnection();
+        String selectSQL = "SELECT * FROM PackageSalesStats WHERE packageID = ?";
+        String insertSQL = "INSERT INTO PackageSalesStats (packageID, totalSales, revenue) VALUES (?, ?, ?)";
+        String updateSQL = "UPDATE PackageSalesStats SET totalSales = totalSales + 1, revenue = revenue + ? WHERE packageID = ?";
+
+        try (PreparedStatement selectStmt = connection.prepareStatement(selectSQL)) {
+            selectStmt.setInt(1, packageId);
+            ResultSet rs = selectStmt.executeQuery();
+
+            if (rs.next()) {
+                // Đã tồn tại → cập nhật
+                try (PreparedStatement updateStmt = connection.prepareStatement(updateSQL)) {
+                    updateStmt.setInt(1, price);
+                    updateStmt.setInt(2, packageId);
+                    updateStmt.executeUpdate();
+                }
+            } else {
+                // Chưa có → thêm mới
+                try (PreparedStatement insertStmt = connection.prepareStatement(insertSQL)) {
+                    insertStmt.setInt(1, packageId);
+                    insertStmt.setInt(2, 1);
+                    insertStmt.setInt(3, price);
+                    insertStmt.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
+
 }

@@ -6,6 +6,7 @@ import com.example.temp.DAO.MembershipPackageDAO;
 import com.example.temp.DAO.PackageSalesDAO;
 import com.example.temp.Models.MemberCard;
 import com.example.temp.Models.MembershipPackage;
+import com.example.temp.Models.PackageSale;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -114,12 +115,17 @@ public class MembershipCardController {
         if (MemberCardDAO.insertMemberCard(card)) {
             cardList.add(card);
             showAlert("Thành công", "Đăng ký thẻ thành công.");
-            PackageSalesDAO dao = new PackageSalesDAO();
-            dao.increaseSales(selectedPackage.getPackageID());
-            String today = LocalDate.now().toString();
 
             PackageSalesDAO salesDAO = new PackageSalesDAO();
-            salesDAO.addSale(selectedPackage.getPackageID(), selectedPackage.getPrice(), today);
+            PackageSale sale = new PackageSale();
+            sale.setCustomerId(id);
+            sale.setPackageId(selectedPackage.getPackageID());
+            sale.setTotalPrice(selectedPackage.getPrice());
+            sale.setSaleDate(LocalDate.now());
+            sale.setType("new");
+            salesDAO.recordSale(sale);
+            salesDAO.updateOrInsertStats(selectedPackage.getPackageID(), selectedPackage.getPrice());
+
             customerIDField.clear();
             goiComboBox.setValue(null);
             startDatePicker.setValue(LocalDate.now());
@@ -164,7 +170,15 @@ public class MembershipCardController {
         try {
             if (MemberCardDAO.updateMemberCardEndDate(selected.getCustomerID(), newEndDate.toString())) {
                 PackageSalesDAO packageSalesDAO = new PackageSalesDAO();
-                packageSalesDAO.increaseSales(packageID);
+                PackageSale sale = new PackageSale();
+                sale.setCustomerId(selected.getCustomerID());
+                sale.setPackageId(packageID);
+                sale.setTotalPrice(matchedPackage.getPrice());
+                sale.setSaleDate(LocalDate.now());
+                sale.setType("renewal");
+
+                packageSalesDAO.recordSale(sale);
+                packageSalesDAO.updateOrInsertStats(packageID, matchedPackage.getPrice());
 
                 cardTableView.refresh();
                 showAlert("Thành công", "Gia hạn thẻ thành công. Ngày hết hạn mới: " + newEndDate);

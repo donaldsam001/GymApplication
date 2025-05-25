@@ -1,6 +1,7 @@
 package com.example.temp.Controller;
 
 import com.example.temp.DAO.PackageSalesDAO;
+import com.example.temp.Models.PackageSale;
 import com.example.temp.Models.PackageSalesStats;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -10,7 +11,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.Year;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StatisticsController {
 
@@ -28,73 +31,69 @@ public class StatisticsController {
 
     private ObservableList<PackageSalesStats> saleList = FXCollections.observableArrayList();
 
-
     private final PackageSalesDAO dao = new PackageSalesDAO();
 
     @FXML
     public void initialize() {
-        // Cột: ID gói hội viên
-        colID.setCellValueFactory(new PropertyValueFactory<>("packageID"));
-
-        // Cột: Tên gói hội viên hoặc thời gian (tuỳ loại thống kê)
-        colName.setCellValueFactory(new PropertyValueFactory<>("packageName"));
-
-        // Cột: Số lượt bán
+        colID.setCellValueFactory(new PropertyValueFactory<>("packageId"));
+//        colName.setCellValueFactory(new PropertyValueFactory<>("packageName"));
         colSales.setCellValueFactory(new PropertyValueFactory<>("totalSales"));
-
-        // Cột: Doanh thu, định dạng VND
         colRevenue.setCellValueFactory(cellData -> {
             int revenue = cellData.getValue().getRevenue();
             return new SimpleStringProperty(String.format("%,d₫", revenue));
         });
 
-        // ComboBox loại thống kê
         comboStatType.setItems(FXCollections.observableArrayList("Theo tháng", "Theo quý", "Theo năm"));
         comboStatType.setValue("Theo tháng");
 
-        // ComboBox năm (10 năm gần đây)
         int currentYear = Year.now().getValue();
         for (int y = currentYear - 10; y <= currentYear; y++) {
             comboYear.getItems().add(y);
         }
         comboYear.setValue(currentYear);
 
-        // Load lần đầu
-        loadStatistics();
-
-        // Reload khi thay đổi
         comboStatType.setOnAction(e -> loadStatistics());
         comboYear.setOnAction(e -> loadStatistics());
 
-        PackageSalesDAO dao = new PackageSalesDAO();
-        var stats = dao.getAllStats();
-        statsTable.setItems(FXCollections.observableArrayList(stats));
-
-        int total = stats.stream().mapToInt(PackageSalesStats::getRevenue).sum();
-        totalRevenue.setText("Tổng doanh thu: " + String.format("%,d₫", total));
         inputSearch.textProperty().addListener((obs, oldVal, newVal) -> searchPackages());
+
+        loadStatistics();
     }
 
     private void loadStatistics() {
         String type = comboStatType.getValue();
         int year = comboYear.getValue();
 
-        List<PackageSalesStats> stats;
-
+        List<PackageSale> sales;
         switch (type) {
-            case "Theo tháng" -> stats = dao.getRevenueByMonth(year);
-            case "Theo quý" -> stats = dao.getRevenueByQuarter(year);
-            case "Theo năm" -> stats = dao.getRevenueByYear();
-            default -> stats = FXCollections.observableArrayList();
+            case "Theo tháng" -> sales = dao.getSalesByPeriod("month", year, 1);
+            case "Theo quý" -> sales = dao.getSalesByPeriod("quarter", year, 1);
+            case "Theo năm" -> sales = dao.getSalesByPeriod("year", year, 0);
+            default -> sales = List.of();
         }
 
-        statsTable.setItems(FXCollections.observableArrayList(stats));
+        Map<Integer, PackageSalesStats> statsMap = new HashMap<>();
+        for (PackageSale sale : sales) {
+            int packageId = sale.getPackageId();
+            PackageSalesStats stat = statsMap.getOrDefault(packageId, new PackageSalesStats(packageId, 0, 0));
+            stat.setTotalSales(stat.getTotalSales() + 1);
+            stat.setRevenue(stat.getRevenue() + sale.getTotalPrice());
+            statsMap.put(packageId, stat);
+        }
+
+        ObservableList<PackageSalesStats> statsList = FXCollections.observableArrayList(statsMap.values());
+        statsTable.setItems(statsList);
+
+        int total = statsList.stream().mapToInt(PackageSalesStats::getRevenue).sum();
+        totalRevenue.setText("Tổng doanh thu: " + String.format("%,d₫", total));
     }
 
     private void searchPackages() {
-        PackageSalesDAO dao = new PackageSalesDAO();
         String keyword = inputSearch.getText().trim();
-        saleList.setAll(dao.searchPackagesByID(keyword));
+        List<PackageSalesStats> filtered = dao.getAllStats().stream()
+                .filter(stat -> String.valueOf(stat.getPackageId()).contains(keyword))
+                .toList();
+        saleList.setAll(filtered);
         statsTable.setItems(saleList);
     }
 }

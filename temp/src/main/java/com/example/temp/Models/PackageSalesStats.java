@@ -1,40 +1,24 @@
 package com.example.temp.Models;
 
 public class PackageSalesStats {
-    private int packageID;
-    private String packageName;
+    private int packageId;
     private int totalSales;
     private int revenue;
 
+    public PackageSalesStats() {
+    }
 
-    public PackageSalesStats(int packageID, String packageName, int totalSales, int revenue) {
-        this.packageID = packageID;
-        this.packageName = packageName;
+    public PackageSalesStats(int packageId, int totalSales, int revenue) {
+        this.packageId = packageId;
         this.totalSales = totalSales;
         this.revenue = revenue;
     }
 
-    public int getPackageID() { return packageID; }
-    public String getPackageName() { return packageName; }
+    // Getters and Setters
+    public int getPackageId() { return packageId; }
+    public void setPackageId(int packageId) { this.packageId = packageId; }
     public int getTotalSales() { return totalSales; }
-
-    public void setTotalSales(int totalSales) {
-        this.totalSales = totalSales;
-    }
-
-    public void setPackageID(int packageID) {
-        this.packageID = packageID;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public int getRevenue() {
-        return revenue;
-    }
-
-    public void setRevenue(int revenue) {
-        this.revenue = revenue;
-    }
+    public void setTotalSales(int totalSales) { this.totalSales = totalSales; }
+    public int getRevenue() { return revenue; }
+    public void setRevenue(int revenue) { this.revenue = revenue; }
 }

@@ -97,27 +97,29 @@ public class DB {
                 """);
 
 
-                                // Bảng chi tiết từng lượt bán - dùng cho thống kê theo thời gian
+                // Ghi nhận từng lượt bán gói (đăng ký hoặc gia hạn)
                 stmt.execute("""
-                    CREATE TABLE IF NOT EXISTS package_sales (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        packageID INTEGER NOT NULL,
-                        total_price REAL NOT NULL,
-                        sale_date TEXT NOT NULL,
-                        FOREIGN KEY (packageID) REFERENCES Membership_package(id)
-                    );
-                """);
+                CREATE TABLE IF NOT EXISTS Package_Sales (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    customerID INTEGER NOT NULL,
+                    packageID INTEGER NOT NULL,
+                    total_price REAL NOT NULL,
+                    sale_date TEXT NOT NULL,
+                    type TEXT NOT NULL CHECK (type IN ('new', 'renewal')),
+                    FOREIGN KEY (customerID) REFERENCES MemberDetail(customerID),
+                    FOREIGN KEY (packageID) REFERENCES Membership_package(id)
+                );
+            """);
 
-                // (Tùy chọn) Bảng thống kê tổng theo package - có thể cập nhật định kỳ
+                // Bảng tổng hợp bán gói (tùy chọn)
                 stmt.execute("""
-                    CREATE TABLE IF NOT EXISTS PackageSalesStats (
-                        packageID INTEGER PRIMARY KEY,
-                        totalSales INTEGER DEFAULT 0,
-                        revenue INTEGER DEFAULT 0,
-                        FOREIGN KEY (packageID) REFERENCES Membership_package(id)
-                    );
-                """);
-
+                CREATE TABLE IF NOT EXISTS PackageSalesStats (
+                    packageID INTEGER PRIMARY KEY,
+                    totalSales INTEGER DEFAULT 0,
+                    revenue INTEGER DEFAULT 0,
+                    FOREIGN KEY (packageID) REFERENCES Membership_package(id)
+                );
+            """);
                 // Tạo admin mặc định nếu chưa tồn tại
                 stmt.execute("""
                     INSERT OR IGNORE INTO Admin (id, name, password, phone, email)
