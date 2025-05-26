@@ -137,7 +137,7 @@ public class ManagementEmployeeController {
             String password = "";
 
             if (isReceptionist){
-                password = generateRandomPassword(8); // hoặc 10, 12 ký tự tùy bạn
+                password = generateRandomPassword(id); // hoặc 10, 12 ký tự tùy bạn
             }
 
             if (name.isEmpty() || phone.isEmpty() ) {
@@ -254,14 +254,9 @@ public class ManagementEmployeeController {
         alert.showAndWait();
     }
 
-    private String generateRandomPassword(int length) {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";
-        StringBuilder password = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            int randomIndex = (int) (Math.random() * chars.length());
-            password.append(chars.charAt(randomIndex));
-        }
-        return password.toString();
+    private String generateRandomPassword(int id) {
+        String password = id +"@123";
+        return password;
     }
 
     public void confirmAndDeleteEmployee(int id) {

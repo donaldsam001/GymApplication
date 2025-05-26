@@ -1,5 +1,6 @@
 package com.example.temp.Controller;
 
+import com.example.temp.Models.MemberCard;
 import com.example.temp.Models.Membership;
 import com.example.temp.Models.TrainingTime;
 import com.example.temp.DAO.TrainingTimeDAO;
@@ -17,14 +18,16 @@ public class TrainingTimeController {
     @FXML private TextField fieldID; // Trường nhập mã hội viên
     @FXML private TextField fieldNote; // Trường ghi chú khi check-out
     @FXML private TableView<TrainingTime> timeTableView; // Bảng hiển thị các bản ghi thời gian
-    @FXML private TableColumn<TrainingTime, Integer> colCustomerID; // Cột CustomerID
+    @FXML private TableColumn<TrainingTime, Integer> colNum, colCustomerID; // Cột CustomerID
     @FXML private TableColumn<TrainingTime, String> colName, colStartDay, colEndDay, colNote; // Các cột thời gian và ghi chú
     @FXML private Label labelTotal; // Label hiển thị tổng số bản ghi
+    private final ObservableList<TrainingTime> sessionList = FXCollections.observableArrayList();
 
 
     @FXML
     public void initialize() {
         // Khởi tạo các cột trong bảng
+        colNum.setCellValueFactory(new PropertyValueFactory<>("id"));
         colCustomerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         colName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         colStartDay.setCellValueFactory(new PropertyValueFactory<>("checkInTime"));
@@ -85,8 +88,22 @@ public class TrainingTimeController {
     // Phương thức xử lý check-out
     @FXML
     private void handleCheckOut() {
-        int customerID = Integer.parseInt(fieldID.getText());
+        TrainingTime selected = timeTableView.getSelectionModel().getSelectedItem();
 
+        String checkOutTime = getNow();
+        String additionalNote = fieldNote.getText().trim();
+        String finalNote = additionalNote.isEmpty() ? "Check-out lúc " + checkOutTime: additionalNote;
+
+        // Cập nhật thời gian check-out
+        if (TrainingTimeDAO.insertCheckOut(selected.getCustomerID(), checkOutTime, finalNote)) {
+            showInfo("✅ Check-out thành công.\n" );
+            clearForm();
+            loadTrainingTimes();
+        } else {
+            showInfo("Hội viên không thể check-out.");
+        }
+
+        int customerID = Integer.parseInt(fieldID.getText());
         if (customerID < 100000 || customerID > 999999) {
             showInfo("⚠ Vui lòng nhập mã hội viên.");
             return;
@@ -97,10 +114,6 @@ public class TrainingTimeController {
             showInfo("⚠ Mã hội viên không tồn tại.");
             return;
         }
-
-        String checkOutTime = getNow();
-        String additionalNote = fieldNote.getText().trim();
-        String finalNote = additionalNote.isEmpty() ? "Check-out lúc " + checkOutTime: additionalNote;
 
         // Cập nhật thời gian check-out
         if (TrainingTimeDAO.insertCheckOut(customerID, checkOutTime, finalNote)) {
@@ -137,23 +150,37 @@ public class TrainingTimeController {
         TrainingTime selected = timeTableView.getSelectionModel().getSelectedItem();
         if (selected != null) {
             String newNote = fieldNote.getText();
-            updateNoteOnly(selected, newNote);
+            if (newNote.isEmpty()){
+                showAlert("Vui lòng điền nội dung để cập nhật ghi chú.");
+                return;
+            }
+            updateNoteOnly( newNote);
             loadTrainingTimes();
         } else {
             showAlert( "Vui lòng chọn một dòng để cập nhật ghi chú.");
         }
     }
 
-
-    private void updateNoteOnly(TrainingTime trainingTime, String newNote) {
-        TrainingTimeDAO dao = new TrainingTimeDAO();
-        boolean success = dao.updateNote(trainingTime.getCustomerID(), newNote);
-        if (success) {
-            trainingTime.setNote(newNote); // cập nhật lại trong model
-            showAlert("Đã cập nhật ghi chú.");
-        } else {
-            showAlert("Không thể cập nhật ghi chú.");
+    private void updateNoteOnly( String newNote) {
+        TrainingTime selected = timeTableView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert("Vui lòng chọn một phiên để cập nhật ghi chú.");
+            return;
         }
+
+        TrainingTimeDAO dao = new TrainingTimeDAO();
+        if (dao.updateNote(selected.getId(), newNote)) {
+            selected.setNote(newNote);
+            timeTableView.refresh();
+            showAlert("Cập nhật ghi chú thành công.");
+        }else {
+            showAlert("Cập nhật ghi chú thất bại.");
+        }
+    }
+
+    private void loadSessions() {
+        sessionList.setAll(TrainingTimeDAO.getAllTrainingTimes());
+        timeTableView.setItems(sessionList);
     }
 
     // Lấy thời gian hiện tại

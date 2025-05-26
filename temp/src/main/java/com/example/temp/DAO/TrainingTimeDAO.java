@@ -60,18 +60,18 @@ public class TrainingTimeDAO {
 
     // Cập nhật thông tin hội viên trong cơ sở dữ liệu
     public boolean updateNote(int id, String note) {
-        String sql = "UPDATE TrainingTime SET note = ? WHERE customerID = ?";
+        String sql = "UPDATE TrainingTime SET note = ? WHERE id = ?";
         try (Connection conn = SQLiteConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, note);
             stmt.setInt(2, id);
-            int rowsUpdated = stmt.executeUpdate();
-            return rowsUpdated > 0;
+            return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
+
 
     // Kiểm tra xem hội viên có đang có check-in mà chưa check-out không
     public static boolean hasUnfinishedCheckIn(int customerID) {
@@ -100,7 +100,7 @@ public class TrainingTimeDAO {
 
             while (rs.next()) {
                 list.add(new TrainingTime(
-//                        rs.getInt("id"),
+                        rs.getInt("id"),
                         rs.getInt("customerID"),  // customerID là int
                         rs.getString("customerName"),
                         rs.getString("checkInTime"),
@@ -158,7 +158,7 @@ public class TrainingTimeDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 results.add(new TrainingTime(
-//                        rs.getInt("id"),
+                        rs.getInt("id"),
                         rs.getInt("customerID"),
                         rs.getString("customerName"),
                         rs.getString("checkInTime"),

@@ -47,8 +47,9 @@
    
       <TableView fx:id="timeTableView" style="-fx-border-color: #bdc3c7; -fx-border-width: 1px;">
          <columns>
-            <TableColumn fx:id="colCustomerID" prefWidth="81.60000467300415" text="Mã hội viên" />
-            <TableColumn fx:id="colName" prefWidth="212.80001068115234" text="Tên hội viên" />
+            <TableColumn fx:id="colNum" prefWidth="35.19997787475586" text="STT" />
+            <TableColumn fx:id="colCustomerID" prefWidth="89.60000610351562" text="Mã hội viên" />
+            <TableColumn fx:id="colName" prefWidth="248.8000030517578" text="Tên hội viên" />
             <TableColumn fx:id="colStartDay" prefWidth="170.4000244140625" text="Check-in" />
             <TableColumn fx:id="colEndDay" minWidth="0.0" prefWidth="166.39993286132812" text="Check-out" />
             <TableColumn fx:id="colNote" prefWidth="416.0" text="Ghi chú" />
