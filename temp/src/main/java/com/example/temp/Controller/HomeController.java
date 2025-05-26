@@ -29,15 +29,30 @@ public class HomeController {
 
     @FXML private Pane topPane;
 
-//    @FXML
-//    public void initialize() {
-////        if (!Session.isAdmin) {
-////            vbox1.setVisible(false);
-////            empManagement.setVisible(false);
-////            btnStatistics.setVisible(false);
-////
-////        }
+    private boolean isAdmin;
+    private int userId;
+    private String userName;
+
+    public void setLoginInfo(boolean isAdmin, int userId, String userName) {
+        this.isAdmin = isAdmin;
+        this.userId = userId;
+        this.userName = userName;
+        adjustUI();
+    }
+
+//    public void setIsAdmin(boolean isAdmin) {
+//        this.isAdmin = isAdmin;
+//        adjustUI();
 //    }
+
+    private void adjustUI() {
+        if (!isAdmin) {
+            vbox1.setVisible(false);
+            empManagement.setVisible(false);
+            btnStatistics.setVisible(false);
+        }
+    }
+
 
     @FXML
     private void openLogout(ActionEvent event) {

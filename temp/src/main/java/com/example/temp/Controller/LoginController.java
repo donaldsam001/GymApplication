@@ -18,12 +18,9 @@ public class LoginController {
 
     @FXML
     private Button cancelButton;
-    @FXML
-    private CheckBox adminButton;
-
 
     @FXML
-    private CheckBox empButton;
+    private CheckBox checkIsAdmin;
     @FXML
     private Button loginButton;
 
@@ -37,37 +34,51 @@ public class LoginController {
     void handleLogin(ActionEvent event) {
         String idText = tfID.getText().trim();
         String passwordText = password.getText().trim();
+        boolean isAdmin = checkIsAdmin.isSelected();
 
         try {
             int id = Integer.parseInt(tfID.getText().trim()); // dùng id
             String pass = password.getText().trim();
 
-        if (idText.isEmpty() || passwordText.isEmpty()) {
-            showAlert("Lỗi", "ID và mật khẩu không được để trống.");
-            return;
-        }
-            // Check Admin trước
-            AdminDAO adminDAO = new AdminDAO();
-            Admin admin = adminDAO.getAdminInf(id);
-
-            if (admin != null && admin.getPassword().equals(pass)) {
-                Session.isAdmin = true;
-                Session.userId = admin.getId();
-                Session.userName = admin.getName();
-                loadHome(event);
+            if (idText.isEmpty() || passwordText.isEmpty()) {
+                showAlert("Lỗi", "ID và mật khẩu không được để trống.");
                 return;
             }
 
-            // Nếu không phải admin thì check Employee
-            EmployDAO employDAO = new EmployDAO();
-            Employee emp = employDAO.getEmployeeById(id);
+            if (isAdmin){
+                // Check Admin trước
+                AdminDAO adminDAO = new AdminDAO();
+                Admin admin = adminDAO.getAdminInf(id);
+                if (admin != null && admin.getPassword().equals(pass)) {
+                    loadHome(event, true, admin.getId(), admin.getName());
+                    return;
+                }
 
-            if (emp != null && emp.getPassword().equals(pass) && emp.isReceptionist() ) {
-                Session.isAdmin = false;
-                Session.userId = emp.getId();
-                Session.userName = emp.getName();
-                loadHome(event);
-                return;
+//                if (admin != null && admin.getPassword().equals(pass)) {
+//                    Session.isAdmin = true;
+//                    Session.userId = admin.getId();
+//                    Session.userName = admin.getName();
+//                    loadHome(event);
+//                    return;
+//                }
+            }
+            else{
+                // Nếu không phải admin thì check Employee
+                EmployDAO employDAO = new EmployDAO();
+                Employee emp = employDAO.getEmployeeById(id);
+                if (emp != null && emp.getPassword().equals(pass) && emp.isReceptionist()) {
+                    loadHome(event, false, emp.getId(), emp.getName());
+                    return;
+                }
+
+//                if (emp != null && emp.getPassword().equals(pass) && emp.isReceptionist() ) {
+//                    Session.isAdmin = false;
+//                    Session.userId = emp.getId();
+//                    Session.userName = emp.getName();
+//                    loadHome(event);
+//                    return;
+//                }
+
             }
             showAlert("Đăng nhập thất bại", "ID hoặc mật khẩu không đúng.");
         } catch (NumberFormatException e) {
@@ -76,10 +87,15 @@ public class LoginController {
     }
 
 
-    private void loadHome(ActionEvent event) {
+    private void loadHome(ActionEvent event, boolean isAdmin, int userId, String userName) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/temp/View/home-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
+
+            // Lấy controller và truyền isAdmin
+            HomeController homeController = fxmlLoader.getController();
+//            homeController.setIsAdmin(checkIsAdmin.isSelected());
+            homeController.setLoginInfo(isAdmin, userId, userName);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
