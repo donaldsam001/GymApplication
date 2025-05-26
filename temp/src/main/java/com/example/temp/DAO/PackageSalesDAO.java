@@ -76,24 +76,37 @@ public class PackageSalesDAO {
     public List<PackageSalesStats> getAllStats() {
         getConnection();
         List<PackageSalesStats> statsList = new ArrayList<>();
-        String sql = "SELECT packageID, COUNT(*) AS totalSales, SUM(total_price) AS revenue FROM Package_Sales GROUP BY packageID";
+
+        String sql = """
+            SELECT ps.packageID, mp.name AS packageName, 
+                   COUNT(*) AS totalSales, 
+                   SUM(ps.total_price) AS revenue
+            FROM Package_Sales ps
+            JOIN Membership_package mp ON ps.packageID = mp.id
+            GROUP BY ps.packageID
+        """;
 
         try (
-             Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)
+        ) {
             while (rs.next()) {
                 PackageSalesStats stats = new PackageSalesStats();
                 stats.setPackageId(rs.getInt("packageID"));
+                stats.setPackageName(rs.getString("packageName"));  // Set tên gói
                 stats.setTotalSales(rs.getInt("totalSales"));
                 stats.setRevenue(rs.getInt("revenue"));
                 statsList.add(stats);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
+
         return statsList;
     }
+
 
     public List<PackageSale> getSalesByPeriod(String periodType, int year, int value) {
         getConnection();
@@ -168,5 +181,4 @@ public class PackageSalesDAO {
             e.printStackTrace();
         }
     }
-
 }

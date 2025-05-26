@@ -75,7 +75,7 @@
                 <Button onAction="#handleAdd" styleClass="btn-add" stylesheets="@../Styles/QLHoiVien.css" text="➕ Thêm" />
                 <Button onAction="#handleUpdate" styleClass="btn-update" stylesheets="@../Styles/QLHoiVien.css" text="✏ Cập nhật" />
                 <Button onAction="#handleDelete" styleClass="btn-delete" stylesheets="@../Styles/QLHoiVien.css" text="🗑 Xóa" />
-                <Button onAction="#handleExportList" styleClass="btn-export" stylesheets="@../Styles/QLHoiVien.css" text="📋 Xem danh sách và Xuất file" />
+                <Button onAction="#handleExportList" styleClass="btn-export" stylesheets="@../Styles/QLHoiVien.css" text="📋 Xuất file danh sách hội viên" />
             </HBox>
 
             <TableView fx:id="tableView" stylesheets="@../Styles/QLHoiVien.css">

@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,8 +44,8 @@ public class StatisticsController {
             return new SimpleStringProperty(String.format("%,d₫", revenue));
         });
 
-        comboStatType.setItems(FXCollections.observableArrayList("Theo tháng", "Theo quý", "Theo năm"));
-        comboStatType.setValue("Theo tháng");
+        comboStatType.setItems(FXCollections.observableArrayList("Theo tháng", "Theo quý", "Theo năm", "Tổng quát"));
+        comboStatType.setValue("Tổng quát");
 
         comboStatType.setOnAction(event -> {
             updateComboTime();
@@ -66,41 +67,102 @@ public class StatisticsController {
         loadStatistics();  // load lần đầu
     }
 
+//    private void loadStatistics() {
+//        String type = comboStatType.getValue();
+//        int year = comboYear.getValue();
+//        Integer time = comboTime.getValue(); // tháng hoặc quý
+//
+//        if (year<0) return;
+//        if ((type.equals("Theo tháng") || type.equals("Theo quý")) && time == null) return;
+//
+//        ObservableList<PackageSalesStats> statsList;
+////        List<PackageSale> sales;
+//        switch (type) {
+////            case "Theo tháng" -> sales = dao.getSalesByPeriod("month", year, time);
+////            case "Theo quý" -> sales = dao.getSalesByPeriod("quarter", year, time);
+////            case "Theo năm" -> sales = dao.getSalesByPeriod("year", year, 0);
+////            default -> sales = List.of();
+////        }
+//            case "Theo tháng", "Theo quý", "Theo năm" -> {
+//                List<PackageSale> sales = switch (type) {
+//                    case "Theo tháng" -> dao.getSalesByPeriod("month", year, time);
+//                    case "Theo quý" -> dao.getSalesByPeriod("quarter", year, time);
+//                    case "Theo năm" -> dao.getSalesByPeriod("year", year, 0);
+//                    default -> List.of();
+//                };
+//
+//        Map<Integer, PackageSalesStats> statsMap = new HashMap<>();
+//        for (PackageSale sale : sales) {
+//            int packageId = sale.getPackageId();
+//            String packageName = sale.getPackageName(); // Lấy tên từ model
+//
+//
+//            PackageSalesStats stat = statsMap.getOrDefault(packageId, new PackageSalesStats(packageId, packageName ,0, 0));
+//            stat.setTotalSales(stat.getTotalSales() + 1);
+//            stat.setRevenue(stat.getRevenue() + sale.getTotalPrice());
+//            statsMap.put(packageId, stat);
+//        }
+//        statsList = FXCollections.observableArrayList(statsMap.values());
+//            }
+//            case "Tổng quát" -> statsList = FXCollections.observableArrayList(dao.getAllStats());
+//            default -> statsList = FXCollections.observableArrayList();
+//        }
+//        statsTable.setItems(statsList);
+//
+//        int total = statsList.stream().mapToInt(PackageSalesStats::getRevenue).sum();
+//        totalRevenue.setText("Tổng doanh thu: " + String.format("%,d₫", total));
+//    }
+
     private void loadStatistics() {
         String type = comboStatType.getValue();
         int year = comboYear.getValue();
         Integer time = comboTime.getValue(); // tháng hoặc quý
 
-        if (year<0) return;
+        // Tránh lỗi khi chưa chọn năm hoặc thời gian chưa hợp lệ
+        if (year < 0) return;
         if ((type.equals("Theo tháng") || type.equals("Theo quý")) && time == null) return;
 
+        ObservableList<PackageSalesStats> statsList;
 
-        List<PackageSale> sales;
-        switch (type) {
-            case "Theo tháng" -> sales = dao.getSalesByPeriod("month", year, time);
-            case "Theo quý" -> sales = dao.getSalesByPeriod("quarter", year, time);
-            case "Theo năm" -> sales = dao.getSalesByPeriod("year", year, 0);
-            default -> sales = List.of();
+        if (type.equals("Tổng quát")) {
+            statsList = FXCollections.observableArrayList(dao.getAllStats());
+        } else {
+            // Lấy dữ liệu theo khoảng thời gian
+            String periodType = switch (type) {
+                case "Theo tháng" -> "month";
+                case "Theo quý" -> "quarter";
+                case "Theo năm" -> "year";
+                default -> throw new IllegalArgumentException("Loại thống kê không hợp lệ");
+            };
+
+            List<PackageSale> sales = dao.getSalesByPeriod(periodType, year, type.equals("Theo năm") ? 0 : time);
+            statsList = FXCollections.observableArrayList(aggregateSales(sales));
         }
 
+        statsTable.setItems(statsList);
+
+        // Tính tổng doanh thu
+        int total = statsList.stream().mapToInt(PackageSalesStats::getRevenue).sum();
+        totalRevenue.setText("Tổng doanh thu: " + String.format("%,d₫", total));
+    }
+    private List<PackageSalesStats> aggregateSales(List<PackageSale> sales) {
         Map<Integer, PackageSalesStats> statsMap = new HashMap<>();
+
         for (PackageSale sale : sales) {
             int packageId = sale.getPackageId();
-            String packageName = sale.getPackageName(); // Lấy tên từ model
+            String packageName = sale.getPackageName();
 
+            PackageSalesStats stat = statsMap.getOrDefault(packageId,
+                    new PackageSalesStats(packageId, packageName, 0, 0));
 
-            PackageSalesStats stat = statsMap.getOrDefault(packageId, new PackageSalesStats(packageId, packageName ,0, 0));
             stat.setTotalSales(stat.getTotalSales() + 1);
             stat.setRevenue(stat.getRevenue() + sale.getTotalPrice());
             statsMap.put(packageId, stat);
         }
 
-        ObservableList<PackageSalesStats> statsList = FXCollections.observableArrayList(statsMap.values());
-        statsTable.setItems(statsList);
-
-        int total = statsList.stream().mapToInt(PackageSalesStats::getRevenue).sum();
-        totalRevenue.setText("Tổng doanh thu: " + String.format("%,d₫", total));
+        return new ArrayList<>(statsMap.values());
     }
+
 
     private void searchPackages() {
         String keyword = inputSearch.getText().trim();
@@ -115,24 +177,35 @@ public class StatisticsController {
         String selectedType = comboStatType.getValue();
         comboTime.getItems().clear();
 
-        if ("Theo tháng".equals(selectedType)) {
-            comboTime.setDisable(false);
-            comboTime.setVisible(true);
-            for (int i = 1; i <= 12; i++) {
-                comboTime.getItems().add(i);
+        switch (selectedType) {
+            case "Theo tháng" -> {
+                comboTime.setDisable(false);
+                comboTime.setVisible(true);
+                for (int i = 1; i <= 12; i++) {
+                    comboTime.getItems().add(i);
+                }
+                comboTime.getSelectionModel().selectFirst();
+                comboYear.setDisable(false);
             }
-            comboTime.getSelectionModel().selectFirst();
-        } else if ("Theo quý".equals(selectedType)) {
-            comboTime.setDisable(false);
-            comboTime.setVisible(true);
-            for (int i = 1; i <= 4; i++) {
-                comboTime.getItems().add(i);
+            case "Theo quý" -> {
+                comboTime.setDisable(false);
+                comboTime.setVisible(true);
+                for (int i = 1; i <= 4; i++) {
+                    comboTime.getItems().add(i);
+                }
+                comboTime.getSelectionModel().selectFirst();
+                comboYear.setDisable(false);
             }
-            comboTime.getSelectionModel().selectFirst();
-        } else {
-            comboTime.getItems().clear();
-            comboTime.setDisable(true);
-            comboTime.setVisible(false);
+            case "Theo năm" -> {
+                comboTime.setDisable(true);
+                comboTime.setVisible(false);
+                comboYear.setDisable(false);
+            }
+            case "Tổng quát" -> {
+                comboTime.setDisable(true);
+                comboTime.setVisible(false);
+                comboYear.setDisable(true); // Không cần chọn năm cho tổng quát
+            }
         }
     }
 
