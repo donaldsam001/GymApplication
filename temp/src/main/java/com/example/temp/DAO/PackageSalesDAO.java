@@ -114,7 +114,7 @@ public class PackageSalesDAO {
         };
 
         List<PackageSale> result = new ArrayList<>();
-        String sql = "SELECT * FROM Package_Sales WHERE " + dateCondition;
+        String sql = " SELECT ps.*, mp.name AS packageName FROM Package_Sales ps JOIN Membership_package mp ON ps.packageID = mp.id WHERE " + dateCondition;
 
         try (
              Statement stmt = connection.createStatement();
@@ -128,6 +128,8 @@ public class PackageSalesDAO {
                 sale.setTotalPrice(rs.getInt("total_price"));
                 sale.setSaleDate(LocalDate.parse(rs.getString("sale_date")));
                 sale.setType(rs.getString("type"));
+                sale.setPackageName(rs.getString("packageName"));  // Lấy tên gói
+
                 result.add(sale);
             }
         } catch (SQLException e) {

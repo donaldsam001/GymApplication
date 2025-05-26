@@ -100,6 +100,7 @@ public class TrainingTimeDAO {
 
             while (rs.next()) {
                 list.add(new TrainingTime(
+//                        rs.getInt("id"),
                         rs.getInt("customerID"),  // customerID là int
                         rs.getString("customerName"),
                         rs.getString("checkInTime"),
@@ -157,6 +158,7 @@ public class TrainingTimeDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 results.add(new TrainingTime(
+//                        rs.getInt("id"),
                         rs.getInt("customerID"),
                         rs.getString("customerName"),
                         rs.getString("checkInTime"),

@@ -1,6 +1,7 @@
 package com.example.temp.Models;
 
 public class TrainingTime {
+    private int id;
     private int customerID; // Mã hội viên
     private String customerName;
     private String checkInTime; // Thời gian check-in
@@ -8,12 +9,28 @@ public class TrainingTime {
     private String note; // Ghi chú
 
     // Constructor
-    public TrainingTime(int customerID, String customerName, String checkInTime, String checkOutTime, String note) {
+    public TrainingTime(int id, int customerID, String customerName, String checkInTime, String checkOutTime, String note) {
+        this.id = id;
         this.customerID = customerID;
         this.customerName = customerName;
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
         this.note = note;
+    }
+    public TrainingTime( int customerID, String customerName, String checkInTime, String checkOutTime, String note) {
+        this.customerID = customerID;
+        this.customerName = customerName;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
+        this.note = note;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCustomerName() {

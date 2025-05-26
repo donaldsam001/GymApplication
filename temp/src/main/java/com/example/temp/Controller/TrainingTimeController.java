@@ -100,11 +100,7 @@ public class TrainingTimeController {
 
         String checkOutTime = getNow();
         String additionalNote = fieldNote.getText().trim();
-        String finalNote = "";
-        if (!additionalNote.isEmpty()) {
-            finalNote += additionalNote;
-        }
-
+        String finalNote = additionalNote.isEmpty() ? "Check-out lúc " + checkOutTime: additionalNote;
 
         // Cập nhật thời gian check-out
         if (TrainingTimeDAO.insertCheckOut(customerID, checkOutTime, finalNote)) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -12,23 +13,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.control.ComboBox?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.StatisticsController">
    <children>
-
-      <ComboBox fx:id="comboStatType" layoutX="20" layoutY="20" prefWidth="150"/>
-      <ComboBox fx:id="comboYear" layoutX="190" layoutY="20" prefWidth="100"/>
 
       <TableView fx:id="statsTable" editable="true" layoutX="50.0" layoutY="100.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
         <columns>
           <TableColumn fx:id="colID" editable="false" prefWidth="137.60000455379486" text="Mã gói hội viên" />
-          <TableColumn fx:id="colName" editable="false" minWidth="6.4000244140625" prefWidth="314.4000701904297" text="Tên gói hội viên" />
-            <TableColumn fx:id="colSales" editable="false" prefWidth="117.59994506835938" text="Số lượt bán" />
-            <TableColumn fx:id="colRevenue" editable="false" prefWidth="229.60009765625" text="Doanh thu" />
+          <TableColumn fx:id="colName" editable="false" minWidth="6.4000244140625" prefWidth="494.3999786376953" text="Tên gói hội viên" />
+            <TableColumn fx:id="colSales" editable="false" prefWidth="171.20001220703125" text="Số lượt bán" />
+            <TableColumn fx:id="colRevenue" editable="false" prefWidth="315.20001220703125" text="Doanh thu" />
         </columns>
       </TableView>
       <Label fx:id="totalRevenue" layoutX="624.0" layoutY="522.0" text="Tổng doanh thu:" AnchorPane.bottomAnchor="52.39999999999998" AnchorPane.rightAnchor="159.19999999999993">
@@ -36,10 +29,13 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <GridPane alignment="CENTER" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="30.0">
+      <GridPane alignment="CENTER" layoutX="90.4" layoutY="70.4" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.200048828125" minWidth="10.0" prefWidth="116.79999389648438" />
+            <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="345.200048828125" minWidth="10.0" prefWidth="116.79999389648438" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="684.0" minWidth="10.0" prefWidth="279.20000610351565" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="684.0" minWidth="10.0" prefWidth="247.19997558593747" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="684.0" minWidth="10.0" prefWidth="224.00002441406252" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="684.0" minWidth="10.0" prefWidth="251.20000000000005" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints maxHeight="36.8" minHeight="10.0" prefHeight="36.8" vgrow="SOMETIMES" />
@@ -51,6 +47,10 @@
                </font>
             </Text>
             <TextField fx:id="inputSearch" prefHeight="38.0" prefWidth="208.0" promptText="Mã gói hoặc tên gói" GridPane.columnIndex="1" />
+      
+            <ComboBox fx:id="comboStatType" prefWidth="150.0" GridPane.columnIndex="2" />
+            <ComboBox fx:id="comboYear" prefWidth="150.0" GridPane.columnIndex="4" />
+            <ComboBox fx:id="comboTime" prefWidth="150.0" GridPane.columnIndex="3" />
          </children>
       </GridPane>
    </children>

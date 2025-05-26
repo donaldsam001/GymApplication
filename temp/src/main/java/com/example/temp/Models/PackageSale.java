@@ -5,6 +5,8 @@ public class PackageSale {
     private int id;
     private int customerId;
     private int packageId;
+    private String packageName; // không lưu trong DB, chỉ dùng hiển thị
+
     private int totalPrice;
     private LocalDate saleDate;
     private String type; // "new" or "renewal"
@@ -12,12 +14,21 @@ public class PackageSale {
     // Constructors
     public PackageSale() {}
 
-    public PackageSale(int customerId, int packageId, int totalPrice, LocalDate saleDate, String type) {
+    public PackageSale(int customerId, int packageId,String packageName, int totalPrice, LocalDate saleDate, String type) {
         this.customerId = customerId;
         this.packageId = packageId;
+        this.packageName = packageName;
         this.totalPrice = totalPrice;
         this.saleDate = saleDate;
         this.type = type;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
     // Getters and Setters

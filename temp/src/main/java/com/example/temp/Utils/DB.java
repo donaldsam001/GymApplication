@@ -81,7 +81,7 @@ public class DB {
                                 startDate TEXT,
                                 endDate TEXT,
                                 exp  INTEGER NOT NULL,
-                                FOREIGN KEY (packageID) REFERENCES MembershipPackage(packageID)
+                                FOREIGN KEY (packageID) REFERENCES MembershipPackage(id)
                     );
                 """);
 
