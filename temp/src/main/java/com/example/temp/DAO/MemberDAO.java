@@ -1,7 +1,6 @@
 package com.example.temp.DAO;
-import com.example.temp.Models.Membership;
+import com.example.temp.Models.Member;
 
-import com.example.temp.Models.Membership;
 import com.example.temp.Utils.SQLiteConnection;
 
 import java.sql.*;
@@ -11,7 +10,7 @@ import java.util.List;
 public class MemberDAO {
 
     // Thêm hội viên vào cơ sở dữ liệu
-    public static boolean addMember(Membership member) {
+    public static boolean addMember(Member member) {
         String sql = "INSERT INTO MemberDetail (customerID, name, phone, gender, age) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = SQLiteConnection.getConnection();
@@ -36,7 +35,7 @@ public class MemberDAO {
     }
 
     // Cập nhật thông tin hội viên trong cơ sở dữ liệu
-    public static boolean updateMember(Membership member) {
+    public static boolean updateMember(Member member) {
         String sql = "UPDATE MemberDetail SET name = ?, phone = ?, gender = ?, age = ? WHERE customerID = ?";
 
         try (Connection conn = SQLiteConnection.getConnection();
@@ -129,8 +128,8 @@ public class MemberDAO {
     }
 
 
-    public static List<Membership> getAllExtendedMembers() {
-        List<Membership> list = new ArrayList<>();
+    public static List<Member> getAllExtendedMembers() {
+        List<Member> list = new ArrayList<>();
         String sql = """
         SELECT m.customerID, m.name, m.phone, m.gender, m.age,
                c.package AS packageName, c.startDate, c.endDate, c.exp
@@ -142,7 +141,7 @@ public class MemberDAO {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                list.add(new Membership(
+                list.add(new Member(
                         rs.getInt("customerID"),
                         rs.getString("name"),
                         rs.getString("phone"),
@@ -160,8 +159,8 @@ public class MemberDAO {
         return list;
     }
 
-    public static List<Membership> searchMembers(String keyword) {
-        List<Membership> list = new ArrayList<>();
+    public static List<Member> searchMembers(String keyword) {
+        List<Member> list = new ArrayList<>();
         String sql = """
         SELECT m.customerID, m.name, m.phone, m.gender, m.age,
                c.package AS packageName, c.startDate, c.endDate, c.exp
@@ -178,7 +177,7 @@ public class MemberDAO {
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                list.add(new Membership(
+                list.add(new Member(
                         rs.getInt("customerID"),
                         rs.getString("name"),
                         rs.getString("phone"),

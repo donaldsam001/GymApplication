@@ -1,6 +1,5 @@
 package com.example.temp.DAO;
 
-import com.example.temp.Models.Membership;
 import com.example.temp.Models.TrainingTime;
 import com.example.temp.Utils.SQLiteConnection;
 

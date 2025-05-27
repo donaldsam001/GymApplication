@@ -1,7 +1,7 @@
 package com.example.temp.Controller;
 
-import com.example.temp.DAO.PackageSalesDAO;
-import com.example.temp.Models.PackageSale;
+import com.example.temp.DAO.PackageSalesStatsDAO;
+import com.example.temp.Models.PackageSalesStats;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,11 +17,11 @@ import java.util.Map;
 
 public class StatisticsController {
 
-    @FXML private TableView<PackageSale> statsTable;
-    @FXML private TableColumn<PackageSale, Integer> colID;
-    @FXML private TableColumn<PackageSale, String> colName;
-    @FXML private TableColumn<PackageSale, Integer> colSales;
-    @FXML private TableColumn<PackageSale, String> colRevenue;
+    @FXML private TableView<PackageSalesStats> statsTable;
+    @FXML private TableColumn<PackageSalesStats, Integer> colID;
+    @FXML private TableColumn<PackageSalesStats, String> colName;
+    @FXML private TableColumn<PackageSalesStats, Integer> colSales;
+    @FXML private TableColumn<PackageSalesStats, String> colRevenue;
 
     @FXML private ComboBox<String> comboStatType;
     @FXML private ComboBox<Integer> comboYear, comboTime;
@@ -29,9 +29,9 @@ public class StatisticsController {
     @FXML private Label totalRevenue;
     @FXML private TextField inputSearch;
 
-    private ObservableList<PackageSale> saleList = FXCollections.observableArrayList();
+    private ObservableList<PackageSalesStats> saleList = FXCollections.observableArrayList();
 
-    private final PackageSalesDAO dao = new PackageSalesDAO();
+    private final PackageSalesStatsDAO dao = new PackageSalesStatsDAO();
 
     @FXML
     public void initialize() {
@@ -74,8 +74,8 @@ public class StatisticsController {
         if (year < 0) return;
         if ((type.equals("Theo tháng") || type.equals("Theo quý")) && time == null) return;
 
-        PackageSalesDAO dao = new PackageSalesDAO();
-        ObservableList<PackageSale> statsList = FXCollections.observableArrayList(dao.getStatsSummary());
+        PackageSalesStatsDAO dao = new PackageSalesStatsDAO();
+        ObservableList<PackageSalesStats> statsList = FXCollections.observableArrayList(dao.getStatsSummary());
 
         if (type.equals("Tổng quát")) {
             statsList = FXCollections.observableArrayList(dao.getStatsSummary());
@@ -87,23 +87,23 @@ public class StatisticsController {
                 default -> throw new IllegalArgumentException("Loại thống kê không hợp lệ");
             };
 
-            List<PackageSale> sales = dao.getSalesByPeriod(periodType, year, type.equals("Theo năm") ? 0 : time);
+            List<PackageSalesStats> sales = dao.getSalesByPeriod(periodType, year, type.equals("Theo năm") ? 0 : time);
             statsList = FXCollections.observableArrayList(aggregateSales(sales));
         }
 
         statsTable.setItems(statsList);
-        int total = statsList.stream().mapToInt(PackageSale::getRevenue).sum();
+        int total = statsList.stream().mapToInt(PackageSalesStats::getRevenue).sum();
         totalRevenue.setText("Tổng doanh thu: " + String.format("%,d₫", total));
     }
 
-    private List<PackageSale> aggregateSales(List<PackageSale> sales) {
-        Map<Integer, PackageSale> statsMap = new HashMap<>();
+    private List<PackageSalesStats> aggregateSales(List<PackageSalesStats> sales) {
+        Map<Integer, PackageSalesStats> statsMap = new HashMap<>();
 
-        for (PackageSale sale : sales) {
+        for (PackageSalesStats sale : sales) {
             int packageId = sale.getPackageId();
             String packageName = sale.getPackageName();
 
-            PackageSale stat = statsMap.getOrDefault(packageId, new PackageSale(packageId, packageName, 0, 0));
+            PackageSalesStats stat = statsMap.getOrDefault(packageId, new PackageSalesStats(packageId, packageName, 0, 0));
 
             stat.setTotalSales(stat.getTotalSales() + 1);
             stat.setRevenue(stat.getRevenue() + sale.getTotalPrice());
@@ -116,7 +116,7 @@ public class StatisticsController {
 
     private void searchPackages() {
         String keyword = inputSearch.getText().trim();
-        List<PackageSale> filtered = dao.getStatsSummary().stream()
+        List<PackageSalesStats> filtered = dao.getStatsSummary().stream()
                 .filter(stat -> String.valueOf(stat.getPackageId()).contains(keyword))
                 .toList();
         saleList.setAll(filtered);

@@ -3,15 +3,15 @@ package com.example.temp.Models;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class MemberCard extends MembershipPackage {
+public class MembershipCard extends MembershipPackage {
     private final SimpleIntegerProperty customerID;
     private final SimpleStringProperty startDate;
     private final SimpleStringProperty endDate;
     private final SimpleStringProperty customerName;
 
-    public MemberCard(int customerID, String customerName,
-                      int packageID, String packageName,
-                      String startDate, String endDate, int exp) {
+    public MembershipCard(int customerID, String customerName,
+                          int packageID, String packageName,
+                          String startDate, String endDate, int exp) {
 
         // Gọi constructor của lớp cha MembershipPackage
         super(packageID, packageName, exp);

@@ -9,12 +9,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.converter.IntegerStringConverter;
 
 import java.util.List;
 import java.util.Optional;
 
-public class ManagementEmployeeController {
+public class EmployeeController {
 
     @FXML private TableView<Employee> tableView, tableUp, tableDel;
     @FXML private TableColumn<Employee, Integer> colID, colIDUp, colIDDel;

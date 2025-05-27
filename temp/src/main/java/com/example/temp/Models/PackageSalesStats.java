@@ -1,7 +1,7 @@
 package com.example.temp.Models;
 import java.time.LocalDate;
 
-public class PackageSale {
+public class PackageSalesStats {
     private int id;
     private int customerId;
     private int packageId;
@@ -15,10 +15,10 @@ public class PackageSale {
     private int revenue;
 
     // Constructors
-    public PackageSale() {}
+    public PackageSalesStats() {}
 
     // Dùng khi insert/update
-    public PackageSale(int customerId, int packageId, String packageName, int totalPrice, LocalDate saleDate, String type) {
+    public PackageSalesStats(int customerId, int packageId, String packageName, int totalPrice, LocalDate saleDate, String type) {
         this.customerId = customerId;
         this.packageId = packageId;
         this.packageName = packageName;
@@ -28,14 +28,14 @@ public class PackageSale {
     }
 
     // Dùng khi thống kê
-    public PackageSale(int packageId, String packageName, int totalSales, int revenue) {
+    public PackageSalesStats(int packageId, String packageName, int totalSales, int revenue) {
         this.packageId = packageId;
         this.packageName = packageName;
         this.totalSales = totalSales;
         this.revenue = revenue;
     }
     // Dùng khi thống kê
-    public PackageSale(int packageId, String packageName, int totalSales) {
+    public PackageSalesStats(int packageId, String packageName, int totalSales) {
         this.packageId = packageId;
         this.packageName = packageName;
         this.totalSales = totalSales;

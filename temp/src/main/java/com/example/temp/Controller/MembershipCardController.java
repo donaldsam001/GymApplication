@@ -3,10 +3,10 @@ package com.example.temp.Controller;
 import com.example.temp.DAO.MemberDAO;
 import com.example.temp.DAO.MemberCardDAO;
 import com.example.temp.DAO.MembershipPackageDAO;
-import com.example.temp.DAO.PackageSalesDAO;
-import com.example.temp.Models.MemberCard;
+import com.example.temp.DAO.PackageSalesStatsDAO;
+import com.example.temp.Models.MembershipCard;
 import com.example.temp.Models.MembershipPackage;
-import com.example.temp.Models.PackageSale;
+import com.example.temp.Models.PackageSalesStats;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,17 +24,17 @@ public class MembershipCardController {
     @FXML private ComboBox<MembershipPackage> goiComboBox;
     @FXML private DatePicker startDatePicker;
     @FXML private DatePicker endDatePicker;
-    @FXML private TableView<MemberCard> cardTableView;
-    @FXML private TableColumn<MemberCard, Integer> colCustomerID;
-    @FXML private TableColumn<MemberCard, String> colName;
-    @FXML private TableColumn<MemberCard, String> colStartDate;
-    @FXML private TableColumn<MemberCard, String> colEndDate;
-    @FXML private TableColumn<MemberCard, String> colPackage;
+    @FXML private TableView<MembershipCard> cardTableView;
+    @FXML private TableColumn<MembershipCard, Integer> colCustomerID;
+    @FXML private TableColumn<MembershipCard, String> colName;
+    @FXML private TableColumn<MembershipCard, String> colStartDate;
+    @FXML private TableColumn<MembershipCard, String> colEndDate;
+    @FXML private TableColumn<MembershipCard, String> colPackage;
     @FXML private TextField packageIDField;
     @FXML private TextField expField;
     @FXML private TextField inputSearch;
 
-    private ObservableList<MemberCard> cardList;
+    private ObservableList<MembershipCard> cardList;
 
     @FXML
     public void initialize() {
@@ -102,7 +102,7 @@ public class MembershipCardController {
         String name = MemberDAO.getCustomerNameById(id);
 
         // Dùng đúng constructor
-        MemberCard card = new MemberCard(
+        MembershipCard card = new MembershipCard(
                 id,
                 name,
                 selectedPackage.getPackageID(),
@@ -116,8 +116,8 @@ public class MembershipCardController {
             cardList.add(card);
             showAlert("Thành công", "Đăng ký thẻ thành công.");
 
-            PackageSalesDAO salesDAO = new PackageSalesDAO();
-            PackageSale sale = new PackageSale();
+            PackageSalesStatsDAO salesDAO = new PackageSalesStatsDAO();
+            PackageSalesStats sale = new PackageSalesStats();
             sale.setCustomerId(id);
             sale.setPackageId(selectedPackage.getPackageID());
             sale.setTotalPrice(selectedPackage.getPrice());
@@ -137,7 +137,7 @@ public class MembershipCardController {
 
     @FXML
     private void handleRenewCard() {
-        MemberCard selected = cardTableView.getSelectionModel().getSelectedItem();
+        MembershipCard selected = cardTableView.getSelectionModel().getSelectedItem();
         if (selected == null) {
             showAlert("Lỗi", "Vui lòng chọn thẻ cần gia hạn.");
             return;
@@ -169,8 +169,8 @@ public class MembershipCardController {
 
         try {
             if (MemberCardDAO.updateMemberCardEndDate(selected.getCustomerID(), newEndDate.toString())) {
-                PackageSalesDAO packageSalesDAO = new PackageSalesDAO();
-                PackageSale sale = new PackageSale();
+                PackageSalesStatsDAO packageSalesDAO = new PackageSalesStatsDAO();
+                PackageSalesStats sale = new PackageSalesStats();
                 sale.setCustomerId(selected.getCustomerID());
                 sale.setPackageId(packageID);
                 sale.setTotalPrice(matchedPackage.getPrice());
@@ -192,7 +192,7 @@ public class MembershipCardController {
 
     @FXML
     private void handleDeleteCard() {
-        MemberCard selected = cardTableView.getSelectionModel().getSelectedItem();
+        MembershipCard selected = cardTableView.getSelectionModel().getSelectedItem();
         if (selected == null) {
             showAlert("Lỗi", "⚠ Vui lòng chọn thẻ hội viên để xóa!");
             return;

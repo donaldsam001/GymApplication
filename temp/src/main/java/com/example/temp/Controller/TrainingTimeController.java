@@ -1,7 +1,5 @@
 package com.example.temp.Controller;
 
-import com.example.temp.Models.MemberCard;
-import com.example.temp.Models.Membership;
 import com.example.temp.Models.TrainingTime;
 import com.example.temp.DAO.TrainingTimeDAO;
 import com.example.temp.DAO.MemberDAO;

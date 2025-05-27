@@ -3,7 +3,7 @@ import javafx.beans.property.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 
-public class Membership {
+public class Member {
     private final IntegerProperty ID;
     private final StringProperty name;
     private final StringProperty phone;
@@ -13,8 +13,8 @@ public class Membership {
     private String startDate;
     private String endDate;
 
-    public Membership(int customerID, String name, String phone, String gender, int age,
-                      String packageName, String startDate, String endDate) {
+    public Member(int customerID, String name, String phone, String gender, int age,
+                  String packageName, String startDate, String endDate) {
         this.ID = new SimpleIntegerProperty(customerID);
         this.name = new SimpleStringProperty(name);
         this.phone = new SimpleStringProperty(phone);

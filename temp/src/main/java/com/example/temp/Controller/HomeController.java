@@ -1,6 +1,5 @@
 package com.example.temp.Controller;
 
-import com.example.temp.Models.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

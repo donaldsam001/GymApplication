@@ -1,10 +1,7 @@
 package com.example.temp.Controller;
 
-import com.example.temp.DAO.EmployDAO;
 import com.example.temp.DAO.EquipmentDAO;
-import com.example.temp.DAO.MembershipPackageDAO;
 import com.example.temp.Models.Equipment;
-import com.example.temp.Models.MembershipPackage;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,13 +10,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.converter.LocalDateStringConverter;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class DeviceManagementController {
+public class EquipmentController {
 
     @FXML private TableView<Equipment> equipmentTable, repairDateTable, deleteTable;
     @FXML private TableColumn<Equipment, Integer> colId, colIDRepair, colIdDel;

@@ -17,7 +17,7 @@ import java.util.Locale;
 import java.util.List;
 import java.util.Optional;
 
-public class ManagementPackageController {
+public class PackageController {
 
     @FXML
     private TableView<MembershipPackage> listPackage, listPackageChange, listPackageDel;

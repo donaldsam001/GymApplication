@@ -1,7 +1,7 @@
 package com.example.temp.Controller;
 
 import com.example.temp.DAO.MemberDAO;
-import com.example.temp.Models.Membership;
+import com.example.temp.Models.Member;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,7 +19,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileOutputStream;
 
-public class ManagementMembershipController {
+public class MemberController {
     @FXML private TextField tfCustomerID;
     @FXML private TextField tfName;
     @FXML private TextField tfPhone;
@@ -27,19 +27,19 @@ public class ManagementMembershipController {
     @FXML private TextField tfAge;
     @FXML private TextField inputSearch;
 
-    @FXML private TableColumn<Membership, Integer> colCustomerID;
-    @FXML private TableColumn<Membership, String> colName;
-    @FXML private TableColumn<Membership, String> colPhone;
-    @FXML private TableColumn<Membership, String> colGender;
-    @FXML private TableColumn<Membership, Integer> colAge;
+    @FXML private TableColumn<Member, Integer> colCustomerID;
+    @FXML private TableColumn<Member, String> colName;
+    @FXML private TableColumn<Member, String> colPhone;
+    @FXML private TableColumn<Member, String> colGender;
+    @FXML private TableColumn<Member, Integer> colAge;
 
 
-    @FXML private TableView<Membership> tableView;
-    private ObservableList<Membership> memberList;
+    @FXML private TableView<Member> tableView;
+    private ObservableList<Member> memberList;
 
-    @FXML private TableColumn<Membership, String> colPackage;
-    @FXML private TableColumn<Membership, String> colStartDate;
-    @FXML private TableColumn<Membership, String> colEndDate;
+    @FXML private TableColumn<Member, String> colPackage;
+    @FXML private TableColumn<Member, String> colStartDate;
+    @FXML private TableColumn<Member, String> colEndDate;
 
 
 
@@ -63,7 +63,7 @@ public class ManagementMembershipController {
 
     @FXML
     private void handleAdd() {
-        Membership member = getFormData();
+        Member member = getFormData();
         if (member == null) return;
         int id = member.getCustomerID();
         // Kiểm tra mã hội viên đã tồn tại trong cơ sở dữ liệu
@@ -84,13 +84,13 @@ public class ManagementMembershipController {
 
     @FXML
     private void handleUpdate() {
-        Membership selected = tableView.getSelectionModel().getSelectedItem();
+        Member selected = tableView.getSelectionModel().getSelectedItem();
         if (selected == null) {
             showAlert("⚠ Vui lòng chọn hội viên để cập nhật!");
             return;
         }
 
-        Membership member = getFormData();
+        Member member = getFormData();
         if (member == null) return;
 
         MemberDAO.updateMember(member);
@@ -101,7 +101,7 @@ public class ManagementMembershipController {
 
     @FXML
     private void handleDelete() {
-        Membership selected = tableView.getSelectionModel().getSelectedItem();
+        Member selected = tableView.getSelectionModel().getSelectedItem();
         if (selected == null) {
             showAlert("⚠ Vui lòng chọn hội viên để xóa!");
             return;
@@ -154,7 +154,7 @@ public class ManagementMembershipController {
 
             // Ghi dữ liệu hội viên
             int rowNum = 1;
-            for (Membership m : memberList) {
+            for (Member m : memberList) {
                 Row row = sheet.createRow(rowNum++);
                 row.createCell(0).setCellValue(m.getCustomerID());
                 row.createCell(1).setCellValue(m.getName());
@@ -184,12 +184,12 @@ public class ManagementMembershipController {
 
 
     private void loadMembers() {
-        List<Membership> members = MemberDAO.getAllExtendedMembers();
+        List<Member> members = MemberDAO.getAllExtendedMembers();
         memberList = FXCollections.observableArrayList(members);
         tableView.setItems(memberList);
     }
 
-    private Membership getFormData() {
+    private Member getFormData() {
         String idText = tfCustomerID.getText();
         String nameText = tfName.getText();
         String phoneText = tfPhone.getText();
@@ -230,7 +230,7 @@ public class ManagementMembershipController {
                 return null;
             }
 
-            return new Membership(id, nameText, phoneText, genderText, age, "", "", "");
+            return new Member(id, nameText, phoneText, genderText, age, "", "", "");
         } catch (NumberFormatException e) {
             showAlert("⚠ Mã hội viên và tuổi phải là số!");
             return null;
@@ -242,13 +242,13 @@ public class ManagementMembershipController {
         if (keyword.isEmpty()) {
             loadMembers(); // nếu không nhập gì thì load toàn bộ
         } else {
-            List<Membership> results = MemberDAO.searchMembers(keyword);
+            List<Member> results = MemberDAO.searchMembers(keyword);
             tableView.setItems(FXCollections.observableArrayList(results));
         }
     }
 
     private void handleTableClick(MouseEvent event) {
-        Membership selected = tableView.getSelectionModel().getSelectedItem();
+        Member selected = tableView.getSelectionModel().getSelectedItem();
         if (selected != null) {
             tfCustomerID.setText(String.valueOf(selected.getCustomerID()));
             tfName.setText(selected.getName());

@@ -1,6 +1,6 @@
 package com.example.temp.DAO;
 
-import com.example.temp.Models.MemberCard;
+import com.example.temp.Models.MembershipCard;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class MemberCardDAO {
     private static String lastError = "";
 
     // Thêm thẻ hội viên
-    public static boolean insertMemberCard(MemberCard card) {
+    public static boolean insertMemberCard(MembershipCard card) {
         String sql = """
             INSERT INTO MemberCard (customerID, packageID, name, package, startDate, endDate, exp)
             VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -62,8 +62,8 @@ public class MemberCardDAO {
     }
 
     // Lấy danh sách thẻ hội viên
-    public static List<MemberCard> getAllMemberCards() {
-        List<MemberCard> cards = new ArrayList<>();
+    public static List<MembershipCard> getAllMemberCards() {
+        List<MembershipCard> cards = new ArrayList<>();
         String sql = """
                     SELECT mc.customerID, mc.startDate, mc.endDate, mc.name AS customerName,
                       mp.id AS packageID, mp.name AS packageName, mc.exp
@@ -76,7 +76,7 @@ public class MemberCardDAO {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                MemberCard card = new MemberCard(
+                MembershipCard card = new MembershipCard(
                         rs.getInt("customerID"),
                         rs.getString("customerName"),
                         rs.getInt("packageID"),
@@ -128,8 +128,8 @@ public class MemberCardDAO {
         }
     }
 
-    public static List<MemberCard> searchByCustomerID(String keyword) {
-        List<MemberCard> list = new ArrayList<>();
+    public static List<MembershipCard> searchByCustomerID(String keyword) {
+        List<MembershipCard> list = new ArrayList<>();
         String sql = """
         SELECT mc.customerID, mc.startDate, mc.endDate, mc.name AS customerName,
                mp.id AS packageID, mp.name AS packageName, mc.exp
@@ -146,7 +146,7 @@ public class MemberCardDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                MemberCard card = new MemberCard(
+                MembershipCard card = new MembershipCard(
                         rs.getInt("customerID"),
                         rs.getString("customerName"),
                         rs.getInt("packageID"),

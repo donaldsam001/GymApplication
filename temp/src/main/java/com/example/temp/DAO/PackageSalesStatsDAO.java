@@ -1,15 +1,14 @@
 package com.example.temp.DAO;
 
-import com.example.temp.Models.PackageSale;
+import com.example.temp.Models.PackageSalesStats;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PackageSalesDAO {
-    private static final Logger LOGGER = Logger.getLogger(PackageSalesDAO.class.getName());
+public class PackageSalesStatsDAO {
+    private static final Logger LOGGER = Logger.getLogger(PackageSalesStatsDAO.class.getName());
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:sqlite:service_app.db");
@@ -36,7 +35,7 @@ public class PackageSalesDAO {
         }
     }
 
-    public void insertPackageSale(PackageSale sale) {
+    public void insertPackageSale(PackageSalesStats sale) {
         String sql = "INSERT INTO Package_Sales (customerID, packageID, total_price, sale_date, type) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -51,8 +50,8 @@ public class PackageSalesDAO {
         }
     }
 
-    public List<PackageSale> getSalesByPeriod(String periodType, int year, int periodValue) {
-        List<PackageSale> sales = new ArrayList<>();
+    public List<PackageSalesStats> getSalesByPeriod(String periodType, int year, int periodValue) {
+        List<PackageSalesStats> sales = new ArrayList<>();
         StringBuilder sql = new StringBuilder(
                 "SELECT ps.*, mp.name as packageName " +
                         "FROM Package_Sales ps " +
@@ -81,7 +80,7 @@ public class PackageSalesDAO {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    PackageSale sale = new PackageSale();
+                    PackageSalesStats sale = new PackageSalesStats();
                     sale.setPackageId(rs.getInt("packageID"));
                     sale.setPackageName(rs.getString("packageName"));
                     sale.setTotalPrice((int) rs.getDouble("total_price"));
@@ -95,8 +94,8 @@ public class PackageSalesDAO {
         return sales;
     }
 
-    public List<PackageSale> getStatsSummary() {
-        List<PackageSale> stats = new ArrayList<>();
+    public List<PackageSalesStats> getStatsSummary() {
+        List<PackageSalesStats> stats = new ArrayList<>();
         String sql = """
             SELECT ps.packageID, mp.name as packageName, COUNT(*) as total_sales, SUM(ps.total_price) as total_revenue
             FROM Package_Sales ps
@@ -106,7 +105,7 @@ public class PackageSalesDAO {
 
         try (Connection conn = getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                PackageSale stat = new PackageSale();
+                PackageSalesStats stat = new PackageSalesStats();
                 stat.setPackageId(rs.getInt("packageID"));
                 stat.setPackageName(rs.getString("packageName"));
                 stat.setTotalSales(rs.getInt("total_sales"));
