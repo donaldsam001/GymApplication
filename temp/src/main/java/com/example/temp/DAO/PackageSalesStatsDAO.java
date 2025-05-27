@@ -39,7 +39,7 @@ public class PackageSalesStatsDAO {
         String sql = "INSERT INTO Package_Sales (customerID, packageID, total_price, sale_date, type) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, sale.getCustomerId());
+            pstmt.setInt(1, sale.getMemberID());
             pstmt.setInt(2, sale.getPackageId());
             pstmt.setDouble(3, sale.getTotalPrice());
             pstmt.setString(4, sale.getSaleDate().toString());  // toString() trả về yyyy-MM-dd (OK nếu dùng LocalDate)

@@ -93,7 +93,7 @@ public class TrainingTimeController {
         String finalNote = additionalNote.isEmpty() ? "Check-out lúc " + checkOutTime: additionalNote;
 
         // Cập nhật thời gian check-out
-        if (TrainingTimeDAO.insertCheckOut(selected.getCustomerID(), checkOutTime, finalNote)) {
+        if (TrainingTimeDAO.insertCheckOut(selected.getMemberID(), checkOutTime, finalNote)) {
             showInfo("✅ Check-out thành công.\n" );
             clearForm();
             loadTrainingTimes();
@@ -167,7 +167,7 @@ public class TrainingTimeController {
         }
 
         TrainingTimeDAO dao = new TrainingTimeDAO();
-        if (dao.updateNote(selected.getId(), newNote)) {
+        if (dao.updateNote(selected.getTrainingTimeID(), newNote)) {
             selected.setNote(newNote);
             timeTableView.refresh();
             showAlert("Cập nhật ghi chú thành công.");

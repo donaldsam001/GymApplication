@@ -16,8 +16,8 @@ public class TrainingTimeDAO {
         try (Connection conn = SQLiteConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, trainingTime.getCustomerID());  // customerID là int
-            stmt.setString(2, trainingTime.getCustomerName());
+            stmt.setInt(1, trainingTime.getMemberID());  // customerID là int
+            stmt.setString(2, trainingTime.getMemberName());
             stmt.setString(3, trainingTime.getCheckInTime());
             stmt.setString(4, trainingTime.getNote());
 

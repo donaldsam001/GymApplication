@@ -58,8 +58,8 @@ public class EquipmentDAO {
         getConnection();
         String sql = "INSERT INTO Equipment (id, name, description, repairDate, repairNote, status) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, equipment.getId());
-            stmt.setString(2, equipment.getName());
+            stmt.setInt(1, equipment.getEquipmentID());
+            stmt.setString(2, equipment.getEquipmentName());
             stmt.setString(3, equipment.getDescription());
             stmt.setString(4, equipment.getRepairDate() != null ? equipment.getRepairDate().toString() : null);
             stmt.setString(5, equipment.getMaintenanceNote());
@@ -102,12 +102,12 @@ public class EquipmentDAO {
         getConnection();
         String sql = "UPDATE Equipment SET name = ?, description = ?, repairDate = ?, repairNote = ?, status = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, equipment.getName());
+            stmt.setString(1, equipment.getEquipmentName());
             stmt.setString(2, equipment.getDescription());
             stmt.setString(3, equipment.getRepairDate() != null ? equipment.getRepairDate().toString() : null);
             stmt.setString(4, equipment.getMaintenanceNote());
             stmt.setBoolean(5, equipment.getStatus());
-            stmt.setInt(6, equipment.getId());
+            stmt.setInt(6, equipment.getEquipmentID());
             stmt.executeUpdate();
             logger.info("Updated Equipment successfully.");
         } catch (SQLException e) {

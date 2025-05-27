@@ -118,7 +118,7 @@ public class MembershipCardController {
 
             PackageSalesStatsDAO salesDAO = new PackageSalesStatsDAO();
             PackageSalesStats sale = new PackageSalesStats();
-            sale.setCustomerId(id);
+            sale.setMemberID(id);
             sale.setPackageId(selectedPackage.getPackageID());
             sale.setTotalPrice(selectedPackage.getPrice());
             sale.setSaleDate(LocalDate.now());
@@ -168,10 +168,10 @@ public class MembershipCardController {
         selected.setEndDate(newEndDate.toString());
 
         try {
-            if (MemberCardDAO.updateMemberCardEndDate(selected.getCustomerID(), newEndDate.toString())) {
+            if (MemberCardDAO.updateMemberCardEndDate(selected.getMemberID(), newEndDate.toString())) {
                 PackageSalesStatsDAO packageSalesDAO = new PackageSalesStatsDAO();
                 PackageSalesStats sale = new PackageSalesStats();
-                sale.setCustomerId(selected.getCustomerID());
+                sale.setMemberID(selected.getMemberID());
                 sale.setPackageId(packageID);
                 sale.setTotalPrice(matchedPackage.getPrice());
                 sale.setSaleDate(LocalDate.now());
@@ -200,13 +200,13 @@ public class MembershipCardController {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Xác nhận xóa thẻ");
-        alert.setHeaderText("Bạn có chắc chắn muốn xóa thẻ của hội viên \"" + selected.getCustomerName() + "\" (ID: " + selected.getCustomerID() + ")?");
+        alert.setHeaderText("Bạn có chắc chắn muốn xóa thẻ của hội viên \"" + selected.getMemberName() + "\" (ID: " + selected.getMemberID() + ")?");
         alert.setContentText("Thao tác này không thể hoàn tác.");
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                if (MemberCardDAO.deleteMemberCard(selected.getCustomerID())) {
+                if (MemberCardDAO.deleteMemberCard(selected.getMemberID())) {
                     cardList.remove(selected); // Cập nhật lại danh sách
                     showAlert("Thành công", "🗑 Đã xóa thẻ hội viên.");
                 } else {

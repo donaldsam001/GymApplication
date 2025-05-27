@@ -39,7 +39,6 @@
 }
 
 .vbox{
-    -fx-effect: drop-shadow(three-pass-box, rgba(0,0,0,0.6), 10, 10, 10, 10);
     -fx-text-fill: white;
     -fx-font-size: 16px;
     -fx-font-weight: bold;

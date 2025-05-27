@@ -61,16 +61,16 @@ public class EquipmentController {
         repairDateTable.setOnMouseClicked(event -> {
             Equipment selected = repairDateTable.getSelectionModel().getSelectedItem();
             if (selected != null) {
-                inputCode.setText(String.valueOf(selected.getId()));
-                inputName.setText(selected.getName());
+                inputCode.setText(String.valueOf(selected.getEquipmentID()));
+                inputName.setText(selected.getEquipmentName());
                 inputDescription.setText(selected.getDescription());
             }
         });
     }
 
     private void setupTableView() {
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colId.setCellValueFactory(new PropertyValueFactory<>("equipmentID"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("equipmentName"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colStatus.setCellValueFactory(cellData -> {
             boolean status = cellData.getValue().getStatus();
@@ -85,8 +85,8 @@ public class EquipmentController {
     }
 
     private void setupDeleteTable() {
-        colIdDel.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colNameDel.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colIdDel.setCellValueFactory(new PropertyValueFactory<>("equipmentID"));
+        colNameDel.setCellValueFactory(new PropertyValueFactory<>("equipmentName"));
         colDescriptionDel.setCellValueFactory(new PropertyValueFactory<>("description"));
         colStatusDel.setCellValueFactory(cellData -> {
             boolean status = cellData.getValue().getStatus();
@@ -98,7 +98,7 @@ public class EquipmentController {
             {
                 deleteBtn.setOnAction(event -> {
                     Equipment eq = getTableView().getItems().get(getIndex());
-                    confirmAndDeleteDevice(eq.getId());
+                    confirmAndDeleteDevice(eq.getEquipmentID());
                 });
             }
             @Override
@@ -114,8 +114,8 @@ public class EquipmentController {
     private void setupChangeTable() {
         repairDateTable.setEditable(true);
         colRepairDate.setCellValueFactory(new PropertyValueFactory<>("repairDate"));
-        colIDRepair.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colNameRepair.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colIDRepair.setCellValueFactory(new PropertyValueFactory<>("equipmentID"));
+        colNameRepair.setCellValueFactory(new PropertyValueFactory<>("equipmentName"));
         colDescriptionRepair.setCellValueFactory(new PropertyValueFactory<>("description"));
         colMaintenanceContent.setCellValueFactory(new PropertyValueFactory<>("maintenanceNote"));
         colStatusRepair.setCellValueFactory(cellData -> {
@@ -130,7 +130,7 @@ public class EquipmentController {
 
         colNameRepair.setOnEditCommit(event -> {
             Equipment eq = event.getRowValue();
-            eq.setName(event.getNewValue());
+            eq.setEquipmentName(event.getNewValue());
             updateEquipment(eq);
         });
 
@@ -222,7 +222,7 @@ public class EquipmentController {
 
     private void updateEquipment(Equipment eq) {
         EquipmentDAO dao = new EquipmentDAO();
-        if(eq.getName().isEmpty()){
+        if(eq.getEquipmentName().isEmpty()){
             showAlert("Lỗi", "Vui lòng điền đầy đủ tên thiết bị.", Alert.AlertType.ERROR);
             refreshTable();
             return;
@@ -255,8 +255,8 @@ public class EquipmentController {
     }
 
     public void confirmAndDeleteDevice(int id) {
-        Equipment equipment = deleteList.stream().filter(e -> e.getId() == id).findFirst().orElse(null);
-        String name = (equipment != null) ? equipment.getName() : "";
+        Equipment equipment = deleteList.stream().filter(e -> e.getEquipmentID() == id).findFirst().orElse(null);
+        String name = (equipment != null) ? equipment.getEquipmentName() : "";
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Xác nhận xóa");

@@ -53,8 +53,8 @@ public class EmployDAO {
         getConnection();
         String sql = "INSERT INTO Employee (id, name, password, phone, isReceptionist) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, employee.getId());
-            stmt.setString(2, employee.getName());
+            stmt.setInt(1, employee.getEmployeeID());
+            stmt.setString(2, employee.getEmployeeName());
             stmt.setString(3, employee.getPassword());
             stmt.setString(4, employee.getPhone());
             stmt.setInt(5, employee.isReceptionist() ? 1 : 0);
@@ -93,10 +93,10 @@ public class EmployDAO {
         getConnection();
         String sql = "UPDATE Employee SET name = ?, phone = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, employee.getName());
+            stmt.setString(1, employee.getEmployeeName());
             stmt.setString(2, employee.getPhone());
 
-            stmt.setInt(3, employee.getId());
+            stmt.setInt(3, employee.getEmployeeID());
             stmt.executeUpdate();
             logger.info("Updated Employee successfully.");
         } catch (SQLException e) {

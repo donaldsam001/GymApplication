@@ -45,8 +45,8 @@ public class MemberController {
 
     @FXML
     public void initialize() {
-        colCustomerID.setCellValueFactory(cellData -> cellData.getValue().IDProperty().asObject());
-        colName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        colCustomerID.setCellValueFactory(cellData -> cellData.getValue().memberIDProperty().asObject());
+        colName.setCellValueFactory(cellData -> cellData.getValue().memberNameProperty());
         colPhone.setCellValueFactory(cellData -> cellData.getValue().phoneProperty());
         colGender.setCellValueFactory(cellData -> cellData.getValue().genderProperty());
         colAge.setCellValueFactory(cellData -> cellData.getValue().ageProperty().asObject());
@@ -65,7 +65,7 @@ public class MemberController {
     private void handleAdd() {
         Member member = getFormData();
         if (member == null) return;
-        int id = member.getCustomerID();
+        int id = member.getMemberID();
         // Kiểm tra mã hội viên đã tồn tại trong cơ sở dữ liệu
         if (MemberDAO.isCustomerIDExists(id)) {
             showAlert("⚠ Mã hội viên này đã tồn tại.");
@@ -109,12 +109,12 @@ public class MemberController {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Xác nhận xóa");
-        alert.setHeaderText("Bạn có chắc chắn muốn xóa hội viên \"" + selected.getName() + "\" (ID: " + selected.getCustomerID() + ")?");
+        alert.setHeaderText("Bạn có chắc chắn muốn xóa hội viên \"" + selected.getMemberName() + "\" (ID: " + selected.getMemberID() + ")?");
         alert.setContentText("Thao tác này sẽ xóa cả thẻ và lịch sử check-in/out của hội viên.");
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            MemberDAO.deleteMember(selected.getCustomerID());
+            MemberDAO.deleteMember(selected.getMemberID());
             showAlert("🗑 Đã xóa toàn bộ dữ liệu của hội viên!");
             loadMembers();
             clearForm();
@@ -156,8 +156,8 @@ public class MemberController {
             int rowNum = 1;
             for (Member m : memberList) {
                 Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(m.getCustomerID());
-                row.createCell(1).setCellValue(m.getName());
+                row.createCell(0).setCellValue(m.getMemberID());
+                row.createCell(1).setCellValue(m.getMemberName());
                 row.createCell(2).setCellValue(m.getPhone());
                 row.createCell(3).setCellValue(m.getGender());
                 row.createCell(4).setCellValue(m.getAge());
@@ -250,8 +250,8 @@ public class MemberController {
     private void handleTableClick(MouseEvent event) {
         Member selected = tableView.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            tfCustomerID.setText(String.valueOf(selected.getCustomerID()));
-            tfName.setText(selected.getName());
+            tfCustomerID.setText(String.valueOf(selected.getMemberID()));
+            tfName.setText(selected.getMemberName());
             tfPhone.setText(selected.getPhone());
             cbGender.setValue(selected.getGender());
             tfAge.setText(String.valueOf(selected.getAge()));

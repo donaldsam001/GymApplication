@@ -49,7 +49,7 @@ public class LoginController {
                 AdminDAO adminDAO = new AdminDAO();
                 Admin admin = adminDAO.getAdminInf(id);
                 if (admin != null && admin.getPassword().equals(pass)) {
-                    loadHome(event, true, admin.getId(), admin.getName());
+                    loadHome(event, true, admin.getEmployeeID(), admin.getEmployeeName());
                     return;
                 }
 
@@ -66,7 +66,7 @@ public class LoginController {
                 EmployDAO employDAO = new EmployDAO();
                 Employee emp = employDAO.getEmployeeById(id);
                 if (emp != null && emp.getPassword().equals(pass) && emp.isReceptionist()) {
-                    loadHome(event, false, emp.getId(), emp.getName());
+                    loadHome(event, false, emp.getEmployeeID(), emp.getEmployeeName());
                     return;
                 }
 

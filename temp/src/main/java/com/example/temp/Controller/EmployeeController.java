@@ -51,9 +51,9 @@ public class EmployeeController {
     }
 
     private void setupTableView() {
-        colID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        colID.setCellValueFactory(cellData -> cellData.getValue().employeeIDProperty().asObject());
+        colName.setCellValueFactory(cellData -> cellData.getValue().employeeNameProperty());
+        colPhone.setCellValueFactory(cellData -> cellData.getValue().phoneProperty());
         colRole.setCellValueFactory(cellData -> {
             boolean status = cellData.getValue().isReceptionist();
             return new ReadOnlyStringWrapper(status ? "Tiếp tân" : "");
@@ -63,9 +63,9 @@ public class EmployeeController {
 
 
     private void setupDeleteTable() {
-        colIDDel.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colNameDel.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colPhoneDel.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        colIDDel.setCellValueFactory(cellData -> cellData.getValue().employeeIDProperty().asObject());
+        colNameDel.setCellValueFactory(cellData -> cellData.getValue().employeeNameProperty());
+        colPhoneDel.setCellValueFactory(cellData -> cellData.getValue().phoneProperty());
         colRoleDel.setCellValueFactory(cellData -> {
             boolean status = cellData.getValue().isReceptionist();
             return new ReadOnlyStringWrapper(status ? "Tiếp tân" : "");
@@ -75,7 +75,7 @@ public class EmployeeController {
             {
                 deleteBtn.setOnAction(event -> {
                     Employee emp = getTableView().getItems().get(getIndex());
-                    confirmAndDeleteEmployee(emp.getId());
+                    confirmAndDeleteEmployee(emp.getEmployeeID());
                     loadEmployees();
                 });
             }
@@ -92,16 +92,16 @@ public class EmployeeController {
     private void setupChangeTable() {
         tableUp.setEditable(true);
 
-        colIDUp.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colNameUp.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colPhoneUp.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        colIDUp.setCellValueFactory(cellData -> cellData.getValue().employeeIDProperty().asObject());
+        colNameUp.setCellValueFactory(cellData -> cellData.getValue().employeeNameProperty());
+        colPhoneUp.setCellValueFactory(cellData -> cellData.getValue().phoneProperty());
 
         colNameUp.setCellFactory(TextFieldTableCell.forTableColumn());
         colPhoneUp.setCellFactory(TextFieldTableCell.forTableColumn());
 
         colNameUp.setOnEditCommit(event -> {
             Employee e = event.getRowValue();
-            e.setName(event.getNewValue());
+            e.setEmployeeName(event.getNewValue());
             updateEmployee(e);
         });
 
@@ -183,13 +183,13 @@ public class EmployeeController {
 
     private void updateEmployee(Employee e) {
         EmployDAO dao= new EmployDAO();
-        if(e.getName().isEmpty()){
+        if(e.getEmployeeName().isEmpty()){
             showAlert("Lỗi", "Vui lòng điền đầy đủ ho ten.", Alert.AlertType.ERROR);
             refreshTable();
             return;
         }
         // Kiểm tra tên chỉ gồm các chữ cái (có hỗ trợ tiếng Việt nếu cần)
-        if (!e.getName().matches("^[a-zA-ZÀ-Ỹà-ỹ\\s]+$")) {
+        if (!e.getEmployeeName().matches("^[a-zA-ZÀ-Ỹà-ỹ\\s]+$")) {
             showAlert("Lỗi", "Tên chỉ được chứa các chữ cái và khoảng trắng.", Alert.AlertType.ERROR);
             refreshTable();
             return;
@@ -205,7 +205,7 @@ public class EmployeeController {
             refreshTable();
             return;
         }
-        if (dao.isEmployeePhoneExists(e.getPhone(), e.getId()) ){
+        if (dao.isEmployeePhoneExists(e.getPhone(), e.getEmployeeID()) ){
             showAlert("Lỗi", "Sdt nhân viên đã tồn tại. Vui lòng nhập sdt khác.", Alert.AlertType.ERROR);
             refreshTable();
             return;
@@ -259,8 +259,8 @@ public class EmployeeController {
     }
 
     public void confirmAndDeleteEmployee(int id) {
-        Employee emp = deleteList.stream().filter(e -> e.getId() == id).findFirst().orElse(null);
-        String name = (emp != null) ? emp.getName() : "";
+        Employee emp = deleteList.stream().filter(e -> e.getEmployeeID() == id).findFirst().orElse(null);
+        String name = (emp != null) ? emp.getEmployeeName() : "";
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Xác nhận xóa");

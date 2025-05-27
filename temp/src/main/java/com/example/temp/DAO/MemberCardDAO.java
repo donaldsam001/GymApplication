@@ -20,9 +20,9 @@ public class MemberCardDAO {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, card.getCustomerID());
+            pstmt.setInt(1, card.getMemberID());
             pstmt.setInt(2, card.getPackageID()); // packageID (từ superclass MembershipPackage)
-            pstmt.setString(3, card.getCustomerName());
+            pstmt.setString(3, card.getMemberName());
             pstmt.setString(4, card.getPackageName()); // package name (từ MembershipPackage)
             pstmt.setString(5, card.getStartDate());
             pstmt.setString(6, card.getEndDate());

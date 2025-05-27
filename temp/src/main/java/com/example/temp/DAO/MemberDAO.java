@@ -17,8 +17,8 @@ public class MemberDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             // Set các giá trị vào PreparedStatement
-            stmt.setInt(1, member.getCustomerID());
-            stmt.setString(2, member.getName());
+            stmt.setInt(1, member.getMemberID());
+            stmt.setString(2, member.getMemberName());
             stmt.setString(3, member.getPhone());
             stmt.setString(4, member.getGender());
             stmt.setInt(5, member.getAge());
@@ -41,11 +41,11 @@ public class MemberDAO {
         try (Connection conn = SQLiteConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, member.getName());
+            stmt.setString(1, member.getMemberName());
             stmt.setString(2, member.getPhone());
             stmt.setString(3, member.getGender());
             stmt.setInt(4, member.getAge());
-            stmt.setInt(5, member.getCustomerID());
+            stmt.setInt(5, member.getMemberID());
 
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0; // Trả về true nếu cập nhật thành công

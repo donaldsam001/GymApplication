@@ -2,24 +2,24 @@ package com.example.temp.Models;
 import java.time.LocalDate;
 
 public class PackageSalesStats {
-    private int id;
-    private int customerId;
+    private int PackageSalesStatsID;
+    private int memberID;
     private int packageId;
     private String packageName;
-    private int totalPrice;
-    private LocalDate saleDate;
-    private String type;
+    private int totalPrice; // giá gói
+    private LocalDate saleDate; // ngày thanh toán
+    private String type; // loại giao dịch ( đăng kí, gia hạn)
 
     // Các trường thống kê (có thể không được dùng trong tất cả trường hợp)
-    private int totalSales;
-    private int revenue;
+    private int totalSales; // tổng lượt bán
+    private int revenue; // doanh thu
 
     // Constructors
     public PackageSalesStats() {}
 
     // Dùng khi insert/update
     public PackageSalesStats(int customerId, int packageId, String packageName, int totalPrice, LocalDate saleDate, String type) {
-        this.customerId = customerId;
+        this.memberID = customerId;
         this.packageId = packageId;
         this.packageName = packageName;
         this.totalPrice = totalPrice;
@@ -43,20 +43,20 @@ public class PackageSalesStats {
 
     // Getters and setters cho cả thông thường và thống kê...
 
-    public int getId() {
-        return id;
+    public int getPackageSalesStatsID() {
+        return PackageSalesStatsID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPackageSalesStatsID(int id) {
+        this.PackageSalesStatsID = id;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public int getMemberID() {
+        return memberID;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setMemberID(int memberID) {
+        this.memberID = memberID;
     }
 
     public int getPackageId() {

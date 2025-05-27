@@ -1,81 +1,56 @@
 package com.example.temp.Models;
 
-public class MembershipPackage {
-    private int packageID;
-    private String packageName;
-    private int price;
-    private String description;
-    private int exp;
-    private boolean status;
+import javafx.beans.property.*;
 
-    public MembershipPackage(int packageID, String packageName, int exp) {
-        this.packageID = packageID;
-        this.packageName = packageName;
-        this.exp = exp;
-    }
+public class MembershipPackage {
+    private final IntegerProperty packageID = new SimpleIntegerProperty();
+    private final StringProperty packageName = new SimpleStringProperty();
+    private final IntegerProperty price = new SimpleIntegerProperty();
+    private final StringProperty description = new SimpleStringProperty();
+    private final IntegerProperty exp = new SimpleIntegerProperty();
+    private final BooleanProperty status = new SimpleBooleanProperty();
 
     public MembershipPackage(int packageID, String packageName, int price, String description, int exp, boolean status) {
-        this.packageID = packageID;
-        this.packageName = packageName;
-        this.price = price;
-        this.description = description;
-        this.exp = exp;
-        this.status = status;
+        this.packageID.set(packageID);
+        this.packageName.set(packageName);
+        this.price.set(price);
+        this.description.set(description);
+        this.exp.set(exp);
+        this.status.set(status);
     }
 
-    // Getter - Setter
-
-    public int getPackageID() {
-        return packageID;
+    public MembershipPackage(int packageID, String packageName, int exp) {
+        this.packageID.set(packageID);
+        this.packageName.set(packageName);
+        this.exp.set(exp);
     }
 
-    public void setPackageID(int packageID) {
-        this.packageID = packageID;
-    }
+    // Getters (value)
+    public int getPackageID() { return packageID.get(); }
+    public String getPackageName() { return packageName.get(); }
+    public int getPrice() { return price.get(); }
+    public String getDescription() { return description.get(); }
+    public int getExp() { return exp.get(); }
+    public boolean getStatus() { return status.get(); }
 
-    public String getPackageName() {
-        return packageName;
-    }
+    // Setters (value)
+    public void setPackageID(int id) { packageID.set(id); }
+    public void setPackageName(String name) { packageName.set(name); }
+    public void setPrice(int price) { this.price.set(price); }
+    public void setDescription(String desc) { this.description.set(desc); }
+    public void setExp(int exp) { this.exp.set(exp); }
+    public void setStatus(boolean status) { this.status.set(status); }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getExp() {
-        return exp;
-    }
-
-    public void setExp(int exp) {
-        this.exp = exp;
-    }
-
-    public boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
+    // Property getters (for TableView, bindings, etc.)
+    public IntegerProperty packageIDProperty() { return packageID; }
+    public StringProperty packageNameProperty() { return packageName; }
+    public IntegerProperty priceProperty() { return price; }
+    public StringProperty descriptionProperty() { return description; }
+    public IntegerProperty expProperty() { return exp; }
+    public BooleanProperty statusProperty() { return status; }
 
     @Override
     public String toString() {
-        return this.packageName; // Hiển thị tên gói trong ComboBox
+        return packageName.get();
     }
-
 }

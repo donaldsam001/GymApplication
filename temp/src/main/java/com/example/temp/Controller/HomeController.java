@@ -39,11 +39,6 @@ public class HomeController {
         adjustUI();
     }
 
-//    public void setIsAdmin(boolean isAdmin) {
-//        this.isAdmin = isAdmin;
-//        adjustUI();
-//    }
-
     private void adjustUI() {
         if (!isAdmin) {
             vbox1.setVisible(false);

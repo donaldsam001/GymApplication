@@ -91,3 +91,7 @@
 .table-row-cell:selected .text {
     -fx-fill: #000000;
 }
+
+/*
+    -fx-effect: drop-shadow(three-pass-box, rgba(0,0,0,0.6), 10, 10, 10, 10);
+*/

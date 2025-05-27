@@ -3,8 +3,8 @@ package com.example.temp.Models;
 import java.time.LocalDate;
 
 public class Equipment {
-    private int id; 
-    private String name;
+    private int equipmentID;
+    private String equipmentName;
     private String description;
     private LocalDate repairDate;
     private boolean status;
@@ -14,28 +14,28 @@ public class Equipment {
     public Equipment() {}
 
     public Equipment(int id, String name, String description, LocalDate repairDate, boolean status, String maintenanceNote) {
-        this.id = id;
-        this.name = name;
+        this.equipmentID = id;
+        this.equipmentName = name;
         this.description = description;
         this.repairDate = repairDate;
         this.status = status;
         this.maintenanceNote = maintenanceNote;
     }
 
-    public int getId() {
-        return id;
+    public int getEquipmentID() {
+        return equipmentID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setEquipmentID(int id) {
+        this.equipmentID = id;
     }
 
-    public String getName() {
-        return name;
+    public String getEquipmentName() {
+        return equipmentName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEquipmentName(String name) {
+        this.equipmentName = name;
     }
 
     public String getDescription() {

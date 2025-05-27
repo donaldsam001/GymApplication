@@ -4,27 +4,27 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class MembershipCard extends MembershipPackage {
-    private final SimpleIntegerProperty customerID;
+    private final SimpleIntegerProperty memberID;
     private final SimpleStringProperty startDate;
     private final SimpleStringProperty endDate;
-    private final SimpleStringProperty customerName;
+    private final SimpleStringProperty memberName;
 
-    public MembershipCard(int customerID, String customerName,
+    public MembershipCard(int customerID, String memberName,
                           int packageID, String packageName,
                           String startDate, String endDate, int exp) {
 
         // Gọi constructor của lớp cha MembershipPackage
         super(packageID, packageName, exp);
 
-        this.customerID = new SimpleIntegerProperty(customerID);
+        this.memberID = new SimpleIntegerProperty(customerID);
         this.startDate = new SimpleStringProperty(startDate);
         this.endDate = new SimpleStringProperty(endDate);
-        this.customerName = new SimpleStringProperty(customerName);
+        this.memberName = new SimpleStringProperty(memberName);
     }
 
     // Getters
-    public int getCustomerID() {
-        return customerID.get();
+    public int getMemberID() {
+        return memberID.get();
     }
 
 
@@ -36,13 +36,13 @@ public class MembershipCard extends MembershipPackage {
         return endDate.get();
     }
 
-    public String getCustomerName() {
-        return customerName.get();
+    public String getMemberName() {
+        return memberName.get();
     }
 
     // Setters
-    public void setCustomerID(int customerID) {
-        this.customerID.set(customerID);
+    public void setMemberID(int customerID) {
+        this.memberID.set(customerID);
     }
 
 
@@ -54,13 +54,13 @@ public class MembershipCard extends MembershipPackage {
         this.endDate.set(endDate);
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName.set(customerName);
+    public void setMemberName(String memberName) {
+        this.memberName.set(memberName);
     }
 
     // Property methods for JavaFX binding
     public SimpleIntegerProperty customerIDProperty() {
-        return customerID;
+        return memberID;
     }
 
 
@@ -72,8 +72,8 @@ public class MembershipCard extends MembershipPackage {
         return endDate;
     }
 
-    public SimpleStringProperty customerNameProperty() {
-        return customerName;
+    public SimpleStringProperty memberNameProperty() {
+        return memberName;
     }
 
 }

@@ -88,9 +88,9 @@ public class PackageController {
     }
 
     private void setupTableView() {
-        colID.setCellValueFactory(new PropertyValueFactory<>("packageID"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("packageName"));
-        colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colID.setCellValueFactory(cellData -> cellData.getValue().packageIDProperty().asObject());
+        colName.setCellValueFactory(cellData -> cellData.getValue().packageNameProperty());
+        colPrice.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
         colPrice.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(Integer item, boolean empty) {
@@ -104,8 +104,8 @@ public class PackageController {
             }
         });
 
-        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colExpDate.setCellValueFactory(new PropertyValueFactory<>("exp"));
+        colDescription.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+        colExpDate.setCellValueFactory(cellData -> cellData.getValue().expProperty().asObject());
         colStatus.setCellValueFactory(cellData -> {
             boolean status = cellData.getValue().getStatus();
             return new ReadOnlyStringWrapper(status ? "Đang hoạt động" : "Không hoạt động");
@@ -114,11 +114,11 @@ public class PackageController {
     }
 
     private void setupDeleteTable() {
-        colIdDel.setCellValueFactory(new PropertyValueFactory<>("packageID"));
-        colNameDel.setCellValueFactory(new PropertyValueFactory<>("packageName"));
-        colDescriptionDel.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colExpDateDel.setCellValueFactory(new PropertyValueFactory<>("exp"));
-        colPriceDel.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colIdDel.setCellValueFactory(cellData -> cellData.getValue().packageIDProperty().asObject());
+        colNameDel.setCellValueFactory(cellData -> cellData.getValue().packageNameProperty());
+        colDescriptionDel.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+        colExpDateDel.setCellValueFactory(cellData -> cellData.getValue().expProperty().asObject());
+        colPriceDel.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
         colPriceDel.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(Integer item, boolean empty) {
@@ -163,11 +163,11 @@ public class PackageController {
     private void setupChangeTable() {
         listPackageChange.setEditable(true);
 
-        colIdChange.setCellValueFactory(new PropertyValueFactory<>("packageID"));
-        colNameChange.setCellValueFactory(new PropertyValueFactory<>("packageName"));
-        colDescriptionChange.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colExpDateChange.setCellValueFactory(new PropertyValueFactory<>("exp"));
-        colPriceChange.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colIdChange.setCellValueFactory(cellData -> cellData.getValue().packageIDProperty().asObject());
+        colNameChange.setCellValueFactory(cellData -> cellData.getValue().packageNameProperty());
+        colDescriptionChange.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+        colExpDateChange.setCellValueFactory(cellData -> cellData.getValue().expProperty().asObject());
+        colPriceChange.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
 
         // Hiển thị VNĐ khi không edit, nhưng giữ khả năng edit số
         colPriceChange.setCellFactory(column -> new TextFieldTableCell<>(new IntegerStringConverter()) {
