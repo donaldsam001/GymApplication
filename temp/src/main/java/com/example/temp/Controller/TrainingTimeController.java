@@ -12,6 +12,9 @@ import javafx.collections.ObservableList;
 
 public class TrainingTimeController {
 
+    public Button btnCheckIn;
+    public Button btnCheckOut;
+    public Button btnUpdate;
     @FXML private TextField inputSearch;
     @FXML private TextField fieldID; // Trường nhập mã hội viên
     @FXML private TextField fieldNote; // Trường ghi chú khi check-out

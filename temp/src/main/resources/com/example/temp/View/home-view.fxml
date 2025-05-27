@@ -10,33 +10,29 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1100.0" stylesheets="" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.HomeController">
+<AnchorPane stylesheets="" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.temp.Controller.HomeController">
    <children>
-      <BorderPane prefHeight="700.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <Pane fx:id="topPane" prefHeight="90.0" prefWidth="860.0" styleClass="topPane" stylesheets="@../Styles/Main.css" BorderPane.alignment="CENTER">
+            <AnchorPane styleClass="topAPane" stylesheets="@../Styles/Main.css">
                <children>
-                  <Label layoutX="216.0" layoutY="14.0" text="Gym management" textFill="WHITE">
+                  <Label layoutX="281.0" layoutY="64.0" text="Version 0.01 Beta" textFill="WHITE" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="70.0" />
+                  <ImageView fitHeight="102.0" fitWidth="139.0" layoutX="32.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="0.0">
+                     <image>
+                        <Image url="@../Img/gym-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="281.0" layoutY="29.0" text="Gym management" textFill="WHITE" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="550.0" AnchorPane.topAnchor="25.0">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="216.0" layoutY="51.0" text="Version 0.01 Beta" textFill="WHITE" />
-                  <Pane layoutX="31.0" layoutY="16.0" prefHeight="104.0" prefWidth="122.0" styleClass="logo" stylesheets="@../Styles/Main.css">
-                     <children>
-                        <ImageView fitHeight="102.0" fitWidth="139.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Img/gym-removebg-preview.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </Pane>
-                  <Button fx:id="logout" layoutX="963.0" layoutY="22.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openLogout" styleClass="logoutButton" text="Đăng xuất " />
+                  <Button fx:id="logout" alignment="CENTER" contentDisplay="RIGHT" layoutX="866.0" layoutY="47.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openLogout" styleClass="logoutButton" text="Đăng xuất " AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="25.0" />
                </children>
-            </Pane>
+            </AnchorPane>
          </top>
          <left>
-            <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="710.0" prefWidth="242.0" BorderPane.alignment="CENTER">
+            <Pane minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" BorderPane.alignment="CENTER">
                <children>
                   <VBox fx:id="vbox" layoutX="19.0" layoutY="79.0" prefHeight="139.0" prefWidth="205.0" styleClass="vbox" stylesheets="@../Styles/Main.css">
                      <children>
@@ -95,7 +91,7 @@
             </Pane>
          </left>
          <center>
-            <Pane fx:id="mainContent" prefHeight="700.0" prefWidth="1000.0" BorderPane.alignment="CENTER" />
+            <Pane fx:id="mainContent" BorderPane.alignment="TOP_LEFT" />
          </center>
       </BorderPane>
    </children>

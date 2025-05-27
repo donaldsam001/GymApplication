@@ -26,7 +26,7 @@
               <tabs>
                   <Tab fx:id="tabList" text="Xem danh sách thiết bị">
                       <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0">
+                          <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
                               <children>
                               <TableView fx:id="equipmentTable" layoutX="100.0" layoutY="100.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
                                  <columns>

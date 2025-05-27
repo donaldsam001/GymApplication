@@ -27,9 +27,9 @@
                     <tabs>
                         <Tab fx:id="tabView" text="Xem danh sách nhân viên">
                             <content>
-                                <AnchorPane>
+                                <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                                     <children>
-                                        <TableView fx:id="tableView" layoutX="90.4" layoutY="140.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
+                                        <TableView fx:id="tableView" layoutX="90.4" layoutY="140.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
                                             <columns>
                                                 <TableColumn fx:id="colID" prefWidth="183.20000839233398" text="Mã nhân viên" />
                                                 <TableColumn fx:id="colName" minWidth="8.79998779296875" prefWidth="402.3999938964844" text="Tên nhân viên" />
@@ -101,7 +101,7 @@
                             <content>
                                 <AnchorPane>
                                     <children>
-                                        <TableView fx:id="tableUp" layoutX="100.0" layoutY="100.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
+                                        <TableView fx:id="tableUp" layoutX="100.0" layoutY="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
                                             <columns>
                                                 <TableColumn fx:id="colIDUp" prefWidth="166.3999900817871" text="Mã nhân viên" />
                                                 <TableColumn fx:id="colNameUp" minWidth="8.79998779296875" prefWidth="451.99998474121094" text="Tên nhân viên" />
@@ -135,9 +135,9 @@
                         </Tab>
                         <Tab fx:id="tabDel" text="Xóa thông tin nhân viên">
                             <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0">
+                                <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                                     <children>
-                                        <TableView fx:id="tableDel" layoutX="100.0" layoutY="100.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
+                                        <TableView fx:id="tableDel" layoutX="100.0" layoutY="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
                                             <columns>
                                                 <TableColumn fx:id="colIDDel" prefWidth="141.59999465942383" text="Mã nhân viên" />
                                                 <TableColumn fx:id="colNameDel" minWidth="8.79998779296875" prefWidth="361.59999084472656" text="Tên nhân viên" />

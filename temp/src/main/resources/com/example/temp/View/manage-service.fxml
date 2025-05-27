@@ -25,7 +25,7 @@
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0">
                         <children>
-                            <TableView fx:id="listPackage" layoutX="90.4" layoutY="140.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
+                            <TableView fx:id="listPackage" layoutX="90.4" layoutY="140.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
                                 <columns>
                                     <TableColumn fx:id="colID" prefWidth="111.20001792907715" text="Mã gói hội viên" />
                                     <TableColumn fx:id="colName" minWidth="8.79998779296875" prefWidth="184.0000991821289" text="Tên gói hội viên" />
@@ -98,7 +98,7 @@
                 <content>
                     <AnchorPane>
                         <children>
-                            <TableView fx:id="listPackageChange" layoutX="100.0" layoutY="100.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
+                            <TableView fx:id="listPackageChange" layoutX="100.0" layoutY="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
                                 <columns>
                                     <TableColumn fx:id="colIdChange" editable="false" prefWidth="119.2000036239624" text="Mã gói hội viên" />
                                     <TableColumn fx:id="colNameChange" minWidth="8.79998779296875" prefWidth="224.00001525878906" text="Tên gói hội viên" />
@@ -136,7 +136,7 @@
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0">
                         <children>
-                            <TableView fx:id="listPackageDel" layoutX="100.0" layoutY="100.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
+                            <TableView fx:id="listPackageDel" layoutX="100.0" layoutY="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
                                 <columns>
                                     <TableColumn fx:id="colIdDel" prefWidth="109.60001373291016" text="Mã gói hội viên" />
                                     <TableColumn fx:id="colNameDel" minWidth="8.79998779296875" prefWidth="133.59999084472656" text="Tên gói hội viên" />

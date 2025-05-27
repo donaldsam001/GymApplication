@@ -24,14 +24,7 @@
 
 
 
-.total-box {
-    -fx-border-color: #b0b0b0;        /* Màu viền xám nhẹ */
-    -fx-border-radius: 4px;           /* Bo tròn nhẹ */
-    -fx-background-color: white;      /* Màu nền */
-    -fx-padding: 5 10 5 10;           /* Canh lề trong */
-    -fx-pref-width: 150px;            /* Chiều rộng mong muốn */
-    -fx-alignment: CENTER_LEFT;       /* Căn trái */
-}
+
 .rounded-input {
     -fx-background-color: white;
     -fx-border-color: #c0c0c0;
