@@ -10,10 +10,13 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
 
-//    DB db= new DB();
+
 //    @Override
 //    public void start(Stage primaryStage) {
-//        db.createDatabase();
+//        DB.deleteDatabase();
+//        DB.createDatabase();
+//        DB.addDatabase();
+//
 //    }
 
 

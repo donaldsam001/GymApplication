@@ -27,7 +27,7 @@ public class MembershipPackageDAO {
 
 
     private void createTable() {
-        String query = "CREATE TABLE IF NOT EXISTS Membership_package (" +
+        String query = "CREATE TABLE IF NOT EXISTS MembershipPackage (" +
                 "id INTEGER PRIMARY KEY , " +
                 "name TEXT NOT NULL, " +
                 "price REAL NOT NULL, " +
@@ -57,7 +57,7 @@ public class MembershipPackageDAO {
 
     public void insertMembershipPackage(MembershipPackage memPackage) {
         getConnection();
-        String sql = "INSERT INTO Membership_package (id, name, price, description, exp, status) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO MembershipPackage (id, name, price, description, exp, status) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, memPackage.getPackageID());
             stmt.setString(2, memPackage.getPackageName());
@@ -76,7 +76,7 @@ public class MembershipPackageDAO {
 
     public List<MembershipPackage> getAllPackage() {
         getConnection();
-        String query = "select * from Membership_package";
+        String query = "select * from MembershipPackage";
         List<MembershipPackage> List = new ArrayList<>();
         try(PreparedStatement statement = connection.prepareStatement(query)){
             ResultSet rs = statement.executeQuery();
@@ -103,7 +103,7 @@ public class MembershipPackageDAO {
 
 
         getConnection();
-        String sql = "UPDATE Membership_package SET name = ?, price = ?, description = ?, exp = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE MembershipPackage SET name = ?, price = ?, description = ?, exp = ?, status = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, memPackage.getPackageName());
             stmt.setFloat(2, memPackage.getPrice());
@@ -124,7 +124,7 @@ public class MembershipPackageDAO {
     public List<MembershipPackage> getActivePackages() {
         getConnection();
         List<MembershipPackage> list = new ArrayList<>();
-        String sql = "SELECT * FROM Membership_package WHERE status = 1";
+        String sql = "SELECT * FROM MembershipPackage WHERE status = 1";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
@@ -152,7 +152,7 @@ public class MembershipPackageDAO {
 
     public void deleteMembershipPackage(int id) {
         getConnection();
-        String sql = "DELETE FROM Membership_package WHERE id = ?";
+        String sql = "DELETE FROM MembershipPackage WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
@@ -167,7 +167,7 @@ public class MembershipPackageDAO {
     public List<MembershipPackage> searchPackages(String keyword) {
         getConnection();
         List<MembershipPackage> list = new ArrayList<>();
-        String sql = "SELECT * FROM Membership_package WHERE name LIKE ? OR id LIKE ?";
+        String sql = "SELECT * FROM MembershipPackage WHERE name LIKE ? OR id LIKE ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             String pattern = "%" + keyword + "%";
             stmt.setString(1, pattern);
@@ -194,7 +194,7 @@ public class MembershipPackageDAO {
 
     public boolean isPackageExists(int id) {
         getConnection();
-        String sql = "SELECT COUNT(*) FROM Membership_package WHERE id = ?";
+        String sql = "SELECT COUNT(*) FROM MembershipPackage WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();

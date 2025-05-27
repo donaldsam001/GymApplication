@@ -2,7 +2,6 @@ package com.example.temp.Controller;
 
 import com.example.temp.DAO.PackageSalesDAO;
 import com.example.temp.Models.PackageSale;
-import com.example.temp.Models.PackageSalesStats;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,11 +17,11 @@ import java.util.Map;
 
 public class StatisticsController {
 
-    @FXML private TableView<PackageSalesStats> statsTable;
-    @FXML private TableColumn<PackageSalesStats, Integer> colID;
-    @FXML private TableColumn<PackageSalesStats, String> colName;
-    @FXML private TableColumn<PackageSalesStats, Integer> colSales;
-    @FXML private TableColumn<PackageSalesStats, String> colRevenue;
+    @FXML private TableView<PackageSale> statsTable;
+    @FXML private TableColumn<PackageSale, Integer> colID;
+    @FXML private TableColumn<PackageSale, String> colName;
+    @FXML private TableColumn<PackageSale, Integer> colSales;
+    @FXML private TableColumn<PackageSale, String> colRevenue;
 
     @FXML private ComboBox<String> comboStatType;
     @FXML private ComboBox<Integer> comboYear, comboTime;
@@ -30,7 +29,7 @@ public class StatisticsController {
     @FXML private Label totalRevenue;
     @FXML private TextField inputSearch;
 
-    private ObservableList<PackageSalesStats> saleList = FXCollections.observableArrayList();
+    private ObservableList<PackageSale> saleList = FXCollections.observableArrayList();
 
     private final PackageSalesDAO dao = new PackageSalesDAO();
 
@@ -59,75 +58,28 @@ public class StatisticsController {
         comboYear.setValue(currentYear);
 
         comboYear.setOnAction(e -> loadStatistics());
-        comboTime.setOnAction(e -> loadStatistics()); // <- THÊM DÒNG NÀY ĐỂ GỌI LẠI loadStatistics
+        comboTime.setOnAction(e -> loadStatistics());
 
         inputSearch.textProperty().addListener((obs, oldVal, newVal) -> searchPackages());
 
-        updateComboTime(); // setup initial comboTime
-        loadStatistics();  // load lần đầu
+        updateComboTime();
+        loadStatistics();
     }
-
-//    private void loadStatistics() {
-//        String type = comboStatType.getValue();
-//        int year = comboYear.getValue();
-//        Integer time = comboTime.getValue(); // tháng hoặc quý
-//
-//        if (year<0) return;
-//        if ((type.equals("Theo tháng") || type.equals("Theo quý")) && time == null) return;
-//
-//        ObservableList<PackageSalesStats> statsList;
-////        List<PackageSale> sales;
-//        switch (type) {
-////            case "Theo tháng" -> sales = dao.getSalesByPeriod("month", year, time);
-////            case "Theo quý" -> sales = dao.getSalesByPeriod("quarter", year, time);
-////            case "Theo năm" -> sales = dao.getSalesByPeriod("year", year, 0);
-////            default -> sales = List.of();
-////        }
-//            case "Theo tháng", "Theo quý", "Theo năm" -> {
-//                List<PackageSale> sales = switch (type) {
-//                    case "Theo tháng" -> dao.getSalesByPeriod("month", year, time);
-//                    case "Theo quý" -> dao.getSalesByPeriod("quarter", year, time);
-//                    case "Theo năm" -> dao.getSalesByPeriod("year", year, 0);
-//                    default -> List.of();
-//                };
-//
-//        Map<Integer, PackageSalesStats> statsMap = new HashMap<>();
-//        for (PackageSale sale : sales) {
-//            int packageId = sale.getPackageId();
-//            String packageName = sale.getPackageName(); // Lấy tên từ model
-//
-//
-//            PackageSalesStats stat = statsMap.getOrDefault(packageId, new PackageSalesStats(packageId, packageName ,0, 0));
-//            stat.setTotalSales(stat.getTotalSales() + 1);
-//            stat.setRevenue(stat.getRevenue() + sale.getTotalPrice());
-//            statsMap.put(packageId, stat);
-//        }
-//        statsList = FXCollections.observableArrayList(statsMap.values());
-//            }
-//            case "Tổng quát" -> statsList = FXCollections.observableArrayList(dao.getAllStats());
-//            default -> statsList = FXCollections.observableArrayList();
-//        }
-//        statsTable.setItems(statsList);
-//
-//        int total = statsList.stream().mapToInt(PackageSalesStats::getRevenue).sum();
-//        totalRevenue.setText("Tổng doanh thu: " + String.format("%,d₫", total));
-//    }
 
     private void loadStatistics() {
         String type = comboStatType.getValue();
         int year = comboYear.getValue();
-        Integer time = comboTime.getValue(); // tháng hoặc quý
+        Integer time = comboTime.getValue();
 
-        // Tránh lỗi khi chưa chọn năm hoặc thời gian chưa hợp lệ
         if (year < 0) return;
         if ((type.equals("Theo tháng") || type.equals("Theo quý")) && time == null) return;
 
-        ObservableList<PackageSalesStats> statsList;
+        PackageSalesDAO dao = new PackageSalesDAO();
+        ObservableList<PackageSale> statsList = FXCollections.observableArrayList(dao.getStatsSummary());
 
         if (type.equals("Tổng quát")) {
-            statsList = FXCollections.observableArrayList(dao.getAllStats());
+            statsList = FXCollections.observableArrayList(dao.getStatsSummary());
         } else {
-            // Lấy dữ liệu theo khoảng thời gian
             String periodType = switch (type) {
                 case "Theo tháng" -> "month";
                 case "Theo quý" -> "quarter";
@@ -140,33 +92,31 @@ public class StatisticsController {
         }
 
         statsTable.setItems(statsList);
-
-        // Tính tổng doanh thu
-        int total = statsList.stream().mapToInt(PackageSalesStats::getRevenue).sum();
+        int total = statsList.stream().mapToInt(PackageSale::getRevenue).sum();
         totalRevenue.setText("Tổng doanh thu: " + String.format("%,d₫", total));
     }
-    private List<PackageSalesStats> aggregateSales(List<PackageSale> sales) {
-        Map<Integer, PackageSalesStats> statsMap = new HashMap<>();
+
+    private List<PackageSale> aggregateSales(List<PackageSale> sales) {
+        Map<Integer, PackageSale> statsMap = new HashMap<>();
 
         for (PackageSale sale : sales) {
             int packageId = sale.getPackageId();
             String packageName = sale.getPackageName();
 
-            PackageSalesStats stat = statsMap.getOrDefault(packageId,
-                    new PackageSalesStats(packageId, packageName, 0, 0));
+            PackageSale stat = statsMap.getOrDefault(packageId, new PackageSale(packageId, packageName, 0, 0));
 
             stat.setTotalSales(stat.getTotalSales() + 1);
             stat.setRevenue(stat.getRevenue() + sale.getTotalPrice());
+
             statsMap.put(packageId, stat);
         }
 
         return new ArrayList<>(statsMap.values());
     }
 
-
     private void searchPackages() {
         String keyword = inputSearch.getText().trim();
-        List<PackageSalesStats> filtered = dao.getAllStats().stream()
+        List<PackageSale> filtered = dao.getStatsSummary().stream()
                 .filter(stat -> String.valueOf(stat.getPackageId()).contains(keyword))
                 .toList();
         saleList.setAll(filtered);
@@ -181,18 +131,14 @@ public class StatisticsController {
             case "Theo tháng" -> {
                 comboTime.setDisable(false);
                 comboTime.setVisible(true);
-                for (int i = 1; i <= 12; i++) {
-                    comboTime.getItems().add(i);
-                }
+                for (int i = 1; i <= 12; i++) comboTime.getItems().add(i);
                 comboTime.getSelectionModel().selectFirst();
                 comboYear.setDisable(false);
             }
             case "Theo quý" -> {
                 comboTime.setDisable(false);
                 comboTime.setVisible(true);
-                for (int i = 1; i <= 4; i++) {
-                    comboTime.getItems().add(i);
-                }
+                for (int i = 1; i <= 4; i++) comboTime.getItems().add(i);
                 comboTime.getSelectionModel().selectFirst();
                 comboYear.setDisable(false);
             }
@@ -204,9 +150,8 @@ public class StatisticsController {
             case "Tổng quát" -> {
                 comboTime.setDisable(true);
                 comboTime.setVisible(false);
-                comboYear.setDisable(true); // Không cần chọn năm cho tổng quát
+                comboYear.setDisable(true);
             }
         }
     }
-
 }

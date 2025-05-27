@@ -1,0 +1,93 @@
+.topPane{
+
+    -fx-background-color: linear-gradient(to right,#0090ff, #0b00a6);
+}
+
+.topPane Button{
+    -fx-background-color: linear-gradient(to right,#132A13, #253F25);
+    -fx-effect: drop-shadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-padding: 10px 20px;
+}
+
+.table-view {
+    -fx-background-color: #f0f8ff; /* Màu nền cho bảng */
+    -fx-border-color: linear-gradient(to top right, #0090ff, #0b00a6);
+    -fx-border-radius: 8px;
+    -fx-padding: 0px;
+}
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to top right, #0090ff, #0b00a6);  /* Màu nền gradient */
+    -fx-border-radius: 8px 8px 0px 0px; /* Làm tròn góc tiêu đề cột */
+}
+.table-view.column-header .label {
+     -fx-text-fill: #ffffff; /* Đổi màu chữ thành trắng */
+     -fx-font-size: 14px; /* Cỡ chữ */
+     -fx-font-weight: bold; /* In đậm chữ */
+ }
+.table-view .table-row-cell:odd {
+    -fx-background-color: #e9f6ff; /* Màu cho hàng lẻ */
+}
+
+.table-view .table-row-cell:even {
+    -fx-background-color: #ffffff; /* Màu cho hàng chẵn */
+}
+.table-view .table-row-cell:hover {
+    -fx-background-color: #d0eaff; /* Màu khi di chuột qua */
+}
+.table-view .table-cell {
+    -fx-border-color: #d1d1d1; /* Màu viền ô */
+    -fx-border-width: 0 0 1px 0; /* Chỉ thêm viền dưới */
+    -fx-padding: 5px; /* Tạo khoảng cách trong ô */
+}
+.table-view .my-column {
+    -fx-background-color: #ffcccb; /* Màu nền cột này */
+}
+
+/* === TableView === */
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 5;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #2c3e50;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: #ccc;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.table-row-cell {
+    -fx-cell-size: 36px;
+    -fx-background-color: #fdfdfd;
+    -fx-border-color: #eeeeee;
+    -fx-font-size: 13px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f7f9fb;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #dff9fb;
+    -fx-text-fill: #000000;
+}
+
+.table-row-cell:selected .text {
+    -fx-fill: #000000;
+}

@@ -123,8 +123,8 @@ public class MembershipCardController {
             sale.setTotalPrice(selectedPackage.getPrice());
             sale.setSaleDate(LocalDate.now());
             sale.setType("new");
-            salesDAO.recordSale(sale);
-            salesDAO.updateOrInsertStats(selectedPackage.getPackageID(), selectedPackage.getPrice());
+            salesDAO.insertPackageSale(sale);
+//            salesDAO.updateOrInsertStats(selectedPackage.getPackageID(), selectedPackage.getPrice());
 
             customerIDField.clear();
             goiComboBox.setValue(null);
@@ -177,8 +177,8 @@ public class MembershipCardController {
                 sale.setSaleDate(LocalDate.now());
                 sale.setType("renewal");
 
-                packageSalesDAO.recordSale(sale);
-                packageSalesDAO.updateOrInsertStats(packageID, matchedPackage.getPrice());
+                packageSalesDAO.insertPackageSale(sale);
+//                packageSalesDAO.updateOrInsertStats(packageID, matchedPackage.getPrice());
 
                 cardTableView.refresh();
                 showAlert("Thành công", "Gia hạn thẻ thành công. Ngày hết hạn mới: " + newEndDate);

@@ -39,7 +39,7 @@ public class DB {
 
                 // Membership package table
                 stmt.execute("""
-                    CREATE TABLE IF NOT EXISTS Membership_package (
+                    CREATE TABLE IF NOT EXISTS MembershipPackage (
                         id INTEGER PRIMARY KEY ,
                         name TEXT NOT NULL,
                         price INTEGER NOT NULL,
@@ -111,15 +111,6 @@ public class DB {
                     );
             """);
 
-                // Bảng tổng hợp bán gói (tùy chọn)
-                stmt.execute("""
-                    CREATE TABLE IF NOT EXISTS PackageSalesStats (
-                        packageID INTEGER PRIMARY KEY,
-                        totalSales INTEGER DEFAULT 0,
-                        revenue INTEGER DEFAULT 0,
-                        FOREIGN KEY (packageID) REFERENCES Membership_package(id)
-                    );
-            """);
                 // Tạo admin mặc định nếu chưa tồn tại
                 stmt.execute("""
                     INSERT OR IGNORE INTO Admin (id, name, password, phone, email)
@@ -133,7 +124,7 @@ public class DB {
         }
     }
 
-    public static void AddDatabase() {
+    public static void addDatabase() {
         try (Connection conn = DriverManager.getConnection(DB_URL)) {
             if (conn != null) {
                 Statement stmt = conn.createStatement();
@@ -142,24 +133,48 @@ public class DB {
                     INSERT INTO Employee (id, name, password, phone, isReceptionist) VALUES
                     (200001, 'Nguyễn Thị Lan', '200001@123', '0912345678', 1),
                     (200002, 'Trần Văn Minh', '200002@123', '0987654321', 1),
-                    (200003, 'Lê Hoàng', '', '0901122334', 0),
-                    (200004, 'Phạm Thu Hà', '', '0933445566', 0),
-                    (200005, 'Đỗ Văn Tùng', '', '0977889900', 0),
-                    (200006, 'Ngô Thị Mai', '', '0966554433', 0),
-                    (200007, 'Bùi Quang Huy', '', '0944221133', 0),
-                    (200008, 'Vũ Hồng Nhung', '', '0922334455', 0)
+                    (200003, 'Lê Hoàng', NULL, '0901122334', 0),
+                    (200004, 'Phạm Thu Hà', NULL, '0933445566', 0),
+                    (200005, 'Đỗ Văn Tùng', NULL, '0977889900', 0),
+                    (200006, 'Ngô Thị Mai', NULL, '0966554433', 0),
+                    (200007, 'Bùi Quang Huy', NULL, '0944221133', 0),
+                    (200008, 'Vũ Hồng Nhung', NULL, '0922334455', 0)
                 """);
                 // Thêm gói hội viên
                 stmt.execute("""
-                    INSERT INTO Membership_package (id, name, price, description, exp, status) VALUES
+                    INSERT INTO MembershipPackage (id, name, price, description, exp, status) VALUES
                     (100000, 'VIP1', 200000, 'Gói cơ bản 1 tháng, dành cho người mới bắt đầu', 1,  1),
                     (200000, 'VIP2', 500000, 'Gói tập 3 tháng, tiết kiệm và linh hoạt', 3,  1),
                     (300000, 'VIP3', 1000000, 'Gói tập 6 tháng, kèm ưu đãi huấn luyện viên', 6,  1),
                     (400000, 'VIP year', 2000000, 'Gói tập 12 tháng, được tặng 2 buổi PT', 12, 1),
-                    (500000, 'VIP year plus', 2500000, 'Gói 12 tháng,Trọn gói cao cấp tập luyện, xông hơi, tủ locker riêng, ưu tiên mọi dịch vụ.', 12,  1),
+                    (500000, 'VIP year plus', 2500000, 'Gói 12 tháng,Trọn gói cao cấp tập luyện, xông hơi, tủ locker riêng, ưu tiên mọi dịch vụ.', 12,  1)
                 """);
 
-                //  thêm thiết bị
+                stmt.execute("""
+                      INSERT INTO MemberDetail (customerID, name, phone, gender, age) VALUES
+                      (100001, 'Võ Hà', '828769590', 'Nam', 60),
+                      (100002, 'Hồ Xuân', '794399073', 'Nam', 32),
+                      (100003, 'Hồ Khánh', '422413970', 'Nữ', 32),
+                      (100004, 'Nguyễn Ngân', '907709661', 'Nam', 56),
+                      (100005, 'Nguyễn Khánh', '487763537', 'Nam', 54),
+                      (100006, 'Phạm Khánh', '564731586', 'Nam', 59),
+                      (100007, 'Võ Lan', '377339205', 'Nam', 19),
+                      (100008, 'Trần Quang', '438433749', 'Nam', 54),
+                      (100009, 'Phan Oanh', '418946496', 'Nữ', 25),
+                      (100010, 'Võ Bình', '694044498', 'Nữ', 51),
+                      (100011, 'Huỳnh Ngân', '321046857', 'Nữ', 55),
+                      (100012, 'Hoàng Quang', '18584331', 'Nữ', 51),
+                      (100013, 'Phan Quang', '919054881', 'Nam', 38),
+                      (100014, 'Lê Lan', '846419768', 'Nữ', 19),
+                      (100015, 'Phạm Ngân', '616470051', 'Nữ', 52),
+                      (100016, 'Phan An', '842036634', 'Nam', 53),
+                      (100017, 'Hồ Hà', '467600658', 'Nữ', 38),
+                      (100018, 'Hồ Quang', '856056496', 'Nữ', 58),
+                      (100019, 'Phan An', '684624929', 'Nam', 25),
+                      (100020, 'Nguyễn Oanh', '429642660', 'Nữ', 37)
+                """);
+
+            //  thêm thiết bị
                 stmt.execute("""
                     INSERT INTO Equipment (id, name, description, repairNote, repairDate, status) VALUES
                     (100001, 'Treadmill', 'Máy chạy bộ điện tử với nhiều chế độ.', NULL, NULL, 1),
@@ -180,8 +195,8 @@ public class DB {
                     (100016, 'Hip Abduction Machine', 'Máy tập cơ hông, cải thiện vùng đùi ngoài.', NULL, NULL, 1),
                     (100017, 'Leg Curl Machine', 'Máy gập chân hỗ trợ phát triển cơ bắp chân sau.', NULL, NULL, 1),
                     (100018, 'Battle Ropes', 'Dây thừng tập cardio và sức mạnh tay vai.', NULL, NULL, 1),
-                    (100019, 'Power Rack', 'Giá đỡ tập squat, deadlift, bench press đa năng.', NULL, NULL, 1)
-                    (100020, 'Kettlebell Set', 'Bộ tạ ấm từ 4kg đến 24kg cho bài tập toàn thân.', NULL, NULL, 1),
+                    (100019, 'Power Rack', 'Giá đỡ tập squat, deadlift, bench press đa năng.', NULL, NULL, 1),
+                    (100020, 'Kettlebell Set', 'Bộ tạ ấm từ 4kg đến 24kg cho bài tập toàn thân.', NULL, NULL, 1)
                 """);
 
                 System.out.println("Add successfully.");
