@@ -17,32 +17,32 @@ public class EquipmentDAO {
             if (connection == null || connection.isClosed()) {
                 connection = DriverManager.getConnection("jdbc:sqlite:service_app.db");
                 logger.info("Connected to database");
-                createTable();
+//                createTable();
             }
         } catch (SQLException e) {
             logger.warning(e.toString());
         }
     }
 
-    private void createTable() {
-        String sql = """
-                CREATE TABLE IF NOT EXISTS Equipment (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT NOT NULL,
-                    description TEXT,
-                    repairDate TEXT,
-                    repairNote TEXT,
-                    status INTEGER NOT NULL CHECK (status IN (0, 1))
-                )
-                """;
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.executeUpdate();
-            logger.info("Table created or already exists.");
-        } catch (SQLException e) {
-            logger.warning(e.toString());
-        }
-    }
+//    private void createTable() {
+//        String sql = """
+//                CREATE TABLE IF NOT EXISTS Equipment (
+//                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+//                    name TEXT NOT NULL,
+//                    description TEXT,
+//                    repairDate TEXT,
+//                    repairNote TEXT,
+//                    status INTEGER NOT NULL CHECK (status IN (0, 1))
+//                )
+//                """;
+//
+//        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+//            stmt.executeUpdate();
+//            logger.info("Table created or already exists.");
+//        } catch (SQLException e) {
+//            logger.warning(e.toString());
+//        }
+//    }
 
     private void closeConnection() {
         try {

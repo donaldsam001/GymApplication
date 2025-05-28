@@ -17,27 +17,27 @@ public class EmployDAO {
             if (connection == null || connection.isClosed()) {
                 connection = DriverManager.getConnection("jdbc:sqlite:service_app.db");
                 logger.info("Connected to database");
-                createTable();
+//                createTable();
             }
         } catch (SQLException e) {
             logger.warning(e.toString());
         }
     }
 
-    private void createTable() {
-        String query = "CREATE TABLE IF NOT EXISTS Employee (" +
-                "id INTEGER PRIMARY KEY , " +
-                "name TEXT NOT NULL, " +
-                "password TEXT, " +
-                "phone TEXT NOT NULL, " +
-                "isReceptionist INTEGER NOT NULL CHECK (isReceptionist IN (0, 1))";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.executeUpdate();
-            logger.info("Table created or already exists.");
-        } catch (SQLException e) {
-            logger.warning(e.toString());
-        }
-    }
+//    private void createTable() {
+//        String query = "CREATE TABLE IF NOT EXISTS Employee (" +
+//                "id INTEGER PRIMARY KEY , " +
+//                "name TEXT NOT NULL, " +
+//                "password TEXT, " +
+//                "phone TEXT NOT NULL, " +
+//                "isReceptionist INTEGER NOT NULL CHECK (isReceptionist IN (0, 1))";
+//        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+//            stmt.executeUpdate();
+//            logger.info("Table created or already exists.");
+//        } catch (SQLException e) {
+//            logger.warning(e.toString());
+//        }
+//    }
 
     private void closeConnection() {
         try {

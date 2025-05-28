@@ -42,8 +42,8 @@ public class HomeController {
     private void adjustUI() {
         if (!isAdmin) {
             vbox1.setVisible(false);
-            empManagement.setVisible(false);
-            btnStatistics.setVisible(false);
+//            empManagement.setVisible(false);
+//            btnStatistics.setVisible(false);
         }
     }
 

@@ -14,26 +14,6 @@ public class PackageSalesStatsDAO {
         return DriverManager.getConnection("jdbc:sqlite:service_app.db");
     }
 
-    public void createTable() {
-        String sql = """
-            CREATE TABLE IF NOT EXISTS Package_Sales (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                customerID INTEGER NOT NULL,
-                packageID INTEGER NOT NULL,
-                total_price REAL NOT NULL,
-                sale_date TEXT NOT NULL,
-                type TEXT NOT NULL CHECK (type IN ('new', 'renewal')),
-                FOREIGN KEY (customerID) REFERENCES MemberDetail(customerID),
-                FOREIGN KEY (packageID) REFERENCES MembershipPackage(id)
-            );
-        """;
-
-        try (Connection conn = getConnection(); Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error creating Package_Sales table", e);
-        }
-    }
 
     public void insertPackageSale(PackageSalesStats sale) {
         String sql = "INSERT INTO Package_Sales (customerID, packageID, total_price, sale_date, type) VALUES (?, ?, ?, ?, ?)";
@@ -94,6 +74,7 @@ public class PackageSalesStatsDAO {
         return sales;
     }
 
+    // thong ke tong quat
     public List<PackageSalesStats> getStatsSummary() {
         List<PackageSalesStats> stats = new ArrayList<>();
         String sql = """

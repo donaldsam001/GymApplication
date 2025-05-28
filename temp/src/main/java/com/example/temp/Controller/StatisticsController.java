@@ -75,7 +75,7 @@ public class StatisticsController {
         if ((type.equals("Theo tháng") || type.equals("Theo quý")) && time == null) return;
 
         PackageSalesStatsDAO dao = new PackageSalesStatsDAO();
-        ObservableList<PackageSalesStats> statsList = FXCollections.observableArrayList(dao.getStatsSummary());
+        ObservableList<PackageSalesStats> statsList ;
 
         if (type.equals("Tổng quát")) {
             statsList = FXCollections.observableArrayList(dao.getStatsSummary());
@@ -92,6 +92,10 @@ public class StatisticsController {
         }
 
         statsTable.setItems(statsList);
+
+        saleList.setAll(statsList); // Cập nhật source gốc cho tìm kiếm
+        searchPackages(); // Áp dụng tìm kiếm nếu đã có từ khóa
+
         int total = statsList.stream().mapToInt(PackageSalesStats::getRevenue).sum();
         totalRevenue.setText("Tổng doanh thu: " + String.format("%,d₫", total));
     }
@@ -115,13 +119,41 @@ public class StatisticsController {
     }
 
     private void searchPackages() {
-        String keyword = inputSearch.getText().trim();
-        List<PackageSalesStats> filtered = dao.getStatsSummary().stream()
-                .filter(stat -> String.valueOf(stat.getPackageId()).contains(keyword))
+        String keyword = inputSearch.getText().trim().toLowerCase();
+        String type = comboStatType.getValue();
+        int year = comboYear.getValue();
+        Integer time = comboTime.getValue();
+
+        ObservableList<PackageSalesStats> sourceList;
+
+        if (type.equals("Tổng quát")) {
+            sourceList = FXCollections.observableArrayList(dao.getStatsSummary());
+        } else {
+            String periodType = switch (type) {
+                case "Theo tháng" -> "month";
+                case "Theo quý" -> "quarter";
+                case "Theo năm" -> "year";
+                default -> throw new IllegalArgumentException("Loại thống kê không hợp lệ");
+            };
+
+            List<PackageSalesStats> rawSales = dao.getSalesByPeriod(periodType, year, type.equals("Theo năm") ? 0 : time);
+            sourceList = FXCollections.observableArrayList(aggregateSales(rawSales));
+        }
+
+        List<PackageSalesStats> filtered = sourceList.stream()
+                .filter(stat ->
+                        String.valueOf(stat.getPackageId()).contains(keyword) ||
+                                stat.getPackageName().toLowerCase().contains(keyword)
+                )
                 .toList();
+
         saleList.setAll(filtered);
         statsTable.setItems(saleList);
+
+        int total = saleList.stream().mapToInt(PackageSalesStats::getRevenue).sum();
+        totalRevenue.setText("Tổng doanh thu: " + String.format("%,d₫", total));
     }
+
 
     private void updateComboTime() {
         String selectedType = comboStatType.getValue();

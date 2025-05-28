@@ -44,7 +44,7 @@ public class LoginController {
                 return;
             }
 
-            if (isAdmin){
+            if (isAdmin){// nếu là admin
                 // Check Admin trước
                 AdminDAO adminDAO = new AdminDAO();
                 Admin admin = adminDAO.getAdminInf(id);
@@ -52,15 +52,8 @@ public class LoginController {
                     loadHome(event, true, admin.getEmployeeID(), admin.getEmployeeName());
                     return;
                 }
-
-//                if (admin != null && admin.getPassword().equals(pass)) {
-//                    Session.isAdmin = true;
-//                    Session.userId = admin.getId();
-//                    Session.userName = admin.getName();
-//                    loadHome(event);
-//                    return;
-//                }
             }
+
             else{
                 // Nếu không phải admin thì check Employee
                 EmployDAO employDAO = new EmployDAO();
@@ -69,15 +62,6 @@ public class LoginController {
                     loadHome(event, false, emp.getEmployeeID(), emp.getEmployeeName());
                     return;
                 }
-
-//                if (emp != null && emp.getPassword().equals(pass) && emp.isReceptionist() ) {
-//                    Session.isAdmin = false;
-//                    Session.userId = emp.getId();
-//                    Session.userName = emp.getName();
-//                    loadHome(event);
-//                    return;
-//                }
-
             }
             showAlert("Đăng nhập thất bại", "ID hoặc mật khẩu không đúng.");
         } catch (NumberFormatException e) {

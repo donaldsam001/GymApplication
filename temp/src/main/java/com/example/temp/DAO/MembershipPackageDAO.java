@@ -17,7 +17,7 @@ public class MembershipPackageDAO {
             if (connection == null || connection.isClosed()) {
                 connection = DriverManager.getConnection("jdbc:sqlite:service_app.db");
                 logger.info("Connected to database");
-                createTable();
+//                createTable();
             }
         } catch (SQLException e) {
             logger.warning(e.toString());
@@ -26,24 +26,24 @@ public class MembershipPackageDAO {
 
 
 
-    private void createTable() {
-        String query = "CREATE TABLE IF NOT EXISTS MembershipPackage (" +
-                "id INTEGER PRIMARY KEY , " +
-                "name TEXT NOT NULL, " +
-                "price REAL NOT NULL, " +
-                "description TEXT, " +
-                "exp INTEGER NOT NULL, " +
-                "status INTEGER NOT NULL CHECK (status IN (0, 1))" +
-                ")";
-
-
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.executeUpdate();
-            logger.info("Table created or already exists.");
-        } catch (SQLException e) {
-            logger.warning(e.toString());
-        }
-    }
+//    private void createTable() {
+//        String query = "CREATE TABLE IF NOT EXISTS MembershipPackage (" +
+//                "id INTEGER PRIMARY KEY , " +
+//                "name TEXT NOT NULL, " +
+//                "price REAL NOT NULL, " +
+//                "description TEXT, " +
+//                "exp INTEGER NOT NULL, " +
+//                "status INTEGER NOT NULL CHECK (status IN (0, 1))" +
+//                ")";
+//
+//
+//        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+//            stmt.executeUpdate();
+//            logger.info("Table created or already exists.");
+//        } catch (SQLException e) {
+//            logger.warning(e.toString());
+//        }
+//    }
 
     private void closeConnection() {
         try {

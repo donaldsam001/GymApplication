@@ -34,7 +34,7 @@ public class MembershipCardController {
     @FXML private TextField expField;
     @FXML private TextField inputSearch;
 
-    private ObservableList<MembershipCard> cardList;
+    private ObservableList<MembershipCard> cardList; // theo dõi sự thay đổi (thêm, xóa, cập nhật).
 
     @FXML
     public void initialize() {
@@ -101,7 +101,6 @@ public class MembershipCardController {
 
         String name = MemberDAO.getCustomerNameById(id);
 
-        // Dùng đúng constructor
         MembershipCard card = new MembershipCard(
                 id,
                 name,
@@ -124,7 +123,6 @@ public class MembershipCardController {
             sale.setSaleDate(LocalDate.now());
             sale.setType("new");
             salesDAO.insertPackageSale(sale);
-//            salesDAO.updateOrInsertStats(selectedPackage.getPackageID(), selectedPackage.getPrice());
 
             customerIDField.clear();
             packageComboBox.setValue(null);
@@ -178,7 +176,6 @@ public class MembershipCardController {
                 sale.setType("renewal");
 
                 packageSalesDAO.insertPackageSale(sale);
-//                packageSalesDAO.updateOrInsertStats(packageID, matchedPackage.getPrice());
 
                 cardTableView.refresh();
                 showAlert("Thành công", "Gia hạn thẻ thành công. Ngày hết hạn mới: " + newEndDate);
