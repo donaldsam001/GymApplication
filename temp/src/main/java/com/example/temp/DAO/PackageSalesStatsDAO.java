@@ -41,7 +41,7 @@ public class PackageSalesStatsDAO {
         try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, sale.getMemberID());
             pstmt.setInt(2, sale.getPackageId());
-            pstmt.setDouble(3, sale.getTotalPrice());
+            pstmt.setDouble(3, sale.getTotalPrice()); // giá 1 gói hv
             pstmt.setString(4, sale.getSaleDate().toString());  // toString() trả về yyyy-MM-dd (OK nếu dùng LocalDate)
             pstmt.setString(5, sale.getType());
             pstmt.executeUpdate();
@@ -117,35 +117,5 @@ public class PackageSalesStatsDAO {
         }
 
         return stats;
-    }
-    public void updateOrInsertStats(int packageId, int price) {
-        String selectSQL = "SELECT * FROM PackageSalesStats WHERE packageID = ?";
-        String insertSQL = "INSERT INTO PackageSalesStats (packageID, totalSales, revenue) VALUES (?, ?, ?)";
-        String updateSQL = "UPDATE PackageSalesStats SET totalSales = totalSales + 1, revenue = revenue + ? WHERE packageID = ?";
-
-        try (Connection connection = getConnection();
-                PreparedStatement selectStmt = connection.prepareStatement(selectSQL)) {
-            selectStmt.setInt(1, packageId);
-            ResultSet rs = selectStmt.executeQuery();
-
-            if (rs.next()) {
-                // Đã tồn tại → cập nhật
-                try (PreparedStatement updateStmt = connection.prepareStatement(updateSQL)) {
-                    updateStmt.setInt(1, price);
-                    updateStmt.setInt(2, packageId);
-                    updateStmt.executeUpdate();
-                }
-            } else {
-                // Chưa có → thêm mới
-                try (PreparedStatement insertStmt = connection.prepareStatement(insertSQL)) {
-                    insertStmt.setInt(1, packageId);
-                    insertStmt.setInt(2, 1);
-                    insertStmt.setInt(3, price);
-                    insertStmt.executeUpdate();
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }
