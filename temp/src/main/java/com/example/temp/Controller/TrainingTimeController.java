@@ -28,9 +28,9 @@ public class TrainingTimeController {
     @FXML
     public void initialize() {
         // Khởi tạo các cột trong bảng
-        colNum.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colCustomerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        colNum.setCellValueFactory(new PropertyValueFactory<>("trainingTimeID"));
+        colCustomerID.setCellValueFactory(new PropertyValueFactory<>("memberID"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("memberName"));
         colStartDay.setCellValueFactory(new PropertyValueFactory<>("checkInTime"));
         colEndDay.setCellValueFactory(new PropertyValueFactory<>("checkOutTime"));
         colNote.setCellValueFactory(new PropertyValueFactory<>("note"));
@@ -100,8 +100,6 @@ public class TrainingTimeController {
             showInfo("✅ Check-out thành công.\n" );
             clearForm();
             loadTrainingTimes();
-        } else {
-            showInfo("Hội viên không thể check-out.");
         }
 
         int customerID = Integer.parseInt(fieldID.getText());
