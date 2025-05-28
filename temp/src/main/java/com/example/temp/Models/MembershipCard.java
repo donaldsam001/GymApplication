@@ -59,7 +59,7 @@ public class MembershipCard extends MembershipPackage {
     }
 
     // Property methods for JavaFX binding
-    public SimpleIntegerProperty customerIDProperty() {
+    public SimpleIntegerProperty memberIDProperty() {
         return memberID;
     }
 

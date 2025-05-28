@@ -106,7 +106,7 @@ public class HomeController {
     @FXML
     private void openEmpManagement(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/management-employee.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/employee-view.fxml"));
             Pane root = loader.load();
             mainContent.getChildren().setAll(root);
         } catch (IOException e) {
@@ -118,7 +118,7 @@ public class HomeController {
     @FXML
     private void openDeviceManagement(ActionEvent event) {
         try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/device-management.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/equipment-view.fxml"));
         Pane root = loader.load();
         mainContent.getChildren().setAll(root);
     } catch (IOException e) {
@@ -130,7 +130,7 @@ public class HomeController {
     @FXML
     private void openManageService(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/manage-service.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/temp/View/package-view.fxml"));
             Pane root = loader.load();
             mainContent.getChildren().setAll(root);
         } catch (IOException e) {

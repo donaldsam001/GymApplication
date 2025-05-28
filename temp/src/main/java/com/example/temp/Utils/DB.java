@@ -198,6 +198,31 @@ public class DB {
                     (100019, 'Power Rack', 'Giá đỡ tập squat, deadlift, bench press đa năng.', NULL, NULL, 1),
                     (100020, 'Kettlebell Set', 'Bộ tạ ấm từ 4kg đến 24kg cho bài tập toàn thân.', NULL, NULL, 1)
                 """);
+                // Thêm checkIn/out
+                stmt.execute("""
+                    INSERT INTO TrainingTime  (customerID, customerName, checkInTime, note) VALUES
+                    ( 100019, 'Phan An', '2025-02-26 06:00:00', '2025-02-26 07:00:00', 'chuyên nghiệp siêu tốc linh hoạt' ),
+                    ( 100016, 'Phan An', '2025-02-11 17:00:00', '2025-02-11 18:00:00', 'thoải mái chuyên nghiệp siêu tốc' ),
+                    ( 100002, 'Hồ Xuân', '2025-05-09 13:30:00', '2025-05-09 14:30:00', 'thoải mái độc quyền hiệu quả' ),
+                    ( 100012, 'Hoàng Quang', '2025-05-15 10:00:00', '2025-05-15 11:00:00', 'tiết kiệm siêu tốc thoải mái' ),
+                    ( 100019, 'Phan An', '2025-02-11 11:30:00', '2025-02-11 12:30:00', 'thoải mái siêu tốc hiệu quả' ),
+                    ( 100002, 'Hồ Xuân', '2025-01-08 09:00:00', '2025-01-08 10:00:00', 'độc quyền cao cấp chuyên nghiệp' ),
+                    ( 100004, 'Nguyễn Ngân', '2025-01-04 07:00:00', '2025-01-04 08:00:00', 'hiệu quả linh hoạt cao cấp' ),
+                    ( 100002, 'Hồ Xuân', '2025-05-13 19:30:00', '2025-05-13 20:30:00', 'cao cấp siêu tốc độc quyền' ),
+                    ( 100006, 'Phạm Khánh', '2025-02-27 12:30:00', '2025-02-27 13:30:00', 'hiệu quả tiết kiệm siêu tốc' ),
+                    ( 100019, 'Phan An', '2025-03-15 08:00:00', '2025-03-15 09:00:00', 'chuyên nghiệp cao cấp thoải mái' ),
+                    ( 100009, 'Phan Oanh', '2025-03-11 14:00:00', '2025-03-11 15:00:00', 'hiệu quả chuyên nghiệp độc quyền' ),
+                    ( 100009, 'Phan Oanh', '2025-05-13 16:30:00', '2025-05-13 17:30:00', 'độc quyền siêu tốc cao cấp' ),
+                    ( 100015, 'Phạm Ngân', '2025-02-19 10:30:00', '2025-02-19 11:30:00', 'tiết kiệm siêu tốc hiệu quả' ),
+                    ( 100001, 'Võ Hà', '2025-02-27 12:30:00', '2025-02-27 13:30:00', 'chuyên nghiệp linh hoạt hiệu quả' ),
+                    ( 100005, 'Nguyễn Khánh', '2025-01-01 18:30:00', '2025-01-01 19:30:00', 'thoải mái hiệu quả siêu tốc' ),
+                    ( 100002, 'Hồ Xuân', '2025-04-10 08:00:00', '2025-04-10 09:00:00', 'hiệu quả tiết kiệm cao cấp' ),
+                    ( 100018, 'Hồ Quang', '2025-04-12 14:00:00', '2025-04-12 15:00:00', 'độc quyền linh hoạt cao cấp' ),
+                    ( 100008, 'Trần Quang', '2025-03-23 13:00:00', '2025-03-23 14:00:00', 'độc quyền thoải mái linh hoạt' ),
+                    ( 100011, 'Huỳnh Ngân', '2025-02-12 16:00:00', '2025-02-12 17:00:00', 'cao cấp độc quyền tiết kiệm' ),
+                    ( 100005, 'Nguyễn Khánh', '2025-03-04 10:30:00', '2025-03-04 11:30:00', 'độc quyền linh hoạt siêu tốc' )
+                """);
+
 
                 System.out.println("Add successfully.");
             }

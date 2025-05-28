@@ -21,7 +21,7 @@ import java.util.Optional;
 public class MembershipCardController {
 
     @FXML private TextField customerIDField;
-    @FXML private ComboBox<MembershipPackage> goiComboBox;
+    @FXML private ComboBox<MembershipPackage> packageComboBox;
     @FXML private DatePicker startDatePicker;
     @FXML private DatePicker endDatePicker;
     @FXML private TableView<MembershipCard> cardTableView;
@@ -38,15 +38,15 @@ public class MembershipCardController {
 
     @FXML
     public void initialize() {
-        colCustomerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("customerName")); // sửa lại
-        colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-        colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-        colPackage.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getPackageName()));
+        colCustomerID.setCellValueFactory(cellData -> cellData.getValue().memberIDProperty().asObject());
+        colName.setCellValueFactory(cellData -> cellData.getValue().memberNameProperty());
+        colStartDate.setCellValueFactory(cellData -> cellData.getValue().startDateProperty());
+        colEndDate.setCellValueFactory(cellData -> cellData.getValue().endDateProperty());
+        colPackage.setCellValueFactory(cellData -> cellData.getValue().packageNameProperty());
         inputSearch.textProperty().addListener((obs, oldVal, newVal) -> searchByCustomerID());
 
         startDatePicker.setValue(LocalDate.now());
-        goiComboBox.setOnAction(event -> {
+        packageComboBox.setOnAction(event -> {
             updateEndDate();
             displayPackageInfo(); // Cập nhật thông tin gói
         });
@@ -54,7 +54,7 @@ public class MembershipCardController {
 
         try {
             List<MembershipPackage> packages = new MembershipPackageDAO().getActivePackages();
-            goiComboBox.setItems(FXCollections.observableArrayList(packages));
+            packageComboBox.setItems(FXCollections.observableArrayList(packages));
         } catch (Exception e) {
             showAlert("Lỗi", "Không thể tải danh sách gói hội viên: " + e.getMessage());
         }
@@ -71,7 +71,7 @@ public class MembershipCardController {
 
 
     private void updateEndDate() {
-        MembershipPackage selected = goiComboBox.getValue();
+        MembershipPackage selected = packageComboBox.getValue();
         if (selected == null) return;
         LocalDate startDate = startDatePicker.getValue() != null ? startDatePicker.getValue() : LocalDate.now();
         endDatePicker.setValue(startDate.plusMonths(selected.getExp()));
@@ -80,7 +80,7 @@ public class MembershipCardController {
     @FXML
     private void handlePayment() {
         int id = Integer.parseInt(customerIDField.getText());
-        MembershipPackage selectedPackage = goiComboBox.getValue();
+        MembershipPackage selectedPackage = packageComboBox.getValue();
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
 
@@ -127,7 +127,7 @@ public class MembershipCardController {
 //            salesDAO.updateOrInsertStats(selectedPackage.getPackageID(), selectedPackage.getPrice());
 
             customerIDField.clear();
-            goiComboBox.setValue(null);
+            packageComboBox.setValue(null);
             startDatePicker.setValue(LocalDate.now());
             endDatePicker.setValue(null);
         } else {
@@ -232,7 +232,7 @@ public class MembershipCardController {
 
 
     private void displayPackageInfo() {
-        MembershipPackage selected = goiComboBox.getValue();
+        MembershipPackage selected = packageComboBox.getValue();
         if (selected == null) return;
         packageIDField.setText(String.valueOf(selected.getPackageID()));
         expField.setText(String.valueOf(selected.getExp()));

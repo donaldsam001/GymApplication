@@ -72,7 +72,7 @@
                    </columnConstraints>
       
                          <Label text="Gói" GridPane.rowIndex="1" />
-                   <ComboBox fx:id="goiComboBox" prefWidth="180" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                   <ComboBox fx:id="packageComboBox" prefWidth="180" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       
                          <Label text="Bắt đầu" GridPane.rowIndex="2" />
                    <DatePicker fx:id="startDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
